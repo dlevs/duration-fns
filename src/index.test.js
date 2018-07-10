@@ -16,7 +16,7 @@ describe('TimeMachine', () => {
     test('is a function', () => {
         expect(typeof TimeMachine).toBe('function');
     });
-    test('constructor()', () => {
+    test('basic functionality', () => {
         expect(new TimeMachine({ days: 1 }).hours).toBe(24);
         expect(new TimeMachine({ days: 2.5 }).hours).toBe(60);
         expect(new TimeMachine({ hours: 60 }).days).toBe(2.5);
@@ -25,16 +25,50 @@ describe('TimeMachine', () => {
         expect(new TimeMachine({ milliseconds: 1234567 }).milliseconds).toBe(1234567);
 
         // All params
+        // TODO: Separate into separate test. Do we want this to round?
         expect(new TimeMachine(ONE_OF_EACH).milliseconds).toBe(90061001);
-        expect(new TimeMachine(ONE_OF_EACH).seconds).toBe(90061);
-        expect(new TimeMachine(ONE_OF_EACH).minutes).toBe(1501);
-        expect(new TimeMachine(ONE_OF_EACH).hours).toBe(25);
-        expect(new TimeMachine(ONE_OF_EACH).days).toBe(1);
+        expect(new TimeMachine(ONE_OF_EACH).seconds).toBe(90061.001);
+        expect(new TimeMachine(ONE_OF_EACH).minutes).toBe(1501.0166833333333);
+        expect(new TimeMachine(ONE_OF_EACH).hours).toBe(25.016944722222224);
+        expect(new TimeMachine(ONE_OF_EACH).days).toBe(1.0423726967592593);
 
         // No param
         expect(new TimeMachine({}).milliseconds).toBe(0);
         expect(new TimeMachine().milliseconds).toBe(0);
     });
+
+    test('.components', () => {
+        expect(new TimeMachine(ONE_OF_EACH).components).not.toBe(ONE_OF_EACH);
+        expect(new TimeMachine(ONE_OF_EACH).components).toMatchObject(ONE_OF_EACH);
+        expect(new TimeMachine({ seconds: 1 }).components).toMatchObject({
+            days: 0,
+            hours: 0,
+            minutes: 0,
+            seconds: 1,
+            milliseconds: 0
+        });
+        expect(new TimeMachine({
+            days: 5,
+            hours: 4,
+            minutes: 3,
+            seconds: 2,
+            milliseconds: 1
+         }).components).toMatchObject({
+            days: 5,
+            hours: 4,
+            minutes: 3,
+            seconds: 2,
+            milliseconds: 1
+        });
+        expect(new TimeMachine({ days: 1.5, hours: 2 }).components).toMatchObject({
+            days: 1,
+            hours: 14,
+            minutes: 0,
+            seconds: 0,
+            milliseconds: 0
+        });
+    });
+
 
     test('.multiply()', () => {
         const originalTime = new TimeMachine({ hours: 10 });

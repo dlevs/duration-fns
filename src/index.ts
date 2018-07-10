@@ -44,54 +44,85 @@ export default class TimeMachine {
     }
 
     add(time: Time):TimeMachine {
-        return this.spawn((value: number) => value + convertToMilliseconds(time));
+        return new TimeMachine({ milliseconds: this.milliseconds + convertToMilliseconds(time) });
     }
 
     subtract(time: Time):TimeMachine {
-        return this.spawn((value: number) => value - convertToMilliseconds(time));
+        return new TimeMachine({ milliseconds: this.milliseconds - convertToMilliseconds(time) });
     }
 
     multiply(factor: number):TimeMachine {
-        return this.spawn((value: number) => value * factor);
+        return new TimeMachine({ milliseconds: this.milliseconds * factor });
     }
 
     // TODO: factor a good name?
     divide(factor: number):TimeMachine {
-        return this.spawn((value: number) => value / factor);
+        return new TimeMachine({ milliseconds: this.milliseconds / factor });
     }
 
-    spawn(transform) {
-        return new TimeMachine({ milliseconds: transform(this._milliseconds) }, this._options)
-    }
-
-    round(value: number) {
-        // TODO: Use "factor" for consistency?
-        // TODO: This class does too much
-        const multiplier = (10 ** this._options.precision) / 10;
-        return Math.round(value * multiplier) / multiplier
-    }
+    // round(value: number) {
+    //     // TODO: Use "factor" for consistency?
+    //     // TODO: This class does too much
+    //     const multiplier = (10 ** this._options.precision) / 10;
+    //     return Math.round(value * multiplier) / multiplier
+    // }
 
     get milliseconds():number {
-        return this.round(this._milliseconds);
+        return this._milliseconds;
     }
 
     get seconds():number {
-        return this.round(this._milliseconds / MILLISECONDS_IN_A_SECOND);
+        return this._milliseconds / MILLISECONDS_IN_A_SECOND;
     }
 
     get minutes():number {
-        return this.round(this._milliseconds / MILLISECONDS_IN_A_MINUTE);
+        return this._milliseconds / MILLISECONDS_IN_A_MINUTE;
     }
 
     get hours():number {
-        return this.round(this._milliseconds / MILLISECONDS_IN_AN_HOUR);
+        return this._milliseconds / MILLISECONDS_IN_AN_HOUR;
     }
 
     get days():number {
-        return this.round(this._milliseconds / MILLISECONDS_IN_A_DAY);
+        return this._milliseconds / MILLISECONDS_IN_A_DAY;
+    }
+
+    get components(): Time {
+        let tally: TimeMachine = this;
+
+        const days = Math.floor(this.days);
+        tally = tally.subtract({days});
+
+        const hours = Math.floor(tally.hours);
+        tally = tally.subtract({hours});
+
+        const minutes = Math.floor(tally.minutes);
+        tally = tally.subtract({minutes});
+
+        const seconds = Math.floor(tally.seconds);
+        tally = tally.subtract({seconds});
+
+        const milliseconds = Math.floor(tally.milliseconds);
+
+        return { days, hours, minutes, seconds, milliseconds };
+    }
+
+    get ago(): Date {
+        const date = new Date();
+        const { days, hours, minutes, seconds, milliseconds } = this.components;
+
+        // Things done this way instead of only using milliseconds in order to account for leap years.
+        // TODO: Test the above claim
+        date.setDate(date.getDate() - days);
+        date.setHours(date.getHours() - hours);
+        date.setMinutes(date.getMinutes() - minutes);
+        date.setSeconds(date.getSeconds() - seconds);
+        date.setMilliseconds(date.getMilliseconds() - milliseconds);
+
+        return date;
     }
 
     toJSON():number {
-        return this.round(this._milliseconds);
+        return this._milliseconds;
     }
 };
