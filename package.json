@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {},
   "devDependencies": {
+    "@types/deep-freeze": "^0.1.1",
     "@types/jest": "^23.1.5",
     "deep-freeze": "0.0.1",
     "jest": "^23.3.0",
