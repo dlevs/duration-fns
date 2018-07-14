@@ -1,21 +1,26 @@
 {
-  "name": "time-machine",
+  "name": "@dlevs/time",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/time.js",
   "scripts": {
-    "test": "jest"
+    "build": "rimraf dist && tsc",
+    "lint": "tslint --format stylish --project .",
+    "test": "jest",
+    "prepublish": "npm run test && npm run lint && npm run build"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Daniel Levett <dlevett@hotmail.co.uk>",
+  "license": "MIT",
   "dependencies": {},
   "devDependencies": {
     "@types/deep-freeze": "^0.1.1",
     "@types/jest": "^23.1.5",
     "deep-freeze": "0.0.1",
     "jest": "^23.3.0",
+    "rimraf": "^2.6.2",
     "ts-jest": "^23.0.0",
     "tslint": "^5.10.0",
+    "tslint-xo": "^0.8.0",
     "typescript": "^2.9.2"
   }
 }

@@ -1,12 +1,26 @@
 {
   "compilerOptions": {
-    "target": "ES2015",
-    "module": "commonjs",
-    "declaration": true,
     "outDir": "dist",
-    "strict": true
+    "target": "es2016",
+    "strict": true,
+    "module": "commonjs",
+		"sourceMap": true,
+		"declaration": true,
+		"pretty": true,
+		"newLine": "lf",
+		"stripInternal": true,
+		"noImplicitReturns": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"noEmitOnError": true,
+		"forceConsistentCasingInFileNames": true
   },
   "include": [
     "src/**/*"
+  ],
+  "exclude": [
+    "**/*.test.ts",
+    "node_modules"
   ]
 }
