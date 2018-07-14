@@ -53,7 +53,7 @@ describe('TimeMachine', () => {
 			minutes: 3,
 			seconds: 2,
 			milliseconds: 1,
-		 }).getComponents()).toMatchObject({
+		}).getComponents()).toMatchObject({
 			days: 5,
 			hours: 4,
 			minutes: 3,
@@ -94,6 +94,7 @@ describe('TimeMachine', () => {
 		expect(newTime).not.toBe(originalTime);
 		expect(newTime.asMilliseconds()).toBe(10 + ONE_OF_EACH_SUM);
 		expect(originalTime.asMilliseconds()).toBe(10);
+		expect(originalTime.add(originalTime).asMilliseconds()).toBe(20);
 	});
 
 	test('.subtract()', () => {
