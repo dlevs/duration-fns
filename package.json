@@ -15,7 +15,7 @@
   "author": "Daniel Levett <dlevett@hotmail.co.uk>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dlevs/Time"
+    "url": "https://github.com/dlevs/time"
   },
   "license": "MIT",
   "dependencies": {},
