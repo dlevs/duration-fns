@@ -44,6 +44,9 @@ export class Time implements Partial<TimeObject> {
 	 * Add values to the current time.
 	 *
 	 * Returns a new instance of `Time` instead of mutating the current instance.
+	 *
+	 * @example
+	 * new Time({ days: 1 }).toHours() // 12 TODO: Fix this. Wrong fn
 	 */
 	public add(time: Partial<TimeObject>): Time {
 		return new Time({ milliseconds: this.milliseconds + convertToMilliseconds(time) });

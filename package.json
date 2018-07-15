@@ -1,18 +1,22 @@
 {
   "name": "@dlevs/time",
   "version": "1.0.0",
-  "description": "",
+  "description": "A class for simple conversion between units of time.",
   "main": "dist/Time.js",
   "scripts": {
     "build": "npm run build:clean && npm run build:app && npm run build:docs",
     "build:clean": "rimraf dist && rimraf docs",
     "build:app": "tsc",
-    "build:docs": "typedoc --readme ./src/README.md --out ./docs --mode modules ./src/Time.ts && touch ./docs/.nojekyll",
+    "build:docs": "typedoc --readme ./src/README.md --out ./docs ./src/Time.ts && touch ./docs/.nojekyll",
     "lint": "tslint --format stylish --project .",
     "test": "jest",
     "prepublish": "npm run test && npm run lint && npm run build"
   },
   "author": "Daniel Levett <dlevett@hotmail.co.uk>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dlevs/Time"
+  },
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
