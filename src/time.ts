@@ -5,7 +5,7 @@ const MILLISECONDS_IN_A_MINUTE = MILLISECONDS_IN_A_SECOND * 60;
 const MILLISECONDS_IN_AN_HOUR = MILLISECONDS_IN_A_MINUTE * 60;
 const MILLISECONDS_IN_A_DAY = MILLISECONDS_IN_AN_HOUR * 24;
 
-interface TimeComponents {
+interface TimeObject {
 	days: number;
 	hours: number;
 	minutes: number;
@@ -13,45 +13,37 @@ interface TimeComponents {
 	milliseconds: number;
 }
 
-export class Time {
-	private readonly milliseconds: number;
+const convertToMilliseconds = ({
+	days = 0,
+	hours = 0,
+	minutes = 0,
+	seconds = 0,
+	milliseconds = 0,
+}: Partial<TimeObject>): number => (
+	days * MILLISECONDS_IN_A_DAY +
+	hours * MILLISECONDS_IN_AN_HOUR +
+	minutes * MILLISECONDS_IN_A_MINUTE +
+	seconds * MILLISECONDS_IN_A_SECOND +
+	milliseconds
+);
 
-	public constructor(components: Partial<TimeComponents> = {}) {
-		this.milliseconds = Time.convertToMilliseconds(components);
-	}
+export class Time implements Partial<TimeObject> {
+	readonly milliseconds: number;
 
-	private static convertToMilliseconds(components: Partial<TimeComponents> | Time): number {
-		if (components instanceof Time) {
-			return components.toMilliseconds();
-		}
-
-		const {
-			days = 0,
-			hours = 0,
-			minutes = 0,
-			seconds = 0,
-			milliseconds = 0,
-		} = components;
-
-		return (
-			days * MILLISECONDS_IN_A_DAY +
-			hours * MILLISECONDS_IN_AN_HOUR +
-			minutes * MILLISECONDS_IN_A_MINUTE +
-			seconds * MILLISECONDS_IN_A_SECOND +
-			milliseconds
-		);
+	public constructor(time: Partial<TimeObject> = {}) {
+		this.milliseconds = convertToMilliseconds(time);
 	}
 
 	/**
 	 * Return a new instance of Time with the passed values added.
 	 */
-	public add(components: Partial<TimeComponents> | Time): Time {
-		return new Time({ milliseconds: this.milliseconds + Time.convertToMilliseconds(components) });
+	public add(time: Partial<TimeObject>): Time {
+		return new Time({ milliseconds: this.milliseconds + convertToMilliseconds(time) });
 	}
 
 	// TODO: test passing Time as param
-	public subtract(components: Partial<TimeComponents> | Time): Time {
-		return new Time({ milliseconds: this.milliseconds - Time.convertToMilliseconds(components) });
+	public subtract(time: Partial<TimeObject>): Time {
+		return new Time({ milliseconds: this.milliseconds - convertToMilliseconds(time) });
 	}
 
 	public multiply(multiplier: number): Time {
@@ -82,7 +74,7 @@ export class Time {
 		return this.milliseconds / MILLISECONDS_IN_A_DAY;
 	}
 
-	public toComponents(): TimeComponents {
+	public toComponents(): TimeObject {
 		const days = Math.floor(this.toDays());
 		let tally = this.subtract({ days });
 
@@ -100,12 +92,9 @@ export class Time {
 		return { days, hours, minutes, seconds, milliseconds };
 	}
 
-	public toJSON(): TimeComponents {
+	public toJSON(): TimeObject {
 		return this.toComponents();
 	}
 }
 
-export const time = (components: Partial<TimeComponents> = {}) =>
-	new Time(components);
-
-export default time;
+export default Time;

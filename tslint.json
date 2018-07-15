@@ -5,7 +5,6 @@
 	"rules": {
 		"align": [
 			true,
-			"arguments",
 			"elements",
 			"members",
 			"parameters",
