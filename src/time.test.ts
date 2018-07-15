@@ -1,7 +1,7 @@
 'use strict';
 
 import * as deepFreeze from 'deep-freeze';
-import Time from './time';
+import Time from './Time';
 
 const ONE_OF_EACH = deepFreeze({
 	days: 1,

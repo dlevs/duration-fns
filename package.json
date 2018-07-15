@@ -2,9 +2,12 @@
   "name": "@dlevs/time",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/time.js",
+  "main": "dist/Time.js",
   "scripts": {
-    "build": "rimraf dist && tsc",
+    "build": "npm run build:clean && npm run build:app && npm run build:docs",
+    "build:clean": "rimraf dist && rimraf doc",
+    "build:app": "tsc",
+    "build:docs": "typedoc --readme ./src/README.md --out ./docs --mode modules ./src/Time.ts",
     "lint": "tslint --format stylish --project .",
     "test": "jest",
     "prepublish": "npm run test && npm run lint && npm run build"
@@ -21,6 +24,7 @@
     "ts-jest": "^23.0.0",
     "tslint": "^5.10.0",
     "tslint-xo": "^0.8.0",
+    "typedoc": "^0.11.1",
     "typescript": "^2.9.2"
   }
 }

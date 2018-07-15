@@ -13,6 +13,9 @@ interface TimeObject {
 	milliseconds: number;
 }
 
+/**
+ * Convert an object specifying time in different units into milliseconds.
+ */
 const convertToMilliseconds = ({
 	days = 0,
 	hours = 0,
@@ -27,6 +30,9 @@ const convertToMilliseconds = ({
 	milliseconds
 );
 
+/**
+ * A class for simple conversion between units of time.
+ */
 export class Time implements Partial<TimeObject> {
 	readonly milliseconds: number;
 
@@ -35,17 +41,29 @@ export class Time implements Partial<TimeObject> {
 	}
 
 	/**
-	 * Return a new instance of Time with the passed values added.
+	 * Add values to the current time.
+	 *
+	 * Returns a new instance of `Time` instead of mutating the current instance.
 	 */
 	public add(time: Partial<TimeObject>): Time {
 		return new Time({ milliseconds: this.milliseconds + convertToMilliseconds(time) });
 	}
 
-	// TODO: test passing Time as param
+	/**
+	 * Subtract values to the current time.
+	 *
+	 * Returns a new instance of `Time` instead of mutating the current instance.
+	 */
 	public subtract(time: Partial<TimeObject>): Time {
 		return new Time({ milliseconds: this.milliseconds - convertToMilliseconds(time) });
 	}
 
+	/**
+	 * Multiply the value of the current time.
+	 * Does not mutate the current `Time` instance.
+	 *
+	 * @returns a new instance of `Time`
+	 */
 	public multiply(multiplier: number): Time {
 		return new Time({ milliseconds: this.milliseconds * multiplier });
 	}
