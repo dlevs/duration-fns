@@ -138,6 +138,13 @@ describe('class Time', () => {
 			seconds: 0,
 			milliseconds: 0,
 		});
+		expect(new Time({ days: -1, milliseconds: 1 }).toComponents()).toMatchObject({
+			days: 0,
+			hours: -23,
+			minutes: -59,
+			seconds: -59,
+			milliseconds: 999
+		});
 	});
 
 	test('.toJSON()', () => {
