@@ -143,7 +143,7 @@ describe('class Time', () => {
 			hours: -23,
 			minutes: -59,
 			seconds: -59,
-			milliseconds: 999
+			milliseconds: -999
 		});
 	});
 

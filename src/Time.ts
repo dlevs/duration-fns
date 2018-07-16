@@ -13,6 +13,15 @@ interface TimeObject {
 	milliseconds: number;
 }
 
+const floorTowardsZero = (value: number): number => {
+	if (value < 0) {
+		// Return value OR 0, so that -0 is normalized to 0
+		return Math.ceil(value) || 0;
+	}
+
+	return Math.floor(value);
+};
+
 /**
  * Convert an object specifying time in different units into milliseconds.
  */
@@ -114,7 +123,7 @@ export class Time implements Partial<TimeObject> {
 	}
 
 	/**
-	 * Return the time of the `Time` instance, represented in seconds.
+	 * Return the time of the `Time` instance, represented in milliseconds.
 	 *
 	 * ```javascript
 	 * new Time({ days: 1 }).toMilliseconds() // 86400000
@@ -178,22 +187,21 @@ export class Time implements Partial<TimeObject> {
 	 * ```
 	 *
 	 * ```javascript
-	 * // TODO: double check this one
 	 * new Time({ days: -1, milliseconds: 1 }).toComponents()
 	 * // { days: 0, hours: -23, minutes: -59, seconds: -59, milliseconds: -999 }
 	 * ```
 	 */
 	public toComponents(): TimeObject {
-		const days = Math.floor(this.toDays());
+		const days = floorTowardsZero(this.toDays());
 		let tally = this.subtract({ days });
 
-		const hours = Math.floor(tally.toHours());
+		const hours = floorTowardsZero(tally.toHours());
 		tally = tally.subtract({ hours });
 
-		const minutes = Math.floor(tally.toMinutes());
+		const minutes = floorTowardsZero(tally.toMinutes());
 		tally = tally.subtract({ minutes });
 
-		const seconds = Math.floor(tally.toSeconds());
+		const seconds = floorTowardsZero(tally.toSeconds());
 		tally = tally.subtract({ seconds });
 
 		const milliseconds = tally.milliseconds;
