@@ -1,6 +1,6 @@
 # Time
 
-Time is a JavaScript class for converting time between units. All operations are immutable and return new `Time` instances instead of modifying the current instance.
+Time is a JavaScript class for converting time between units. All operations return new `Time` instances instead of mutating the current instance.
 
 ## Installation
 
