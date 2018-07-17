@@ -64,8 +64,31 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<p>TODO: Move me to root</p>
-				<p><a href="https://dlevs.github.io/time/classes/_time_.time.html">API Documentation</a></p>
+				<h1 id="time">Time</h1>
+				<p>Time is a JavaScript class for converting time between units. All operations are immutable and return new <code>Time</code> instances instead of modifying the current instance.</p>
+				<h2 id="installation">Installation</h2>
+				<p><code>npm install @dlevs/time</code></p>
+				<h2 id="overview">Overview</h2>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> Time <span class="hljs-keyword">from</span> <span class="hljs-string">'@dlevs/time'</span>;
+
+<span class="hljs-keyword">const</span> time = <span class="hljs-keyword">new</span> Time({ <span class="hljs-attr">days</span>: <span class="hljs-number">1</span> });
+
+<span class="hljs-comment">// Getters</span>
+time.toMilliseconds();  <span class="hljs-comment">// 86400000</span>
+time.toSeconds();       <span class="hljs-comment">// 86400</span>
+time.toMinutes();       <span class="hljs-comment">// 1440</span>
+time.toHours();         <span class="hljs-comment">// 24</span>
+time.toDays();          <span class="hljs-comment">// 1</span>
+time.toComponents();    <span class="hljs-comment">// { days: 1, hours: 0, minutes: 0, seconds: 0, milliseconds: 0 }</span>
+
+<span class="hljs-comment">// Operators</span>
+time.add({ <span class="hljs-attr">hours</span>: <span class="hljs-number">12</span> }).toDays();     <span class="hljs-comment">// 1.5</span>
+time.subtract({ <span class="hljs-attr">days</span>: <span class="hljs-number">2</span> }).toDays();  <span class="hljs-comment">// -1</span>
+time.multiply(<span class="hljs-number">2</span>).toDays();            <span class="hljs-comment">// 2</span>
+time.divide(<span class="hljs-number">2</span>).toDays();              <span class="hljs-comment">// 0.5</span>
+</code></pre>
+				<h2 id="documentation">Documentation</h2>
+				<p>View the <a href="https://dlevs.github.io/time/classes/_time_.time.html">API documentation</a> for more details and example usage.</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">

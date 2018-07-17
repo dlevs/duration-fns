@@ -7,10 +7,11 @@
     "build": "npm run build:clean && npm run build:app && npm run build:docs",
     "build:clean": "rimraf dist && rimraf docs",
     "build:app": "tsc",
-    "build:docs": "typedoc --readme ./src/README.md --out ./docs ./src/Time.ts && touch ./docs/.nojekyll",
+    "build:docs": "typedoc --readme ./README.md --out ./docs ./src/Time.ts && touch ./docs/.nojekyll",
     "lint": "tslint --format stylish --project .",
     "test": "jest",
-    "prepublish": "npm run test && npm run lint && npm run build"
+    "prepublish": "npm run test && npm run lint && npm run build",
+    "precommit": "npm run prepublish && git add ."
   },
   "author": "Daniel Levett <dlevett@hotmail.co.uk>",
   "repository": {
@@ -23,6 +24,7 @@
     "@types/deep-freeze": "^0.1.1",
     "@types/jest": "^23.1.5",
     "deep-freeze": "0.0.1",
+    "husky": "^0.14.3",
     "jest": "^23.3.0",
     "rimraf": "^2.6.2",
     "ts-jest": "^23.0.0",

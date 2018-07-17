@@ -137,15 +137,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/dlevs/time/blob/0e89b2d/src/Time.ts#L46">Time.ts:46</a></li>
+									<li>Defined in Time.ts:58</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Create a new <code>Time</code> instance.</p>
 								</div>
-								<pre><code class="lang-javascript"><span class="hljs-keyword">new</span> Time({ <span class="hljs-attr">days</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">hours</span>: <span class="hljs-number">2</span> })
-</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>new Time({ days: 1, hours: 2 })</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -166,7 +169,7 @@
 					<div class="tsd-signature tsd-kind-icon">milliseconds<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/dlevs/time/blob/0e89b2d/src/Time.ts#L46">Time.ts:46</a></li>
+							<li>Defined in Time.ts:58</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -175,7 +178,7 @@
 						</div>
 						<p>Arguments passed to the constructor are reduced to a millisecond
 							representation for internal use, and for interoperability with any
-						methods that accept <code>TimeObject</code> arguments.</p>
+						methods that accept <code>Partial&lt;TimeObject&gt;</code> arguments.</p>
 						<p>Prefer <code>.toMilliseconds()</code> over direct access of this property.</p>
 					</div>
 				</section>
@@ -192,7 +195,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/dlevs/time/blob/0e89b2d/src/Time.ts#L70">Time.ts:70</a></li>
+									<li>Defined in Time.ts:79</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -200,8 +203,11 @@
 									<p>Add values to the current time.
 									Does not mutate the current <code>Time</code> instance.</p>
 								</div>
-								<pre><code class="lang-javascript"><span class="hljs-keyword">new</span> Time({ <span class="hljs-attr">days</span>: <span class="hljs-number">1</span> }).add({ <span class="hljs-attr">hours</span>: <span class="hljs-number">12</span> }).getDays() <span class="hljs-comment">// 1.5</span>
-</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>new Time({ days: 1 }).add({ hours: 12 }).getDays() // 1.5</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -224,7 +230,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/dlevs/time/blob/0e89b2d/src/Time.ts#L112">Time.ts:112</a></li>
+									<li>Defined in Time.ts:118</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -232,8 +238,11 @@
 									<p>Divide the value of the current time.
 									Does not mutate the current <code>Time</code> instance.</p>
 								</div>
-								<pre><code class="lang-javascript"><span class="hljs-keyword">new</span> Time({ <span class="hljs-attr">hours</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">minutes</span>: <span class="hljs-number">30</span> }).divide(<span class="hljs-number">2</span>).getMinutes() <span class="hljs-comment">// 45</span>
-</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>new Time({ hours: 1, minutes: 30 }).divide(2).getMinutes() // 45</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -256,7 +265,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/dlevs/time/blob/0e89b2d/src/Time.ts#L98">Time.ts:98</a></li>
+									<li>Defined in Time.ts:105</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -264,8 +273,11 @@
 									<p>Multiply the value of the current time.
 									Does not mutate the current <code>Time</code> instance.</p>
 								</div>
-								<pre><code class="lang-javascript"><span class="hljs-keyword">new</span> Time({ <span class="hljs-attr">days</span>: <span class="hljs-number">1</span> }).multiply(<span class="hljs-number">2</span>).getDays() <span class="hljs-comment">// 2</span>
-</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>new Time({ days: 1 }).multiply(2).getDays() // 2</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -288,7 +300,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/dlevs/time/blob/0e89b2d/src/Time.ts#L84">Time.ts:84</a></li>
+									<li>Defined in Time.ts:92</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -296,8 +308,11 @@
 									<p>Subtract values from the current time.
 									Does not mutate the current <code>Time</code> instance.</p>
 								</div>
-								<pre><code class="lang-javascript"><span class="hljs-keyword">new</span> Time({ <span class="hljs-attr">days</span>: <span class="hljs-number">1</span> }).subtract({ <span class="hljs-attr">hours</span>: <span class="hljs-number">12</span> }).getDays() <span class="hljs-comment">// 0.5</span>
-</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>new Time({ days: 1 }).subtract({ hours: 12 }).getDays() // 0.5</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -320,7 +335,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/dlevs/time/blob/0e89b2d/src/Time.ts#L186">Time.ts:186</a></li>
+									<li>Defined in Time.ts:184</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -328,13 +343,16 @@
 									<p>Returns a plain object to represent the <code>Time</code> instance using the
 									most appropriate units.</p>
 								</div>
-								<pre><code class="lang-javascript"><span class="hljs-keyword">new</span> Time({ <span class="hljs-attr">milliseconds</span>: <span class="hljs-number">5010</span> }).toComponents()
-<span class="hljs-comment">// { days: 0, hours: 0, minutes: 0, seconds: 5, milliseconds: 10 }</span>
-</code></pre>
-								<pre><code class="lang-javascript"><span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> double check this one</span>
-<span class="hljs-keyword">new</span> Time({ <span class="hljs-attr">days</span>: <span class="hljs-number">-1</span>, <span class="hljs-attr">milliseconds</span>: <span class="hljs-number">1</span> }).toComponents()
-<span class="hljs-comment">// { days: 0, hours: -23, minutes: -59, seconds: -59, milliseconds: -999 }</span>
-</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>new Time({ milliseconds: 5010 }).toComponents()
+										// { days: 0, hours: 0, minutes: 0, seconds: 5, milliseconds: 10 }</p>
+									</dd>
+									<dt>example</dt>
+									<dd><p>new Time({ days: -1, milliseconds: 1 }).toComponents()
+										// { days: 0, hours: -23, minutes: -59, seconds: -59, milliseconds: -999 }</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_time_.timeobject.html" class="tsd-signature-type">TimeObject</a></h4>
 						</li>
@@ -350,15 +368,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/dlevs/time/blob/0e89b2d/src/Time.ts#L167">Time.ts:167</a></li>
+									<li>Defined in Time.ts:168</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Return the time of the <code>Time</code> instance, represented in days.</p>
 								</div>
-								<pre><code class="lang-javascript"><span class="hljs-keyword">new</span> Time({ <span class="hljs-attr">hours</span>: <span class="hljs-number">12</span> }).toDays() <span class="hljs-comment">// 0.5</span>
-</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>new Time({ hours: 12 }).toDays() // 0.5</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
@@ -374,15 +395,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/dlevs/time/blob/0e89b2d/src/Time.ts#L156">Time.ts:156</a></li>
+									<li>Defined in Time.ts:158</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Return the time of the <code>Time</code> instance, represented in hours.</p>
 								</div>
-								<pre><code class="lang-javascript"><span class="hljs-keyword">new</span> Time({ <span class="hljs-attr">days</span>: <span class="hljs-number">1</span> }).toHours() <span class="hljs-comment">// 24</span>
-</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>new Time({ days: 1 }).toHours() // 24</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
@@ -398,7 +422,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/dlevs/time/blob/0e89b2d/src/Time.ts#L211">Time.ts:211</a></li>
+									<li>Defined in Time.ts:206</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -406,12 +430,6 @@
 									<p>Returns a plain object to represent the <code>Time</code> instance using the
 									most appropriate units.</p>
 								</div>
-								<p>TODO: Check this is the way to reference a method:</p>
-								<dl class="tsd-comment-tags">
-									<dt>see</dt>
-									<dd><p>Time.toComponents</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_time_.timeobject.html" class="tsd-signature-type">TimeObject</a></h4>
 						</li>
@@ -427,15 +445,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/dlevs/time/blob/0e89b2d/src/Time.ts#L123">Time.ts:123</a></li>
+									<li>Defined in Time.ts:128</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Return the time of the <code>Time</code> instance, represented in seconds.</p>
+									<p>Return the time of the <code>Time</code> instance, represented in milliseconds.</p>
 								</div>
-								<pre><code class="lang-javascript"><span class="hljs-keyword">new</span> Time({ <span class="hljs-attr">days</span>: <span class="hljs-number">1</span> }).toSeconds() <span class="hljs-comment">// 86400000</span>
-</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>new Time({ days: 1 }).toMilliseconds() // 86400000</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
@@ -451,15 +472,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/dlevs/time/blob/0e89b2d/src/Time.ts#L145">Time.ts:145</a></li>
+									<li>Defined in Time.ts:148</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Return the time of the <code>Time</code> instance, represented in minutes.</p>
 								</div>
-								<pre><code class="lang-javascript"><span class="hljs-keyword">new</span> Time({ <span class="hljs-attr">hours</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">minutes</span>: <span class="hljs-number">10</span> }).toMinutes() <span class="hljs-comment">// 70</span>
-</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>new Time({ hours: 1, minutes: 10 }).toMinutes() // 70</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
@@ -475,15 +499,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/dlevs/time/blob/0e89b2d/src/Time.ts#L134">Time.ts:134</a></li>
+									<li>Defined in Time.ts:138</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Return the time of the <code>Time</code> instance, represented in seconds.</p>
 								</div>
-								<pre><code class="lang-javascript"><span class="hljs-keyword">new</span> Time({ <span class="hljs-attr">minutes</span>: <span class="hljs-number">2</span> }).toSeconds() <span class="hljs-comment">// 120</span>
-</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>new Time({ minutes: 2 }).toSeconds() // 120</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
@@ -567,8 +594,11 @@
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="../modules/_time_.html#milliseconds_in_a_second" class="tsd-kind-icon">MILLISECONDS_<wbr>IN_<wbr><wbr>A_SECOND</a>
 					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="../modules/_time_.html#converttomilliseconds" class="tsd-kind-icon">convert<wbr>ToMilliseconds</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="../modules/_time_.html#floortowardszero" class="tsd-kind-icon">floor<wbr>Towards<wbr>Zero</a>
 					</li>
 				</ul>
 			</nav>

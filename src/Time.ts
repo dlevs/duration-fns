@@ -13,7 +13,10 @@ interface TimeObject {
 	milliseconds: number;
 }
 
-const floorTowardsZero = (value: number): number => {
+/**
+ * Like `Math.floor`, but rounds negative numbers towards zero.
+ */
+export const floorTowardsZero = (value: number): number => {
 	if (value < 0) {
 		// Return value OR 0, so that -0 is normalized to 0
 		return Math.ceil(value) || 0;
@@ -25,7 +28,7 @@ const floorTowardsZero = (value: number): number => {
 /**
  * Convert an object specifying time in different units into milliseconds.
  */
-const convertToMilliseconds = ({
+export const convertToMilliseconds = ({
 	days = 0,
 	hours = 0,
 	minutes = 0,
@@ -48,7 +51,7 @@ export class Time implements Partial<TimeObject> {
 	 *
 	 * Arguments passed to the constructor are reduced to a millisecond
 	 * representation for internal use, and for interoperability with any
-	 * methods that accept `TimeObject` arguments.
+	 * methods that accept `Partial<TimeObject>` arguments.
 	 *
 	 * Prefer `.toMilliseconds()` over direct access of this property.
 	 */
@@ -57,22 +60,19 @@ export class Time implements Partial<TimeObject> {
 	/**
 	 * Create a new `Time` instance.
 	 *
-	 * ```javascript
+	 * @example
 	 * new Time({ days: 1, hours: 2 })
-	 * ```
 	 */
 	public constructor(time: Partial<TimeObject> = {}) {
 		this.milliseconds = convertToMilliseconds(time);
 	}
 
-	// 12 TODO: Fix this comment. Wrong fn
 	/**
 	 * Add values to the current time.
 	 * Does not mutate the current `Time` instance.
 	 *
-	 * ```javascript
+	 * @example
 	 * new Time({ days: 1 }).add({ hours: 12 }).getDays() // 1.5
-	 * ```
 	 *
 	 * @returns a new instance of `Time`
 	 */
@@ -84,9 +84,8 @@ export class Time implements Partial<TimeObject> {
 	 * Subtract values from the current time.
 	 * Does not mutate the current `Time` instance.
 	 *
-	 * ```javascript
+	 * @example
 	 * new Time({ days: 1 }).subtract({ hours: 12 }).getDays() // 0.5
-	 * ```
 	 *
 	 * @returns a new instance of `Time`
 	 */
@@ -98,9 +97,8 @@ export class Time implements Partial<TimeObject> {
 	 * Multiply the value of the current time.
 	 * Does not mutate the current `Time` instance.
 	 *
-	 * ```javascript
+	 * @example
 	 * new Time({ days: 1 }).multiply(2).getDays() // 2
-	 * ```
 	 *
 	 * @returns a new instance of `Time`
 	 */
@@ -112,9 +110,8 @@ export class Time implements Partial<TimeObject> {
 	 * Divide the value of the current time.
 	 * Does not mutate the current `Time` instance.
 	 *
-	 * ```javascript
+	 * @example
 	 * new Time({ hours: 1, minutes: 30 }).divide(2).getMinutes() // 45
-	 * ```
 	 *
 	 * @returns a new instance of `Time`
 	 */
@@ -125,9 +122,8 @@ export class Time implements Partial<TimeObject> {
 	/**
 	 * Return the time of the `Time` instance, represented in milliseconds.
 	 *
-	 * ```javascript
+	 * @example
 	 * new Time({ days: 1 }).toMilliseconds() // 86400000
-	 * ```
 	 */
 	public toMilliseconds(): number {
 		return this.milliseconds;
@@ -136,9 +132,8 @@ export class Time implements Partial<TimeObject> {
 	/**
 	 * Return the time of the `Time` instance, represented in seconds.
 	 *
-	 * ```javascript
+	 * @example
 	 * new Time({ minutes: 2 }).toSeconds() // 120
-	 * ```
 	 */
 	public toSeconds(): number {
 		return this.milliseconds / MILLISECONDS_IN_A_SECOND;
@@ -147,9 +142,8 @@ export class Time implements Partial<TimeObject> {
 	/**
 	 * Return the time of the `Time` instance, represented in minutes.
 	 *
-	 * ```javascript
+	 * @example
 	 * new Time({ hours: 1, minutes: 10 }).toMinutes() // 70
-	 * ```
 	 */
 	public toMinutes(): number {
 		return this.milliseconds / MILLISECONDS_IN_A_MINUTE;
@@ -158,9 +152,8 @@ export class Time implements Partial<TimeObject> {
 	/**
 	 * Return the time of the `Time` instance, represented in hours.
 	 *
-	 * ```javascript
+	 * @example
 	 * new Time({ days: 1 }).toHours() // 24
-	 * ```
 	 */
 	public toHours(): number {
 		return this.milliseconds / MILLISECONDS_IN_AN_HOUR;
@@ -169,9 +162,8 @@ export class Time implements Partial<TimeObject> {
 	/**
 	 * Return the time of the `Time` instance, represented in days.
 	 *
-	 * ```javascript
+	 * @example
 	 * new Time({ hours: 12 }).toDays() // 0.5
-	 * ```
 	 */
 	public toDays(): number {
 		return this.milliseconds / MILLISECONDS_IN_A_DAY;
@@ -181,15 +173,13 @@ export class Time implements Partial<TimeObject> {
 	 * Returns a plain object to represent the `Time` instance using the
 	 * most appropriate units.
 	 *
-	 * ```javascript
+	 * @example
 	 * new Time({ milliseconds: 5010 }).toComponents()
 	 * // { days: 0, hours: 0, minutes: 0, seconds: 5, milliseconds: 10 }
-	 * ```
 	 *
-	 * ```javascript
+	 * @example
 	 * new Time({ days: -1, milliseconds: 1 }).toComponents()
 	 * // { days: 0, hours: -23, minutes: -59, seconds: -59, milliseconds: -999 }
-	 * ```
 	 */
 	public toComponents(): TimeObject {
 		const days = floorTowardsZero(this.toDays());
@@ -212,9 +202,6 @@ export class Time implements Partial<TimeObject> {
 	/**
 	 * Returns a plain object to represent the `Time` instance using the
 	 * most appropriate units.
-	 *
-	 * TODO: Check this is the way to reference a method:
-	 * @see Time.toComponents
 	 */
 	public toJSON(): TimeObject {
 		return this.toComponents();

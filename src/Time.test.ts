@@ -1,7 +1,7 @@
 'use strict';
 
 import * as deepFreeze from 'deep-freeze';
-import Time from './Time';
+import Time, { floorTowardsZero, convertToMilliseconds } from './Time';
 
 const ONE_OF_EACH = deepFreeze({
 	days: 1,
@@ -158,5 +158,41 @@ describe('class Time', () => {
 		).toBe(
 			'{"days":2,"hours":12,"minutes":0,"seconds":1,"milliseconds":0}',
 		);
+	});
+});
+
+describe('floorTowardsZero(number)', () => {
+	test('rounds positive numbers towards 0', () => {
+		expect(floorTowardsZero(1.1)).toBe(1);
+		expect(floorTowardsZero(1.9)).toBe(1);
+		expect(floorTowardsZero(0.999999)).toBe(0);
+	});
+
+	test('rounds negative numbers up to 0', () => {
+		expect(floorTowardsZero(-1.1)).toBe(-1);
+		expect(floorTowardsZero(-1.9)).toBe(-1);
+		expect(floorTowardsZero(0.999999)).toBe(0);
+	});
+
+	test('never returns negative 0', () => {
+		// Illustrate issue
+		expect(Math.ceil(-0.2)).toBe(-0);
+		expect(Math.ceil(-0.2)).not.toBe(0);
+		// Check function avoids this issue
+		expect(floorTowardsZero(-0.2)).toBe(0);
+		expect(floorTowardsZero(-0.2)).not.toBe(-0);
+	});
+});
+
+describe('convertToMilliseconds(TimeObject)', () => {
+	test('returns expected number of milliseconds for different input units', () => {
+		expect(convertToMilliseconds({ days: 1 })).toBe(86400000);
+		expect(convertToMilliseconds({ days: -1 })).toBe(-86400000);
+		expect(convertToMilliseconds({ days: 1, milliseconds: -1 })).toBe(86399999);
+		expect(convertToMilliseconds({ hours: 1 })).toBe(3600000);
+		expect(convertToMilliseconds({ minutes: 1 })).toBe(60000);
+		expect(convertToMilliseconds({ seconds: 1 })).toBe(1000);
+		expect(convertToMilliseconds({ milliseconds: 1 })).toBe(1);
+		expect(convertToMilliseconds(ONE_OF_EACH)).toBe(90061001);
 	});
 });
