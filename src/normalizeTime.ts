@@ -1,4 +1,5 @@
 
+import { Time, TimeInput } from './types';
 import floorTowardsZero from './lib/floorTowardsZero';
 import subtractTime from './subtractTime';
 import toWeeks from './toWeeks';
@@ -6,7 +7,8 @@ import toDays from './toDays';
 import toHours from './toHours';
 import toMinutes from './toMinutes';
 import toSeconds from './toSeconds';
-import { Time, TimeInput } from './types';
+import toYears from './toYears';
+import toMonths from './toMonths';
 
 /**
  * Convert a `Time` object or number of milliseconds into a complete
@@ -14,27 +16,32 @@ import { Time, TimeInput } from './types';
  *
  * @example
  * normalizeTime({ milliseconds 4000 })
- * // { weeks: 0, days: 0, hours: 0, minutes: 0, seconds: 4, milliseconds: 0 }
+ * // { years: 0, months: 0, weeks: 0, days: 0, hours: 0, minutes: 0, seconds: 4, milliseconds: 0 }
  */
 const normalizeTime = (time: TimeInput): Time => {
-	const weeks = floorTowardsZero(toWeeks(time));
-	let tally = subtractTime(time, { weeks });
+	// TODO: Make this more DRY. It's prone too errors
+	const years = floorTowardsZero(toYears(time));
+	let milliseconds = subtractTime(time, { years });
 
-	const days = floorTowardsZero(toDays(time));
-	tally = subtractTime(time, { days });
+	const months = floorTowardsZero(toMonths(milliseconds));
+	milliseconds = subtractTime(milliseconds, { months });
 
-	const hours = floorTowardsZero(toHours(tally));
-	tally = subtractTime(tally, { hours });
+	const weeks = floorTowardsZero(toWeeks(milliseconds));
+	milliseconds = subtractTime(milliseconds, { weeks });
 
-	const minutes = floorTowardsZero(toMinutes(tally));
-	tally = subtractTime(tally, { minutes });
+	const days = floorTowardsZero(toDays(milliseconds));
+	milliseconds = subtractTime(milliseconds, { days });
 
-	const seconds = floorTowardsZero(toSeconds(tally));
-	tally = subtractTime(tally, { seconds });
+	const hours = floorTowardsZero(toHours(milliseconds));
+	milliseconds = subtractTime(milliseconds, { hours });
 
-	const { milliseconds } = tally;
+	const minutes = floorTowardsZero(toMinutes(milliseconds));
+	milliseconds = subtractTime(milliseconds, { minutes });
 
-	return { weeks, days, hours, minutes, seconds, milliseconds };
+	const seconds = floorTowardsZero(toSeconds(milliseconds));
+	milliseconds = subtractTime(milliseconds, { seconds });
+
+	return { years, months, weeks, days, hours, minutes, seconds, milliseconds };
 };
 
 export default normalizeTime;

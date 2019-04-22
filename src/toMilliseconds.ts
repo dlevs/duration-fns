@@ -4,6 +4,9 @@ import {
 	MILLISECONDS_IN_A_MINUTE,
 	MILLISECONDS_IN_AN_HOUR,
 	MILLISECONDS_IN_A_DAY,
+	MILLISECONDS_IN_A_WEEK,
+	MILLISECONDS_IN_A_MONTH,
+	MILLISECONDS_IN_A_YEAR,
 } from './lib/constants';
 
 /**
@@ -19,6 +22,9 @@ const toMilliseconds = (time: TimeInput): number => {
 	}
 
 	const	{
+		years = 0,
+		months = 0,
+		weeks = 0,
 		days = 0,
 		hours = 0,
 		minutes = 0,
@@ -27,6 +33,9 @@ const toMilliseconds = (time: TimeInput): number => {
 	} = time;
 
 	return (
+		years * MILLISECONDS_IN_A_YEAR +
+		months * MILLISECONDS_IN_A_MONTH +
+		weeks * MILLISECONDS_IN_A_WEEK +
 		days * MILLISECONDS_IN_A_DAY +
 		hours * MILLISECONDS_IN_AN_HOUR +
 		minutes * MILLISECONDS_IN_A_MINUTE +

@@ -1,34 +1,21 @@
-# Time
+# time-fns
 
-Time is a JavaScript class for converting time between units. All operations return new `Time` instances instead of mutating the current instance.
+time-fns is a collection of JavaScript functions for converting time between units.
 
 ## Installation
 
 `npm install @dlevs/time`
 
-## Ambiguous time
-| Unit        | Is unabmbiguous? |
-| :--         | :--              |
-| millisecond | ✅ `1 millisecond` is the smallest unit of time in JavaScript.|
-| second      | ✅ `1 second` is `1000 milliseconds` |
-| minute      | ✅ `1 minute` is `60 seconds`<br><br>JavaScript has no concept of leap seconds, so there's no need to worry about minutes with 61 seconds. |
-| hour        | ✅ `1 hour` is `60 minutes`        |
-| day         | ❌ `1 day` can be between `23 - 25 hours`<br><br>The length of a day changes due to [daylight savings time](https://en.wikipedia.org/wiki/Daylight_saving_time). |
-| week        | ❌ `1 week` is `7 days`<br><br>However, since the length of a day is ambiguous, so too is the length of `7 days`. |
-| month       | ❌ `1 month` is between `28 - 31 days` |
-| year        | ❌ `1 year` is between `365 - 366 days`<br><br>The number of days in a year differs due to leap years.<br>Years can be converted to and from months only if the number of months is divisible by
+## Non-goals
 
-// TODO: Nanoseconds with process.hrtime
-| Unit        | Round             | Average           |
-| :--         | :--               | :--               |
-| millisecond | n/a               | n/a               |
-| second      | 1000 milliseconds | 1000 milliseconds |
-| minute      | 60 seconds        | 60 seconds        |
-| hour        | 60 minutes        | 60 minutes        |
-| day         | 24 hours          | 24 hours          |
-| week        | 7 days            | 7 days            |
-| month       | 30 days           | 30.436875 days    |
-| year        | 365 days          | 365.2425 days     |
+Time can be ambiguous:
+
+- The length of "a year" varies due to [leap years](https://en.wikipedia.org/wiki/Leap_year).
+- The length of "a month" varies between 28 and 31 days.
+- The length of "a day" varies due to [daylight savings time](https://en.wikipedia.org/wiki/Daylight_saving_time).
+- The length of "a minute" may change due to [leap seconds](https://en.wikipedia.org/wiki/Leap_second).
+
+This project sets sane values for fairly constant units of time (for example, a day is always `24` hours) and moves on. If you need to calculate exact durations in relation to a specific date, don't use this library; it is intended for non time-critical situations, like when expressing "clear this cache every 20 minutes".
 
 ## Overview
 
