@@ -1,7 +1,7 @@
 'use strict';
 
 import * as deepFreeze from 'deep-freeze';
-import Time, { floorTowardsZero, convertToMilliseconds } from './Time';
+import Time, { floorTowardsZero, convertToMilliseconds } from '..';
 
 const ONE_OF_EACH = deepFreeze({
 	days: 1,
@@ -90,18 +90,10 @@ describe('class Time', () => {
 		expect(time.toMilliseconds()).toBe(10);
 	});
 
-	test('.subtract(Time)', () => {
-		const time = new Time({ milliseconds: 10 });
-
-		expect(time.subtract(time).toMilliseconds()).toBe(0);
-		expect(time.subtract(time).subtract(time).toMilliseconds()).toBe(-10);
-		expect(time.toMilliseconds()).toBe(10);
-	});
-
-	test('.toComponents()', () => {
-		expect(new Time(ONE_OF_EACH).toComponents()).not.toBe(ONE_OF_EACH);
-		expect(new Time(ONE_OF_EACH).toComponents()).toMatchObject(ONE_OF_EACH);
-		expect(new Time({ seconds: 1 }).toComponents()).toMatchObject({
+	test('.normalizeTime()', () => {
+		expect(new Time(ONE_OF_EACH).normalizeTime()).not.toBe(ONE_OF_EACH);
+		expect(new Time(ONE_OF_EACH).normalizeTime()).toMatchObject(ONE_OF_EACH);
+		expect(new Time({ seconds: 1 }).normalizeTime()).toMatchObject({
 			days: 0,
 			hours: 0,
 			minutes: 0,
@@ -111,7 +103,7 @@ describe('class Time', () => {
 		expect(new Time({
 			days: 5,
 			hours: -4,
-		}).toComponents()).toMatchObject({
+		}).normalizeTime()).toMatchObject({
 			days: 4,
 			hours: 20,
 			minutes: 0,
@@ -124,26 +116,26 @@ describe('class Time', () => {
 			minutes: 100,
 			seconds: 100,
 			milliseconds: 100,
-		}).toComponents()).toMatchObject({
+		}).normalizeTime()).toMatchObject({
 			days: 104,
 			hours: 5,
 			minutes: 41,
 			seconds: 40,
 			milliseconds: 100,
 		});
-		expect(new Time({ days: 1.5, hours: 2 }).toComponents()).toMatchObject({
+		expect(new Time({ days: 1.5, hours: 2 }).normalizeTime()).toMatchObject({
 			days: 1,
 			hours: 14,
 			minutes: 0,
 			seconds: 0,
 			milliseconds: 0,
 		});
-		expect(new Time({ days: -1, milliseconds: 1 }).toComponents()).toMatchObject({
+		expect(new Time({ days: -1, milliseconds: 1 }).normalizeTime()).toMatchObject({
 			days: 0,
 			hours: -23,
 			minutes: -59,
 			seconds: -59,
-			milliseconds: -999
+			milliseconds: -999,
 		});
 	});
 

@@ -4,17 +4,17 @@
     "target": "es2016",
     "strict": true,
     "module": "commonjs",
-		"sourceMap": true,
-		"declaration": true,
-		"pretty": true,
-		"newLine": "lf",
-		"stripInternal": true,
-		"noImplicitReturns": true,
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
-		"noFallthroughCasesInSwitch": true,
-		"noEmitOnError": true,
-		"forceConsistentCasingInFileNames": true
+    "sourceMap": true,
+    "declaration": true,
+    "pretty": true,
+    "newLine": "lf",
+    "stripInternal": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noEmitOnError": true,
+    "forceConsistentCasingInFileNames": true
   },
   "include": [
     "src/**/*"

@@ -1,36 +1,32 @@
 {
-  "name": "@dlevs/time",
+	"name": "time-fns",
   "version": "1.0.0",
-  "description": "A class for simple conversion between units of time.",
-  "main": "dist/Time.js",
+  "description": "Functions for working with units of time.",
+  "main": "dist/index.js",
   "scripts": {
-    "build": "npm run build:clean && npm run build:app && npm run build:docs",
-    "build:clean": "rimraf dist && rimraf docs",
-    "build:app": "tsc",
-    "build:docs": "typedoc --readme ./README.md --out ./docs ./src/Time.ts && touch ./docs/.nojekyll",
+    "build": "rimraf dist && tsc",
     "lint": "tslint --format stylish --project .",
     "test": "jest",
-    "prepublish": "npm run test && npm run lint && npm run build",
-    "precommit": "npm run prepublish && git add ."
+    "prepublish": "npm run test && npm run lint && npm run build"
   },
   "author": "Daniel Levett <dlevett@hotmail.co.uk>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dlevs/time"
+    "url": "https://github.com/dlevs/time-fns"
   },
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "@dlevs/tslint-config": "^1.0.3"
+  },
   "devDependencies": {
     "@types/deep-freeze": "^0.1.1",
     "@types/jest": "^23.1.5",
     "deep-freeze": "0.0.1",
-    "husky": "^0.14.3",
     "jest": "^23.3.0",
     "rimraf": "^2.6.2",
     "ts-jest": "^23.0.0",
     "tslint": "^5.10.0",
     "tslint-xo": "^0.8.0",
-    "typedoc": "^0.11.1",
-    "typescript": "^2.9.2"
+    "typescript": "^3.1.3"
   }
 }
