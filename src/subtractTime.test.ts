@@ -14,4 +14,9 @@ describe('subtractTime()', () => {
 		// Object hasn't been mutated:
 		expect(time).toMatchObject({ milliseconds: 10 });
 	});
+
+	test('accepts number and string arguments', () => {
+		expect(subtractTime(100, 2000)).toBe(-1900);
+		expect(subtractTime('PT6S', 'PT1S', 2000)).toBe(3000);
+	});
 });

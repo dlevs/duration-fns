@@ -15,4 +15,9 @@ describe('addTime()', () => {
 		// Object hasn't been mutated:
 		expect(time).toMatchObject({ milliseconds: 10 });
 	});
+
+	test('accepts number and string arguments', () => {
+		expect(addTime(100, 2000)).toBe(2100);
+		expect(addTime('PT6S', 'PT1S', 2000)).toBe(9000);
+	});
 });

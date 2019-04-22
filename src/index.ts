@@ -14,3 +14,5 @@ export * from './toDays';
 export * from './toWeeks';
 export * from './toMonths';
 export * from './toYears';
+
+export * from './types';
