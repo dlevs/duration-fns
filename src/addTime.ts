@@ -13,4 +13,7 @@ export const addTime = (...times: TimeInput[]) =>
 		0,
 	);
 
+// TODO: This (and all other calculation functions) should return a time object to
+// avoid the lossy conversion to millisceonds...?
+
 export default addTime;
