@@ -17,4 +17,8 @@ describe('toMilliseconds()', () => {
 		expect(toMilliseconds(0)).toBe(0);
 		expect(toMilliseconds(-20)).toBe(-20);
 	});
+
+	test('converts string durations', () => {
+		expect(toMilliseconds('PT1M60S')).toBe(120000);
+	});
 });

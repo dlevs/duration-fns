@@ -13,4 +13,8 @@ describe('toYears()', () => {
 		expect(toYears(0)).toBe(0);
 		expect(toYears(-31536000000)).toBe(-1);
 	});
+
+	test('converts string durations', () => {
+		expect(toYears('P2Y12M')).toBe(3);
+	});
 });

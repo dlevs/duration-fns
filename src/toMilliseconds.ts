@@ -1,4 +1,5 @@
 import { TimeInput } from './types';
+import parseISODuration from './parseISODuration';
 import {
 	MILLISECONDS_IN_A_SECOND,
 	MILLISECONDS_IN_A_MINUTE,
@@ -21,6 +22,10 @@ const toMilliseconds = (time: TimeInput): number => {
 		return time;
 	}
 
+	const timeObject = typeof time === 'string'
+		? parseISODuration(time)
+		: time;
+
 	const	{
 		years = 0,
 		months = 0,
@@ -30,7 +35,7 @@ const toMilliseconds = (time: TimeInput): number => {
 		minutes = 0,
 		seconds = 0,
 		milliseconds = 0,
-	} = time;
+	} = timeObject;
 
 	return (
 		years * MILLISECONDS_IN_A_YEAR +

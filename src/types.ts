@@ -9,4 +9,4 @@ export interface Time {
 	milliseconds: number;
 }
 
-export type TimeInput = Partial<Time> | number;
+export type TimeInput = Partial<Time> | number | string;

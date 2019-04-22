@@ -17,4 +17,8 @@ describe('toMinutes()', () => {
 		expect(toMinutes(0)).toBe(0);
 		expect(toMinutes(-60000)).toBe(-1);
 	});
+
+	test('converts string durations', () => {
+		expect(toMinutes('PT6M60S')).toBe(7);
+	});
 });

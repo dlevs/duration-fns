@@ -17,4 +17,8 @@ describe('toDays()', () => {
 		expect(toDays(0)).toBe(0);
 		expect(toDays(-86400000)).toBe(-1);
 	});
+
+	test('converts string durations', () => {
+		expect(toDays('P1WT12H')).toBe(7.5);
+	});
 });

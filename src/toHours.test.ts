@@ -17,4 +17,8 @@ describe('toHours()', () => {
 		expect(toHours(0)).toBe(0);
 		expect(toHours(-86400000)).toBe(-24);
 	});
+
+	test('converts string durations', () => {
+		expect(toHours('PT1H90M')).toBe(2.5);
+	});
 });

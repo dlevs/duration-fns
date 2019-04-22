@@ -13,4 +13,8 @@ describe('toMonths()', () => {
 		expect(toMonths(0)).toBe(0);
 		expect(toMonths(-31536000000)).toBe(-12);
 	});
+
+	test('converts string durations', () => {
+		expect(toMonths('P2Y12M')).toBe(36);
+	});
 });

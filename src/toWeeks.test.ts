@@ -13,4 +13,8 @@ describe('toWeeks()', () => {
 		expect(toWeeks(0)).toBe(0);
 		expect(toWeeks(-86400000 * 7)).toBe(-1);
 	});
+
+	test('converts string durations', () => {
+		expect(toWeeks('P2W7D')).toBe(3);
+	});
 });

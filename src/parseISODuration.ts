@@ -1,9 +1,9 @@
-import { AmbiguousTime } from './types';
-import normalizeTime from './normalizeTime';
+import { Time } from './types';
+import { DEFAULT_TIME } from './lib/constants';
 
 type Context = 'period' | 'time';
 
-const unitToKey = (unit: string, context: Context): keyof AmbiguousTime => {
+const unitToKey = (unit: string, context: Context): keyof Time => {
 	switch (unit.toUpperCase()) {
 		case 'Y':
 			return 'years';
@@ -26,7 +26,7 @@ const unitToKey = (unit: string, context: Context): keyof AmbiguousTime => {
 };
 
 const addValue = (
-	obj: Partial<AmbiguousTime>,
+	obj: Partial<Time>,
 	execResult: string[],
 	context: Context,
 ) => {
@@ -41,10 +41,19 @@ const addValue = (
 	obj[key] = value;
 };
 
-const parseISODuration = (duration: string) => {
+/**
+ * Parse an ISO 8601 duration string into an object.
+ *
+ * The units of time are not normalized. For example, the string `"P365D"`
+ * doesn't get converted to `{ years: 1 }` since not all years are the same
+ * length.
+ *
+ * @example parseISODuration('P365D') // { days: 365 }
+ */
+export const parseISODuration = (duration: string) => {
 	const parsingRegex = /([^A-Z]+)([A-Z])/gi;
 	const [period, time] = duration.replace(/,/g, '.').split(/T/i);
-	const output: Partial<AmbiguousTime> = {};
+	const output: Time = { ...DEFAULT_TIME };
 
 	let execResult;
 
@@ -56,7 +65,7 @@ const parseISODuration = (duration: string) => {
 		addValue(output, execResult, 'time');
 	}
 
-	return normalizeTime(output);
+	return output;
 };
 
 export default parseISODuration;
