@@ -1,6 +1,6 @@
 {
   "name": "time-fns",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Functions for working with units of time.",
   "main": "dist/index.js",
   "scripts": {
@@ -25,20 +25,20 @@
     "ts-jest": "23.10.5",
     "tslint": "5.16.0",
     "typescript": "3.4.4"
-	},
-	"keywords": [
-		"time",
-		"duration",
-		"convert",
-		"normalize",
-		"milliseconds",
-		"seconds",
-		"minutes",
-		"hours",
-		"days",
-		"weeks",
-		"months",
-		"years",
-		"ISO"
+  },
+  "keywords": [
+    "time",
+    "duration",
+    "convert",
+    "normalize",
+    "milliseconds",
+    "seconds",
+    "minutes",
+    "hours",
+    "days",
+    "weeks",
+    "months",
+    "years",
+    "ISO"
   ]
 }
