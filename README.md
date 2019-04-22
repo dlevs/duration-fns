@@ -93,6 +93,6 @@ Time can be ambiguous:
 - The length of "a day" varies due to [daylight savings time](https://en.wikipedia.org/wiki/Daylight_saving_time).
 - The length of "a minute" may change due to [leap seconds](https://en.wikipedia.org/wiki/Leap_second).
 
-This project avoids converting between these units 100% necessary.
+This project avoids converting between these units until 100% necessary.
 
-When conversion is necessary, sane constants are used to convert between units of time (for example, a day is always `24` hours) and moves on. If you need to calculate exact durations in relation to a specific date, don't use this library; it is intended for non time-critical situations, like when expressing "clear this cache every 20 minutes".
+When conversion is necessary, sane approximations are used to convert between units of time - a day is always `24` hours, a year is always `365` days, and so on. If you need to calculate exact durations in relation to a specific date, don't use this library; it is intended for non time-critical situations.
