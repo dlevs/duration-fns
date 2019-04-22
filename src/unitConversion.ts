@@ -1,5 +1,5 @@
 import { TimeInput } from './types';
-import { parseISODuration } from './parseISODuration';
+import { normalizeTimeInput } from './normalize';
 import {
 	MILLISECONDS_IN_A_SECOND,
 	MILLISECONDS_IN_A_MINUTE,
@@ -18,24 +18,16 @@ import {
  * @example toMilliseconds({ days: 1 }) // 86400000
  */
 export const toMilliseconds = (time: TimeInput): number => {
-	if (typeof time === 'number') {
-		return time;
-	}
-
-	const timeObject = typeof time === 'string'
-		? parseISODuration(time)
-		: time;
-
 	const	{
-		years = 0,
-		months = 0,
-		weeks = 0,
-		days = 0,
-		hours = 0,
-		minutes = 0,
-		seconds = 0,
-		milliseconds = 0,
-	} = timeObject;
+		years,
+		months,
+		weeks,
+		days,
+		hours,
+		minutes,
+		seconds,
+		milliseconds,
+	} = normalizeTimeInput(time);
 
 	return (
 		years * MILLISECONDS_IN_A_YEAR +

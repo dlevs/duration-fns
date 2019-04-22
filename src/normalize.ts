@@ -1,8 +1,8 @@
-
 import { DEFAULT_TIME } from './lib/constants';
 import { Time, TimeInput } from './types';
 import floorTowardsZero from './lib/floorTowardsZero';
 import { subtractTime } from './calculations';
+import { parseISODuration } from './parseISODuration';
 import {
 	toYears,
 	toMonths,
@@ -54,10 +54,10 @@ const units = [
  * `Time` object that expresses the time in the most appropriate units.
  *
  * @example
- * normalizeTime({ milliseconds 4000 })
+ * normalizeTimeUnits({ milliseconds 4000 })
  * // { years: 0, months: 0, weeks: 0, days: 0, hours: 0, minutes: 0, seconds: 4, milliseconds: 0 }
  */
-export const normalizeTime = (time: TimeInput) => {
+export const normalizeTimeUnits = (time: TimeInput): Time => {
 	let tally = time;
 	const output: Time = { ...DEFAULT_TIME };
 
@@ -67,4 +67,19 @@ export const normalizeTime = (time: TimeInput) => {
 	}
 
 	return output;
+};
+
+/**
+ * Format various time formats to a simple `Time` object.
+ */
+export const normalizeTimeInput = (time: TimeInput): Time => {
+	if (typeof time === 'string') {
+		return parseISODuration(time);
+	}
+
+	if (typeof time === 'number') {
+		return { ...DEFAULT_TIME, milliseconds: time };
+	}
+
+	return { ...DEFAULT_TIME, ...time };
 };

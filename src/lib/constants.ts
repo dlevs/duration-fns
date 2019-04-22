@@ -16,3 +16,5 @@ export const DEFAULT_TIME = Object.freeze({
 	seconds: 0,
 	milliseconds: 0,
 } as const);
+
+export const TIME_KEYS = Object.keys(DEFAULT_TIME) as (keyof typeof DEFAULT_TIME)[];

@@ -39,50 +39,45 @@ There are equivalent functions for other time units:
 ```javascript
 import { addTime, subtractTime, multiplyTime, divideTime } from 'time-fns';
 
-// All calculations return the result in milliseconds
-addTime({ seconds: 1 }, { milliseconds: 500 }); // 1500
-subtractTime({ seconds: 1 }, { milliseconds: 500 }); // 500
-multiplyTime({ seconds: 1 }, 2); // 2000
-divideTime({ seconds: 1 }, 2); // 500
+addTime({ seconds: 1 }, { seconds: 2, milliseconds: 500 });
+// { seconds: 3, milliseconds: 500 }
 
-// ISO duration strings, number of milliseconds and objects are valid arguments
-// to all calculation functions.
-addTime({ seconds: 1 }, 'PT2S', 200); // 3200
+subtractTime({ seconds: 1 }, { milliseconds: 500 });
+// { seconds: 1, milliseconds: -500 }
+
+multiplyTime({ seconds: 2 }, 2);
+// { seconds: 4 }
+
+divideTime({ seconds: 2 }, 2);
+// { seconds: 1 }
 ```
 
-### Convert between formats
+The above functions accept any combination of time objects, ISO duration strings, or millisecond numbers:
 
-#### parseISODuration
+```javascript
+addTime({ seconds: 1 }, 'PT2S', 200);
+// { seconds: 3, milliseconds 200 }
+```
+
+The calculations will not convert values between units. Pass the return values through `normalizeTimeUnits` for that functionality:
+
+```javascript
+import { normalizeTimeUnits } from 'time-fns';
+
+normalizeTimeUnits({ minutes: 5, seconds: 62 });
+// {  minutes: 6, seconds: 2 }
+```
+
+### parseISODuration
 
 ```javascript
 import { parseISODuration } from 'time-fns';
 
 parseISODuration('PTM5S62');
-
-/* returns {
- *   years: 0, months: 0, ...,
- *   minutes: 5,
- *   seconds: 62
- * }
- */
+// { minutes: 5, seconds: 62 }
 ```
 
-Values are passed verbatim to the output object. For example, there was no attempt to normalize the output above to `{ minutes: 6, seconds: 2 }`. For that, use `normalizeTime`.
-
-#### normalizeTime
-
-```javascript
-import { normalizeTime } from 'time-fns';
-
-normalizeTime({ minutes: 5, seconds: 62 });
-
-/* returns {
- *   years: 0, months: 0, ...,
- *   minutes: 6,
- *   seconds: 2
- * }
- */
-```
+Values are passed verbatim to the output object. For example, there was no attempt to normalize the output above to `{ minutes: 6, seconds: 2 }`. For that, use `normalizeTimeUnits`.
 
 ## Non-goals
 
