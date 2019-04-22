@@ -1,4 +1,4 @@
-import parseISODuration from './parseISODuration';
+import { parseISODuration } from './parseISODuration';
 
 describe('parseISODuration()', () => {
 	test('parses full ISO 8601 duration strings', () => {

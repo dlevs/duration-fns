@@ -2,15 +2,17 @@
 import { DEFAULT_TIME } from './lib/constants';
 import { Time, TimeInput } from './types';
 import floorTowardsZero from './lib/floorTowardsZero';
-import subtractTime from './subtractTime';
-import toYears from './toYears';
-import toMonths from './toMonths';
-import toWeeks from './toWeeks';
-import toDays from './toDays';
-import toHours from './toHours';
-import toMinutes from './toMinutes';
-import toSeconds from './toSeconds';
-import toMilliseconds from './toMilliseconds';
+import { subtractTime } from './calculations';
+import {
+	toYears,
+	toMonths,
+	toWeeks,
+	toDays,
+	toHours,
+	toMinutes,
+	toSeconds,
+	toMilliseconds,
+} from './unitConversion';
 
 const units = [
 	{
@@ -55,7 +57,7 @@ const units = [
  * normalizeTime({ milliseconds 4000 })
  * // { years: 0, months: 0, weeks: 0, days: 0, hours: 0, minutes: 0, seconds: 4, milliseconds: 0 }
  */
-const normalizeTime = (time: TimeInput) => {
+export const normalizeTime = (time: TimeInput) => {
 	let tally = time;
 	const output: Time = { ...DEFAULT_TIME };
 
@@ -66,5 +68,3 @@ const normalizeTime = (time: TimeInput) => {
 
 	return output;
 };
-
-export default normalizeTime;

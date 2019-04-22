@@ -67,5 +67,3 @@ export const parseISODuration = (duration: string) => {
 
 	return output;
 };
-
-export default parseISODuration;

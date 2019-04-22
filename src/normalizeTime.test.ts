@@ -1,4 +1,4 @@
-import normalizeTime from './normalizeTime';
+import { normalizeTime } from './normalizeTime';
 import * as deepFreeze from 'deep-freeze';
 
 const ONE_OF_EACH = deepFreeze({
