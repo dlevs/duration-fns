@@ -2,7 +2,6 @@ import { DEFAULT_TIME } from './lib/constants';
 import { Time, TimeInput } from './types';
 import floorTowardsZero from './lib/floorTowardsZero';
 import { subtractTime } from './calculations';
-import { parseISODuration } from './parseISODuration';
 import {
 	toYears,
 	toMonths,
@@ -67,19 +66,4 @@ export const normalizeTimeUnits = (time: TimeInput): Time => {
 	}
 
 	return output;
-};
-
-/**
- * Format various time formats to a simple `Time` object.
- */
-export const normalizeTimeInput = (time: TimeInput): Time => {
-	if (typeof time === 'string') {
-		return parseISODuration(time);
-	}
-
-	if (typeof time === 'number') {
-		return { ...DEFAULT_TIME, milliseconds: time };
-	}
-
-	return { ...DEFAULT_TIME, ...time };
 };

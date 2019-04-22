@@ -1,5 +1,5 @@
 import { TimeInput } from './types';
-import { normalizeTimeInput } from './normalize';
+import { toTimeObject } from './toTimeObject';
 import {
 	MILLISECONDS_IN_A_SECOND,
 	MILLISECONDS_IN_A_MINUTE,
@@ -27,7 +27,7 @@ export const toMilliseconds = (time: TimeInput): number => {
 		minutes,
 		seconds,
 		milliseconds,
-	} = normalizeTimeInput(time);
+	} = toTimeObject(time);
 
 	return (
 		years * MILLISECONDS_IN_A_YEAR +

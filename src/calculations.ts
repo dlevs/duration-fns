@@ -1,10 +1,10 @@
 import { Time, TimeInput } from './types';
 import { TIME_KEYS } from './lib/constants';
-import { normalizeTimeInput } from './normalize';
+import { toTimeObject } from './toTimeObject';
 
 const createTimeReducer = (sum: (n1: number, n2: number) => number) =>
 	(...times: TimeInput[]) => {
-		const [firstTime, ...otherTimes] = times.map(normalizeTimeInput);
+		const [firstTime, ...otherTimes] = times.map(toTimeObject);
 		const output = { ...firstTime };
 
 		otherTimes.forEach(time => {
@@ -39,7 +39,7 @@ export const subtractTime = createTimeReducer((n1, n2) => n1 - n2);
  * @returns a number in milliseconds
  */
 export const multiplyTime = (time: TimeInput, multiplier: number) => {
-	const output: Time = { ...normalizeTimeInput(time) };
+	const output: Time = { ...toTimeObject(time) };
 
 	TIME_KEYS.forEach(key => {
 		output[key] *= multiplier;

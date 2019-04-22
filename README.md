@@ -68,12 +68,12 @@ normalizeTimeUnits({ minutes: 5, seconds: 62 });
 // {  minutes: 6, seconds: 2 }
 ```
 
-### parseISODuration
+### toTimeObject
 
 ```javascript
-import { parseISODuration } from 'time-fns';
+import { toTimeObject } from 'time-fns';
 
-parseISODuration('PTM5S62');
+toTimeObject('PTM5S62');
 // { minutes: 5, seconds: 62 }
 ```
 

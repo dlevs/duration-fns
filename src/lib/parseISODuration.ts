@@ -1,5 +1,5 @@
-import { Time } from './types';
-import { DEFAULT_TIME } from './lib/constants';
+import { Time } from '../types';
+import { DEFAULT_TIME } from './constants';
 
 type Context = 'period' | 'time';
 
