@@ -1,6 +1,6 @@
 {
   "name": "time-fns",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Functions for working with units of time.",
   "main": "dist/index.js",
   "scripts": {
