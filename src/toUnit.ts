@@ -1,6 +1,6 @@
 import { TimeInput } from './types';
 import { parse } from './parse';
-import { UNITS, UNIT_KEYS } from './lib/units';
+import { UNITS, UNITS_MAP } from './lib/units';
 
 /**
  * Convert the input value to milliseconds represented by a `Time` object.
@@ -12,13 +12,13 @@ import { UNITS, UNIT_KEYS } from './lib/units';
 export const toMilliseconds = (time: TimeInput): number => {
 	const parsedTime = parse(time);
 
-	return UNIT_KEYS.reduce((total, unit) => {
-		return total + (parsedTime[unit] * UNITS[unit].milliseconds);
+	return UNITS.reduce((total, { unit, milliseconds }) => {
+		return total + (parsedTime[unit] * milliseconds);
 	}, 0);
 };
 
-const createTimeConverter = (unit: keyof typeof UNITS) =>
-	(time: TimeInput) => toMilliseconds(time) / UNITS[unit].milliseconds;
+const createTimeConverter = (unit: keyof typeof UNITS_MAP) =>
+	(time: TimeInput) => toMilliseconds(time) / UNITS_MAP[unit].milliseconds;
 
 /**
  * Convert the input value to seconds.

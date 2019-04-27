@@ -1,19 +1,18 @@
 import { TimeInput } from './types';
 import { abs } from './abs';
-import { UNITS, UNIT_KEYS } from './lib/units';
+import { UNITS } from './lib/units';
 
 export const toString = (time: TimeInput): string => {
 	const parsedTime = abs(time);
 	let output = 'P';
 
-	UNIT_KEYS.forEach(unit => {
+	UNITS.forEach(({ unit, ISOPrecision, ISOCharacter }) => {
 		const value = parsedTime[unit];
 
 		if (value === 0) {
 			return;
 		}
 
-		const { ISOPrecision, ISOCharacter } = UNITS[unit];
 		const prefix = ISOPrecision === 'time' && output.indexOf('T') === -1
 			? 'T'
 			: '';

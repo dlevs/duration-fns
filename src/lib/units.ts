@@ -6,17 +6,6 @@ const MILLISECONDS_IN_A_WEEK = MILLISECONDS_IN_A_DAY * 7;
 const MILLISECONDS_IN_A_YEAR = MILLISECONDS_IN_A_DAY * 365;
 const MILLISECONDS_IN_A_MONTH = MILLISECONDS_IN_A_YEAR / 12;
 
-export const UNIT_KEYS = [
-	'years',
-	'months',
-	'weeks',
-	'days',
-	'hours',
-	'minutes',
-	'seconds',
-	'milliseconds',
-] as const;
-
 export const DEFAULT_TIME = {
 	years: 0,
 	months: 0,
@@ -28,7 +17,7 @@ export const DEFAULT_TIME = {
 	milliseconds: 0,
 } as const;
 
-export const UNITS = {
+export const UNITS_MAP = {
 	years: {
 		milliseconds: MILLISECONDS_IN_A_YEAR,
 		addToDate: (date: Date, value: number) => date.setFullYear(date.getFullYear() + value),
@@ -95,3 +84,19 @@ export const UNITS = {
 		isAlternativeUnit: false,
 	},
 } as const;
+
+export const UNIT_KEYS = [
+	'years',
+	'months',
+	'weeks',
+	'days',
+	'hours',
+	'minutes',
+	'seconds',
+	'milliseconds',
+] as const;
+
+export const UNITS = UNIT_KEYS.map(unit => ({
+	...UNITS_MAP[unit],
+	unit,
+}));

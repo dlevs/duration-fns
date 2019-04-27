@@ -1,4 +1,4 @@
-import { UNIT_KEYS, UNITS } from './lib/units';
+import { UNITS } from './lib/units';
 import { TimeInput, DateInput } from './types';
 import { parseDate } from './lib/parseDate';
 import { parse } from './parse';
@@ -11,9 +11,7 @@ export const apply = (
 	const parsedDate = parseDate(date);
 	const parsedDuration = parse(duration);
 
-	UNIT_KEYS.forEach(unit => {
-		const { addToDate } = UNITS[unit];
-
+	UNITS.forEach(({ unit, addToDate }) => {
 		addToDate(parsedDate, parsedDuration[unit]);
 	});
 

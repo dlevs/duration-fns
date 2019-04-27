@@ -1,4 +1,4 @@
-import { DEFAULT_TIME, UNIT_KEYS, UNITS } from './lib/units';
+import { DEFAULT_TIME, UNITS } from './lib/units';
 import { Time, TimeInput } from './types';
 import floorTowardsZero from './lib/floorTowardsZero';
 import { between } from './between';
@@ -25,9 +25,7 @@ export const normalize = (
 	let remaining = time;
 	const output: Time = { ...DEFAULT_TIME };
 
-	UNIT_KEYS.forEach(unit => {
-		const { milliseconds, isAlternativeUnit } = UNITS[unit];
-
+	UNITS.forEach(({ unit, milliseconds, isAlternativeUnit }) => {
 		if (isAlternativeUnit) {
 			return;
 		}
