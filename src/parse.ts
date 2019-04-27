@@ -1,11 +1,11 @@
-import { DEFAULT_TIME } from './lib/constants';
+import { DEFAULT_TIME } from './lib/units';
 import { Time, TimeInput } from './types';
 import { parseISODuration } from './lib/parseISODuration';
 
 /**
  * Format various time formats to a simple `Time` object.
  */
-export const toTimeObject = (time: TimeInput): Time => {
+export const parse = (time: TimeInput): Time => {
 	if (typeof time === 'string') {
 		return parseISODuration(time);
 	}

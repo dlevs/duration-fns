@@ -10,3 +10,5 @@ export interface Time {
 }
 
 export type TimeInput = Partial<Time> | number | string;
+
+export type DateInput = Date | number | string;

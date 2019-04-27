@@ -91,3 +91,47 @@ Time can be ambiguous:
 This project avoids converting between these units until 100% necessary.
 
 When conversion is necessary, sane approximations are used to convert between units of time - a day is always `24` hours, a year is always `365` days, and so on. If you need to calculate exact durations in relation to a specific date, don't use this library; it is intended for non time-critical situations.
+
+## TODO: New API:
+
+```javascript
+toMilliseconds('PT1M30S'); // 90000
+toMilliseconds('PT1M30S', '2016-10-01'); // 90000
+
+toDurationObject('PT1M30S'); // { ... } Not normalised
+toDurationObject('PT1M30S', 'approx'); // { ... } Normalised
+toDurationObject('PT1M30S', '2016-10-01'); // { ... }
+
+toDurationString({ ... })
+toDurationString({ ... }, 'approx')
+toDurationString({ ... }, '2016-10-01')
+
+sumDurations('PT1M30S', 'PT1M30S')
+subtractDurations('PT1M30S', 'PT1M30S')
+multiplyDuration('PT1M30S', 2)
+divideDuration('PT1M30S', 2)
+negateDuration()
+
+applyDuration('2016-10-01', 'PT1M30S')
+
+
+import * as duration from 'duration-fns'
+
+duration.parse('PT1M30S', '2018-10-01')
+duration.normalize('PT1M30S', '2018-10-01')
+duration.toString({ ... }, '2018-10-01')
+duration.toMilliseconds('PT1M30S', '2018-10-01')
+
+duration.sum('PT1M30S', 'PT1M30S')
+duration.subtract('PT1M30S', 'PT1M30S')
+duration.multiply('PT1M30S', 2)
+duration.divide('PT1M30S', 10)
+
+duration.negate('PT1M30S') // Object for PT-1M-30S
+duration.between('2018-10-19', '2018-10-20')
+duration.abs({ seconds: -10 }) // 10S
+
+duration.applyToDate('2018-10-19', { seconds: 10 }) // Date
+
+// TODO: When stringifying, ignore weeks. Comma is preferred decimal delimiter
+```

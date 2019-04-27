@@ -1,28 +1,26 @@
 import { Time, TimeInput } from './types';
-import { TIME_KEYS } from './lib/constants';
-import { toTimeObject } from './toTimeObject';
+import { UNIT_KEYS } from './lib/units';
+import { parse } from './parse';
+import { negate } from './negate';
 
-const createTimeReducer = (sum: (n1: number, n2: number) => number) =>
-	(...times: TimeInput[]) => {
-		const [firstTime, ...otherTimes] = times.map(toTimeObject);
-		const output = { ...firstTime };
+/**
+ * Add values to the current time.
+ *
+ * @example toDays(addTime({ days: 1 }, { hours: 12 })) // 1.5
+ * @returns a number in milliseconds
+ */
+export const sumTime = (...times: TimeInput[]) => {
+	const [firstTime, ...otherTimes] = times.map(parse);
+	const output = { ...firstTime };
 
-		otherTimes.forEach(time => {
-			TIME_KEYS.forEach(key => {
-				output[key] = sum(output[key], time[key]);
-			});
+	otherTimes.forEach(time => {
+		UNIT_KEYS.forEach(key => {
+			output[key] = output[key] + time[key];
 		});
+	});
 
-		return output;
-	};
-
-/**
- * Add values to the current time.
- *
- * @example toDays(addTime({ days: 1 }, { hours: 12 })) // 1.5
- * @returns a number in milliseconds
- */
-export const addTime = createTimeReducer((n1, n2) => n1 + n2);
+	return output;
+};
 
 /**
  * Add values to the current time.
@@ -30,7 +28,8 @@ export const addTime = createTimeReducer((n1, n2) => n1 + n2);
  * @example toDays(addTime({ days: 1 }, { hours: 12 })) // 1.5
  * @returns a number in milliseconds
  */
-export const subtractTime = createTimeReducer((n1, n2) => n1 - n2);
+export const subtractTime = (time: TimeInput, ...timesToSubtract: TimeInput[]) =>
+	sumTime(time, ...timesToSubtract.map(negate));
 
 /**
  * Multiply the value of the current time.
@@ -39,9 +38,9 @@ export const subtractTime = createTimeReducer((n1, n2) => n1 - n2);
  * @returns a number in milliseconds
  */
 export const multiplyTime = (time: TimeInput, multiplier: number) => {
-	const output: Time = { ...toTimeObject(time) };
+	const output: Time = { ...parse(time) };
 
-	TIME_KEYS.forEach(key => {
+	UNIT_KEYS.forEach(key => {
 		output[key] *= multiplier;
 	});
 

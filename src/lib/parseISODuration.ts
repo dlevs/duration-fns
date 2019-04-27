@@ -1,5 +1,5 @@
 import { Time } from '../types';
-import { DEFAULT_TIME } from './constants';
+import { DEFAULT_TIME } from './units';
 
 type Context = 'period' | 'time';
 

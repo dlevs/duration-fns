@@ -7,7 +7,7 @@ import {
 	toWeeks,
 	toMonths,
 	toYears,
-} from './unitConversion';
+} from './toUnit';
 
 describe('toMilliseconds()', () => {
 	test('converts objects', () => {
