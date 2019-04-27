@@ -1,45 +1,5 @@
 import { Time } from '../types';
-import { DEFAULT_TIME } from './units';
-
-type Context = 'period' | 'time';
-
-const unitToKey = (unit: string, context: Context): keyof Time => {
-	switch (unit.toUpperCase()) {
-		case 'Y':
-			return 'years';
-		case 'M':
-			if (context === 'period') {
-				return 'months';
-			}
-			return 'minutes';
-		case 'W':
-			return 'weeks';
-		case 'D':
-			return 'days';
-		case 'H':
-			return 'hours';
-		case 'S':
-			return 'seconds';
-		default:
-			throw new SyntaxError(`Unrecognised unit "${unit}" in ISO duration string`);
-	}
-};
-
-const addValue = (
-	obj: Partial<Time>,
-	execResult: string[],
-	context: Context,
-) => {
-	const [, valueString, unit] = execResult;
-	const key = unitToKey(unit, context);
-	const value = Number(valueString);
-
-	if (isNaN(value)) {
-		throw new SyntaxError(`Non-numeric duration value "${valueString}" in ISO duration string`);
-	}
-
-	obj[key] = value;
-};
+import { DEFAULT_TIME, UNITS } from './units';
 
 /**
  * Parse an ISO 8601 duration string into an object.
@@ -50,20 +10,33 @@ const addValue = (
  *
  * @example parseISODuration('P365D') // { days: 365 }
  */
-export const parseISODuration = (duration: string) => {
-	const parsingRegex = /([^A-Z]+)([A-Z])/gi;
-	const [period, time] = duration.replace(/,/g, '.').split(/T/i);
+export const parseISODuration = (duration: string): Time => {
 	const output: Time = { ...DEFAULT_TIME };
+	const [date, time] = duration
+		.replace(/,/g, '.')
+		.replace(/-:/g, '')
+		.split(/T/i);
 
-	let execResult;
+	UNITS.forEach(({ unit, ISOPrecision, ISOCharacter }) => {
+		if (ISOCharacter === null) {
+			return;
+		}
 
-	while (execResult = parsingRegex.exec(period)) {
-		addValue(output, execResult, 'period');
-	}
+		const regex = new RegExp(`([\\d.]+)${ISOCharacter}`, 'i');
+		const portionToTest = ISOPrecision === 'time' ? time : date;
 
-	while (execResult = parsingRegex.exec(time)) {
-		addValue(output, execResult, 'time');
-	}
+		if (!portionToTest) {
+			return;
+		}
+
+		const match = portionToTest.match(regex);
+
+		if (match === null) {
+			return;
+		}
+
+		output[unit] = Number(match[1]);
+	});
 
 	return output;
 };

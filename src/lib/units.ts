@@ -79,8 +79,8 @@ export const UNITS_MAP = {
 		milliseconds: 1,
 		addToDate: (date: Date, value: number) => date.setMilliseconds(date.getMilliseconds() + value),
 		dateGetter: (date: Date) => date.getMilliseconds(),
-		ISOCharacter: 'M',
-		ISOPrecision: 'time',
+		ISOCharacter: null,
+		ISOPrecision: null,
 		isAlternativeUnit: false,
 	},
 } as const;

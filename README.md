@@ -95,26 +95,6 @@ When conversion is necessary, sane approximations are used to convert between un
 ## TODO: New API:
 
 ```javascript
-toMilliseconds('PT1M30S'); // 90000
-toMilliseconds('PT1M30S', '2016-10-01'); // 90000
-
-toDurationObject('PT1M30S'); // { ... } Not normalised
-toDurationObject('PT1M30S', 'approx'); // { ... } Normalised
-toDurationObject('PT1M30S', '2016-10-01'); // { ... }
-
-toDurationString({ ... })
-toDurationString({ ... }, 'approx')
-toDurationString({ ... }, '2016-10-01')
-
-sumDurations('PT1M30S', 'PT1M30S')
-subtractDurations('PT1M30S', 'PT1M30S')
-multiplyDuration('PT1M30S', 2)
-divideDuration('PT1M30S', 2)
-negateDuration()
-
-applyDuration('2016-10-01', 'PT1M30S')
-
-
 import * as duration from 'duration-fns'
 
 duration.parse('PT1M30S', '2018-10-01')
@@ -131,7 +111,12 @@ duration.negate('PT1M30S') // Object for PT-1M-30S
 duration.between('2018-10-19', '2018-10-20')
 duration.abs({ seconds: -10 }) // 10S
 
-duration.applyToDate('2018-10-19', { seconds: 10 }) // Date
+duration.apply('2018-10-19', { seconds: 10 }) // Date
 
 // TODO: When stringifying, ignore weeks. Comma is preferred decimal delimiter
+// TODO: Parse other formats:
+// PYYYYMMDDThhmmss
+// P[YYYY]-[MM]-[DD]T[hh]:[mm]:[ss]
+
+
 ```
