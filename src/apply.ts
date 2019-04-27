@@ -12,11 +12,9 @@ export const apply = (
 	const parsedDuration = parse(duration);
 
 	UNIT_KEYS.forEach(unit => {
-		const { dateGetter, dateSetter } = UNITS[unit];
+		const { addToDate } = UNITS[unit];
 
-		parsedDate[dateSetter](
-			parsedDate[dateGetter]() + parsedDuration[unit],
-		);
+		addToDate(parsedDate, parsedDuration[unit]);
 	});
 
 	return parsedDate;

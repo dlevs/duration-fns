@@ -26,7 +26,11 @@ export const normalize = (
 	const output: Time = { ...DEFAULT_TIME };
 
 	UNIT_KEYS.forEach(unit => {
-		const { milliseconds } = UNITS[unit];
+		const { milliseconds, isAlternativeUnit } = UNITS[unit];
+
+		if (isAlternativeUnit) {
+			return;
+		}
 
 		output[unit] = floorTowardsZero(toMilliseconds(remaining) / milliseconds);
 		remaining = subtractTime(remaining, { [unit]: output[unit] });

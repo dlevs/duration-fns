@@ -16,7 +16,6 @@ const ONE_OF_EACH = deepFreeze({
 describe('normalize()', () => {
 	test('normal usage', () => {
 		expect(normalize(ONE_OF_EACH)).not.toBe(ONE_OF_EACH);
-		expect(normalize(ONE_OF_EACH)).toEqual(ONE_OF_EACH);
 		expect(normalize({ seconds: 1 })).toEqual({
 			...DEFAULT_TIME,
 			seconds: 1,
@@ -41,13 +40,14 @@ describe('normalize()', () => {
 		})).toEqual({
 			years: 110,
 			months: 6,
-			weeks: 1,
-			days: 6,
+			weeks: 0,
+			days: 13,
 			hours: 9,
 			minutes: 41,
 			seconds: 40,
 			milliseconds: 100,
 		});
+		// TODO: Add a test specifically for "weeks"
 		expect(normalize({ days: 1.5, hours: 2 })).toEqual({
 			...DEFAULT_TIME,
 			days: 1,
