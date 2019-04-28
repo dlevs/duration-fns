@@ -20,6 +20,7 @@ export const DEFAULT_TIME = {
 export const UNITS_MAP = {
 	years: {
 		milliseconds: MILLISECONDS_IN_A_YEAR,
+		// TODO: Test adding a year on leap year
 		addToDate: (date: Date, value: number) => date.setFullYear(date.getFullYear() + value),
 		dateGetter: (date: Date) => date.getFullYear(),
 		ISOCharacter: 'Y',
@@ -28,7 +29,18 @@ export const UNITS_MAP = {
 	},
 	months: {
 		milliseconds: MILLISECONDS_IN_A_MONTH,
-		addToDate: (date: Date, value: number) => date.setMonth(date.getMonth() + value),
+		addToDate: (date: Date, value: number) => {
+			// TODO: Test me:
+			// https://stackoverflow.com/questions/2706125/javascript-function-to-add-x-months-to-a-date
+			const day = date.getDate();
+			date.setMonth(date.getMonth() + value, 1);
+
+			const month = date.getMonth();
+			date.setDate(day);
+			if (date.getMonth() !== month) {
+				date.setDate(0);
+			}
+		},
 		dateGetter: (date: Date) => date.getMonth(),
 		ISOCharacter: 'M',
 		ISOPrecision: 'date',

@@ -102,4 +102,18 @@ describe('normalize()', () => {
 			days: 29,
 		});
 	});
+
+	test('converts non-integer values', () => {
+		expect(normalize({ seconds: 2.5 })).toEqual({
+			...DEFAULT_TIME,
+			seconds: 2,
+			milliseconds: 500,
+		});
+
+		expect(normalize({ seconds: 2.5 }, '2018-01-01Z')).toEqual({
+			...DEFAULT_TIME,
+			seconds: 2,
+			milliseconds: 500,
+		});
+	});
 });

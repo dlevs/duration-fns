@@ -76,6 +76,7 @@ describe('parseISODuration()', () => {
 		expect(parseISODuration('P20180102T161022.04')).toEqual(expected);
 		expect(parseISODuration('P20180102T161000')).toEqual({ ...expected, seconds: 0 });
 		expect(parseISODuration('P00001202T161022.04')).toEqual({ ...expected, years: 0, months: 12 });
+		expect(parseISODuration('P00001202T161022,04')).toEqual({ ...expected, years: 0, months: 12 });
 	});
 
 	test('parses negative values', () => {

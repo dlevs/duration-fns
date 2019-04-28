@@ -32,7 +32,6 @@ export const toString = (time: TimeInput): string => {
 	// Some units should be converted before stringifying.
 	// For example, weeks should not be mixed with other units, and milliseconds
 	// don't exist on ISO duration strings.
-	// TODO: This will lead to odd results when doing `toString(normalize({ weeks: 5 }, '2018-10-01'))`. The reuslt will have more days than a month.
 	UNITS.forEach(({ unit: fromUnit, stringifyConvertTo: toUnit }) => {
 		if (toUnit == null) {
 			return;

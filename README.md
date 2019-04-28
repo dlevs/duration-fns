@@ -114,11 +114,14 @@ ITE     duration.subtract('PT1M30S', 'PT1M30S')
 ITE     duration.multiply('PT1M30S', 2)
 ITE     duration.divide('PT1M30S', 10)
 
-        duration.negate('PT1M30S') // Object for PT-1M-30S
-        duration.between('2018-10-19', '2018-10-20')
-        duration.abs({ seconds: -10 }) // 10S
+ITE     duration.negate('PT1M30S') // Object for PT-1M-30S
+ITE     duration.between('2018-10-19', '2018-10-20')
+ITE     duration.abs({ seconds: -10 }) // 10S
 
         duration.apply('2018-10-19', { seconds: 10 }) // Date
 
-// Rename "Time" type and arguments to "Duration"? Make all consistent.
+// TODO:
+// - Rename "Time" type and arguments to "Duration"? Make all consistent.
+// - Applying decimal values, like { months: 1.5 } to a date with `apply` doesn't work / make sense.
+// - UNITS_MAP.months.addToDate() has issues. `years` unit probably does too. Look at what date-fns do.
 ```
