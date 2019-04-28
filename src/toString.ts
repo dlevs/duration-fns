@@ -1,6 +1,7 @@
 import { TimeInput } from './types';
 import { parse } from './parse';
 import { isZero } from './isZero';
+import { getUnitCount } from './lib/getUnitCount';
 import { UNITS, UNITS_MAP } from './lib/units';
 
 const joinComponents = (component: string[]) =>
@@ -10,11 +11,19 @@ const joinComponents = (component: string[]) =>
 		.replace(/\./g, ',');
 
 export const toString = (time: TimeInput): string => {
+	// Zero values are a special case, since "P" is not a valid value.
+	// At least one unit must be specified.
 	if (isZero(time)) {
 		return 'PT0S';
 	}
 
 	const parsedTime = { ...parse(time) };
+
+	// Weeks should not be included in the output, unless it is the only unit.
+	if (getUnitCount(parsedTime) === 1 && parsedTime.weeks !== 0) {
+		return `P${parsedTime.weeks}W`;
+	}
+
 	const components = {
 		date: [] as string[],
 		time: [] as string[],

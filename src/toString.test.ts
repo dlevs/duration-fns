@@ -11,7 +11,7 @@ describe('normalize()', () => {
 		expect(toString('P6000Y')).toBe('P6000Y');
 	});
 
-	test('converts milliseconds and weeks', () => {
+	test('converts milliseconds and weeks to compatible units', () => {
 		expect(toString(4000)).toBe('PT4S');
 		expect(toString('P1Y1M1W1DT1H1M1S')).toBe('P1Y1M8DT1H1M1S');
 		expect(toString('P1W1D')).toBe('P8D');

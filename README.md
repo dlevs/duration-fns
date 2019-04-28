@@ -106,7 +106,7 @@ import * as duration from 'duration-fns'
 
 ITE     duration.parse('PT1M30S')
 ITE     duration.normalize('PT1M30S', '2018-10-01')
-        duration.toString({ ... })
+ITE     duration.toString({ ... })
         duration.toMilliseconds('PT1M30S', '2018-10-01')
 
         duration.sum('PT1M30S', 'PT1M30S')
