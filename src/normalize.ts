@@ -10,11 +10,7 @@ const normalizeApprox = (time: TimeInput) => {
 	let remaining = time;
 	const output: Time = { ...DEFAULT_TIME };
 
-	UNITS.forEach(({ unit, milliseconds, isAlternativeUnit }) => {
-		if (isAlternativeUnit) {
-			return;
-		}
-
+	UNITS.forEach(({ unit, milliseconds }) => {
 		output[unit] = floorTowardsZero(toMilliseconds(remaining) / milliseconds);
 		remaining = subtractTime(remaining, { [unit]: output[unit] });
 	});

@@ -24,7 +24,7 @@ export const UNITS_MAP = {
 		dateGetter: (date: Date) => date.getFullYear(),
 		ISOCharacter: 'Y',
 		ISOPrecision: 'date',
-		isAlternativeUnit: false,
+		stringifyConvertTo: null,
 	},
 	months: {
 		milliseconds: MILLISECONDS_IN_A_MONTH,
@@ -32,7 +32,7 @@ export const UNITS_MAP = {
 		dateGetter: (date: Date) => date.getMonth(),
 		ISOCharacter: 'M',
 		ISOPrecision: 'date',
-		isAlternativeUnit: false,
+		stringifyConvertTo: null,
 	},
 	weeks: {
 		milliseconds: MILLISECONDS_IN_A_WEEK,
@@ -40,8 +40,7 @@ export const UNITS_MAP = {
 		dateGetter: () => 0,
 		ISOCharacter: 'W',
 		ISOPrecision: 'date',
-		// TODO: Test
-		isAlternativeUnit: true,
+		stringifyConvertTo: 'days',
 	},
 	days: {
 		milliseconds: MILLISECONDS_IN_A_DAY,
@@ -49,7 +48,7 @@ export const UNITS_MAP = {
 		dateGetter: (date: Date) => date.getDate(),
 		ISOCharacter: 'D',
 		ISOPrecision: 'date',
-		isAlternativeUnit: false,
+		stringifyConvertTo: null,
 	},
 	hours: {
 		milliseconds: MILLISECONDS_IN_AN_HOUR,
@@ -57,7 +56,7 @@ export const UNITS_MAP = {
 		dateGetter: (date: Date) => date.getHours(),
 		ISOCharacter: 'H',
 		ISOPrecision: 'time',
-		isAlternativeUnit: false,
+		stringifyConvertTo: null,
 	},
 	minutes: {
 		milliseconds: MILLISECONDS_IN_A_MINUTE,
@@ -65,7 +64,7 @@ export const UNITS_MAP = {
 		dateGetter: (date: Date) => date.getMinutes(),
 		ISOCharacter: 'M',
 		ISOPrecision: 'time',
-		isAlternativeUnit: false,
+		stringifyConvertTo: null,
 	},
 	seconds: {
 		milliseconds: MILLISECONDS_IN_A_SECOND,
@@ -73,7 +72,7 @@ export const UNITS_MAP = {
 		dateGetter: (date: Date) => date.getSeconds(),
 		ISOCharacter: 'S',
 		ISOPrecision: 'time',
-		isAlternativeUnit: false,
+		stringifyConvertTo: null,
 	},
 	milliseconds: {
 		milliseconds: 1,
@@ -81,7 +80,7 @@ export const UNITS_MAP = {
 		dateGetter: (date: Date) => date.getMilliseconds(),
 		ISOCharacter: null,
 		ISOPrecision: null,
-		isAlternativeUnit: false,
+		stringifyConvertTo: 'seconds',
 	},
 } as const;
 

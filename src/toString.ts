@@ -6,6 +6,7 @@ import { UNITS, UNITS_MAP } from './lib/units';
 const joinComponents = (component: string[]) =>
 	component
 		.join('')
+		// Commas are mentioned in the spec as the preferred decimal delimiter
 		.replace(/\./g, ',');
 
 export const toString = (time: TimeInput): string => {
@@ -19,10 +20,19 @@ export const toString = (time: TimeInput): string => {
 		time: [] as string[],
 	};
 
-	// Apply milliseconds to the seconds total, since output format
-	// doesn't have milliseconds unit
-	parsedTime.seconds += parsedTime.milliseconds / UNITS_MAP.seconds.milliseconds;
-	parsedTime.milliseconds = 0;
+	// Some units should be converted before stringifying.
+	// For example, weeks should not be mixed with other units, and milliseconds
+	// don't exist on ISO duration strings.
+	UNITS.forEach(({ unit: fromUnit, stringifyConvertTo: toUnit }) => {
+		if (toUnit == null) {
+			return;
+		}
+
+		const millisecondValue = parsedTime[fromUnit] * UNITS_MAP[fromUnit].milliseconds;
+
+		parsedTime[toUnit] += millisecondValue / UNITS_MAP[toUnit].milliseconds;
+		parsedTime[fromUnit] = 0;
+	});
 
 	// Push each non-zero unit to its relevant array
 	UNITS.forEach(({ unit, ISOPrecision, ISOCharacter }) => {

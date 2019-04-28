@@ -47,7 +47,6 @@ describe('normalize()', () => {
 			seconds: 40,
 			milliseconds: 100,
 		});
-		// TODO: Add a test specifically for "weeks"
 		expect(normalize({ days: 1.5, hours: 2 })).toEqual({
 			...DEFAULT_TIME,
 			days: 1,
@@ -59,6 +58,15 @@ describe('normalize()', () => {
 			minutes: -59,
 			seconds: -59,
 			milliseconds: -999,
+		});
+	});
+
+	test('does not include weeks in output', () => {
+		// This helps when stringifying times. "Weeks" are an alternative format -
+		// they are not used in combination with other units.
+		expect(normalize({ weeks: 2 })).toEqual({
+			...DEFAULT_TIME,
+			days: 14,
 		});
 	});
 
@@ -78,7 +86,7 @@ describe('normalize()', () => {
 		});
 	});
 
-	test('TODO: write something better here', () => {
+	test('calculates durations based on reference time when provided', () => {
 		expect(normalize('P1M', '2018-01-20T00:00:00.000Z')).toEqual({
 			...DEFAULT_TIME,
 			months: 1,
