@@ -40,8 +40,8 @@ describe('normalize()', () => {
 		})).toEqual({
 			years: 110,
 			months: 6,
-			weeks: 0,
-			days: 13,
+			weeks: 1,
+			days: 6,
 			hours: 9,
 			minutes: 41,
 			seconds: 40,
@@ -58,15 +58,6 @@ describe('normalize()', () => {
 			minutes: -59,
 			seconds: -59,
 			milliseconds: -999,
-		});
-	});
-
-	test('does not include weeks in output', () => {
-		// This helps when stringifying times. "Weeks" are an alternative format -
-		// they are not used in combination with other units.
-		expect(normalize({ weeks: 2 })).toEqual({
-			...DEFAULT_TIME,
-			days: 14,
 		});
 	});
 

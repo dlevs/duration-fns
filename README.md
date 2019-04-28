@@ -107,16 +107,18 @@ import * as duration from 'duration-fns'
 ITE     duration.parse('PT1M30S')
 ITE     duration.normalize('PT1M30S', '2018-10-01')
 ITE     duration.toString({ ... })
-        duration.toMilliseconds('PT1M30S', '2018-10-01')
+ITE     duration.toMilliseconds('PT1M30S', '2018-10-01')
 
-        duration.sum('PT1M30S', 'PT1M30S')
-        duration.subtract('PT1M30S', 'PT1M30S')
-        duration.multiply('PT1M30S', 2)
-        duration.divide('PT1M30S', 10)
+ITE     duration.sum('PT1M30S', 'PT1M30S')
+ITE     duration.subtract('PT1M30S', 'PT1M30S')
+ITE     duration.multiply('PT1M30S', 2)
+ITE     duration.divide('PT1M30S', 10)
 
         duration.negate('PT1M30S') // Object for PT-1M-30S
         duration.between('2018-10-19', '2018-10-20')
         duration.abs({ seconds: -10 }) // 10S
 
         duration.apply('2018-10-19', { seconds: 10 }) // Date
+
+// Rename "Time" type and arguments to "Duration"? Make all consistent.
 ```

@@ -4,7 +4,7 @@ import floorTowardsZero from './lib/floorTowardsZero';
 import { between } from './between';
 import { apply } from './apply';
 import { toMilliseconds } from './toUnit';
-import { subtractTime } from './calculations';
+import { subtract } from './calculations';
 
 const normalizeApprox = (time: TimeInput) => {
 	let remaining = time;
@@ -12,7 +12,7 @@ const normalizeApprox = (time: TimeInput) => {
 
 	UNITS.forEach(({ unit, milliseconds }) => {
 		output[unit] = floorTowardsZero(toMilliseconds(remaining) / milliseconds);
-		remaining = subtractTime(remaining, { [unit]: output[unit] });
+		remaining = subtract(remaining, { [unit]: output[unit] });
 	});
 
 	return output;

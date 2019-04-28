@@ -9,13 +9,13 @@ import { negate } from './negate';
  * @example toDays(addTime({ days: 1 }, { hours: 12 })) // 1.5
  * @returns a number in milliseconds
  */
-export const sumTime = (...times: TimeInput[]) => {
+export const sum = (...times: TimeInput[]) => {
 	const [firstTime, ...otherTimes] = times.map(parse);
 	const output = { ...firstTime };
 
 	otherTimes.forEach(time => {
 		UNIT_KEYS.forEach(key => {
-			output[key] = output[key] + time[key];
+			output[key] += time[key];
 		});
 	});
 
@@ -28,8 +28,8 @@ export const sumTime = (...times: TimeInput[]) => {
  * @example toDays(addTime({ days: 1 }, { hours: 12 })) // 1.5
  * @returns a number in milliseconds
  */
-export const subtractTime = (time: TimeInput, ...timesToSubtract: TimeInput[]) =>
-	sumTime(time, ...timesToSubtract.map(negate));
+export const subtract = (time: TimeInput, ...timesToSubtract: TimeInput[]) =>
+	sum(time, ...timesToSubtract.map(negate));
 
 /**
  * Multiply the value of the current time.
@@ -37,7 +37,7 @@ export const subtractTime = (time: TimeInput, ...timesToSubtract: TimeInput[]) =
  * @example toDays(multiplyTime({ days: 1 }, 2)) // 2
  * @returns a number in milliseconds
  */
-export const multiplyTime = (time: TimeInput, multiplier: number) => {
+export const multiply = (time: TimeInput, multiplier: number) => {
 	const output: Time = { ...parse(time) };
 
 	UNIT_KEYS.forEach(key => {
@@ -53,5 +53,5 @@ export const multiplyTime = (time: TimeInput, multiplier: number) => {
  * @example toMinutes(divideTime({ hours: 1, minutes: 30 }, 2)) // 45
  * @returns a number in milliseconds
  */
-export const divideTime = (time: TimeInput, divisor: number) =>
-	multiplyTime(time, 1 / divisor);
+export const divide = (time: TimeInput, divisor: number) =>
+	multiply(time, 1 / divisor);

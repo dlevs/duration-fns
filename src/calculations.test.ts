@@ -1,79 +1,79 @@
 import * as deepFreeze from 'deep-freeze';
-import { sumTime, subtractTime, multiplyTime, divideTime } from './calculations';
+import { sum, subtract, multiply, divide } from './calculations';
 
 const time = deepFreeze({ milliseconds: 10 });
 
-describe('addTime()', () => {
+describe('sum()', () => {
 	test('works as expected for 2 arguments', () => {
-		expect(sumTime(time, time)).toMatchObject({ milliseconds: 20 });
-		expect(sumTime(time, { seconds: 1 })).toMatchObject({ seconds: 1, milliseconds: 10 });
-		expect(sumTime(time, { seconds: -1 })).toMatchObject({ seconds: -1, milliseconds: 10 });
+		expect(sum(time, time)).toMatchObject({ milliseconds: 20 });
+		expect(sum(time, { seconds: 1 })).toMatchObject({ seconds: 1, milliseconds: 10 });
+		expect(sum(time, { seconds: -1 })).toMatchObject({ seconds: -1, milliseconds: 10 });
 	});
 
 	test('works as expected for a variable number of arguments', () => {
-		expect(sumTime(time, time, time, time, time)).toMatchObject({ milliseconds: 50 });
+		expect(sum(time, time, time, time, time)).toMatchObject({ milliseconds: 50 });
 	});
 
 	test('accepts number and string arguments', () => {
-		expect(sumTime(100, 2000)).toMatchObject({ milliseconds: 2100 });
-		expect(sumTime('PT6S', 'PT1S', 2000)).toMatchObject({
+		expect(sum(100, 2000)).toMatchObject({ milliseconds: 2100 });
+		expect(sum('PT6S', 'PT1S', 2000)).toMatchObject({
 			seconds: 7,
 			milliseconds: 2000,
 		});
 	});
 });
 
-describe('subtractTime()', () => {
+describe('subtract()', () => {
 	test('works as expected for 2 arguments', () => {
-		expect(subtractTime(time, time)).toMatchObject({ milliseconds: 0 });
-		expect(subtractTime(time, { seconds: 1 })).toMatchObject({ seconds: -1, milliseconds: 10 });
+		expect(subtract(time, time)).toMatchObject({ milliseconds: 0 });
+		expect(subtract(time, { seconds: 1 })).toMatchObject({ seconds: -1, milliseconds: 10 });
 	});
 
 	test('works as expected for a variable number of arguments', () => {
-		expect(subtractTime(time, time, time)).toMatchObject({ milliseconds: -10 });
-		expect(subtractTime(time, time, time, time, time)).toMatchObject({ milliseconds: -30 });
+		expect(subtract(time, time, time)).toMatchObject({ milliseconds: -10 });
+		expect(subtract(time, time, time, time, time)).toMatchObject({ milliseconds: -30 });
 	});
 
 	test('accepts number and string arguments', () => {
-		expect(subtractTime(100, 2000)).toMatchObject({ milliseconds: -1900 });
-		expect(subtractTime('PT6S', 'PT1S', 2000)).toMatchObject({
+		expect(subtract(100, 2000)).toMatchObject({ milliseconds: -1900 });
+		expect(subtract('PT6S', 'PT1S', 2000)).toMatchObject({
 			seconds: 5,
 			milliseconds: -2000,
 		});
 	});
 });
 
-describe('multiplyTime()', () => {
+describe('multiply()', () => {
 	test('works as expected', () => {
-		expect(multiplyTime({ milliseconds: 10 }, 2)).toMatchObject({ milliseconds: 20 });
-		expect(multiplyTime({ milliseconds: 10 }, 0.5)).toMatchObject({ milliseconds: 5 });
-		expect(multiplyTime({ seconds: 1, milliseconds: 10 }, 10)).toMatchObject({
+		expect(multiply({ milliseconds: 10 }, 2)).toMatchObject({ milliseconds: 20 });
+		expect(multiply({ milliseconds: 10 }, 0.5)).toMatchObject({ milliseconds: 5 });
+		expect(multiply({ seconds: 1, milliseconds: 10 }, 10)).toMatchObject({
 			seconds: 10,
 			milliseconds: 100,
 		});
 	});
 
 	test('accepts number and string arguments', () => {
-		expect(multiplyTime(100, 2)).toMatchObject({ milliseconds: 200 });
-		expect(multiplyTime('PT6S', 2)).toMatchObject({ seconds: 12 });
+		expect(multiply(100, 2)).toMatchObject({ milliseconds: 200 });
+		expect(multiply('PT6S', 2)).toMatchObject({ seconds: 12 });
 	});
 });
 
-describe('divideTime()', () => {
+describe('divide()', () => {
 	test('works as expected', () => {
-		expect(divideTime({ milliseconds: 10 }, 2)).toMatchObject({ milliseconds: 5 });
-		expect(divideTime({ milliseconds: 10, seconds: 5 }, 0.5)).toMatchObject({
+		expect(divide({ milliseconds: 10 }, 2)).toMatchObject({ milliseconds: 5 });
+		expect(divide({ milliseconds: 10, seconds: 5 }, 0.5)).toMatchObject({
 			seconds: 10,
 			milliseconds: 20,
 		});
-		expect(divideTime({ seconds: 1, milliseconds: 10 }, 10)).toMatchObject({
+		expect(divide({ seconds: 1, milliseconds: 10 }, 10)).toMatchObject({
 			seconds: 0.1,
 			milliseconds: 1,
 		});
 	});
 
 	test('accepts number and string arguments', () => {
-		expect(divideTime(100, 2)).toMatchObject({ milliseconds: 50 });
-		expect(divideTime('PT6S', 2)).toMatchObject({ seconds: 3 });
+		expect(divide(100, 2)).toMatchObject({ milliseconds: 50 });
+		expect(divide('PT6S', 2)).toMatchObject({ seconds: 3 });
 	});
 });

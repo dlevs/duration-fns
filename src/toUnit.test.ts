@@ -8,6 +8,7 @@ import {
 	toMonths,
 	toYears,
 } from './toUnit';
+import { UNITS_MAP } from './lib/units';
 
 describe('toMilliseconds()', () => {
 	test('converts objects', () => {
@@ -29,6 +30,12 @@ describe('toMilliseconds()', () => {
 
 	test('converts string durations', () => {
 		expect(toMilliseconds('PT1M60S')).toBe(120000);
+	});
+
+	test('takes into account reference time when provided', () => {
+		expect(toMilliseconds('P1M') / UNITS_MAP.days.milliseconds).toBe(30.416666666666668);
+		expect(toMilliseconds('P1M', '2016-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds).toBe(29);
+		expect(toMilliseconds('P1M', '2018-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds).toBe(28);
 	});
 });
 
@@ -53,6 +60,12 @@ describe('toSeconds()', () => {
 	test('converts string durations', () => {
 		expect(toSeconds('PT1M30S')).toBe(90);
 	});
+
+	test('takes into account reference time when provided', () => {
+		expect((toSeconds('P1M') / UNITS_MAP.days.milliseconds) * UNITS_MAP.seconds.milliseconds).toBe(30.416666666666668);
+		expect((toSeconds('P1M', '2016-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.seconds.milliseconds).toBe(29);
+		expect((toSeconds('P1M', '2018-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.seconds.milliseconds).toBe(28);
+	});
 });
 
 describe('toMinutes()', () => {
@@ -75,6 +88,12 @@ describe('toMinutes()', () => {
 
 	test('converts string durations', () => {
 		expect(toMinutes('PT6M60S')).toBe(7);
+	});
+
+	test('takes into account reference time when provided', () => {
+		expect((toMinutes('P1M') / UNITS_MAP.days.milliseconds) * UNITS_MAP.minutes.milliseconds).toBe(30.416666666666664);
+		expect((toMinutes('P1M', '2016-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.minutes.milliseconds).toBe(29);
+		expect((toMinutes('P1M', '2018-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.minutes.milliseconds).toBe(28);
 	});
 });
 
@@ -99,6 +118,12 @@ describe('toHours()', () => {
 	test('converts string durations', () => {
 		expect(toHours('PT1H90M')).toBe(2.5);
 	});
+
+	test('takes into account reference time when provided', () => {
+		expect((toHours('P1M') / UNITS_MAP.days.milliseconds) * UNITS_MAP.hours.milliseconds).toBe(30.416666666666664);
+		expect((toHours('P1M', '2016-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.hours.milliseconds).toBe(29);
+		expect((toHours('P1M', '2018-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.hours.milliseconds).toBe(28);
+	});
 });
 
 describe('toDays()', () => {
@@ -122,6 +147,12 @@ describe('toDays()', () => {
 	test('converts string durations', () => {
 		expect(toDays('P1WT12H')).toBe(7.5);
 	});
+
+	test('takes into account reference time when provided', () => {
+		expect(toDays('P1M')).toBe(30.416666666666668);
+		expect(toDays('P1M', '2016-02-01T00:00:00.000Z')).toBe(29);
+		expect(toDays('P1M', '2018-02-01T00:00:00.000Z')).toBe(28);
+	});
 });
 
 describe('toWeeks()', () => {
@@ -140,6 +171,12 @@ describe('toWeeks()', () => {
 
 	test('converts string durations', () => {
 		expect(toWeeks('P2W7D')).toBe(3);
+	});
+
+	test('takes into account reference time when provided', () => {
+		expect((toWeeks('P1M') / UNITS_MAP.days.milliseconds) * UNITS_MAP.weeks.milliseconds).toBe(30.416666666666664);
+		expect((toWeeks('P1M', '2016-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.weeks.milliseconds).toBe(29.000000000000004);
+		expect((toWeeks('P1M', '2018-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.weeks.milliseconds).toBe(28);
 	});
 });
 
@@ -160,6 +197,12 @@ describe('toMonths()', () => {
 	test('converts string durations', () => {
 		expect(toMonths('P2Y12M')).toBe(36);
 	});
+
+	test('takes into account reference time when provided', () => {
+		expect((toMonths('P1M') / UNITS_MAP.days.milliseconds) * UNITS_MAP.months.milliseconds).toBe(30.416666666666668);
+		expect((toMonths('P1M', '2016-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.months.milliseconds).toBe(29);
+		expect((toMonths('P1M', '2018-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.months.milliseconds).toBe(28);
+	});
 });
 
 describe('toYears()', () => {
@@ -178,5 +221,11 @@ describe('toYears()', () => {
 
 	test('converts string durations', () => {
 		expect(toYears('P2Y12M')).toBe(3);
+	});
+
+	test('takes into account reference time when provided', () => {
+		expect((toYears('P1M') / UNITS_MAP.days.milliseconds) * UNITS_MAP.years.milliseconds).toBe(30.41666666666666);
+		expect((toYears('P1M', '2016-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.years.milliseconds).toBe(29.000000000000004);
+		expect((toYears('P1M', '2018-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.years.milliseconds).toBe(28.000000000000004);
 	});
 });
