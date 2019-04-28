@@ -52,6 +52,25 @@ describe('parseISODuration()', () => {
 			milliseconds: 0,
 		});
 	});
+
+	test('parses alternative format values', () => {
+		const expected = {
+			years: 2018,
+			months: 1,
+			weeks: 0,
+			days: 2,
+			hours: 16,
+			minutes: 10,
+			seconds: 22.04,
+			milliseconds: 0,
+		};
+
+		expect(parseISODuration('P2018-01-02T16:10:22,04')).toEqual(expected);
+		expect(parseISODuration('P2018-01-02T16:10:22.0400000')).toEqual(expected);
+		expect(parseISODuration('P20180102T161022.04')).toEqual(expected);
+		expect(parseISODuration('P20180102T161000')).toEqual({ ...expected, seconds: 0 });
+		expect(parseISODuration('P00001202T161022.04')).toEqual({ ...expected, years: 0, months: 12 });
+	});
 });
 
 export default parseISODuration;
