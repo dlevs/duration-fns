@@ -1,4 +1,5 @@
 import { parseISODuration } from './parseISODuration';
+import { DEFAULT_TIME } from './units';
 
 describe('parseISODuration()', () => {
 	test('parses full ISO 8601 duration strings', () => {
@@ -31,25 +32,30 @@ describe('parseISODuration()', () => {
 
 	test('parses shorthand values', () => {
 		expect(parseISODuration('P1Y')).toEqual({
+			...DEFAULT_TIME,
 			years: 1,
-			months: 0,
-			weeks: 0,
-			days: 0,
-			hours: 0,
-			minutes: 0,
-			seconds: 0,
-			milliseconds: 0,
+		});
+
+		expect(parseISODuration('P1YT2S')).toEqual({
+			...DEFAULT_TIME,
+			years: 1,
+			seconds: 2,
+		});
+
+		expect(parseISODuration('P22W')).toEqual({
+			...DEFAULT_TIME,
+			weeks: 22,
+		});
+
+		expect(parseISODuration('P1M10W')).toEqual({
+			...DEFAULT_TIME,
+			months: 1,
+			weeks: 10,
 		});
 
 		expect(parseISODuration('PT1S')).toEqual({
-			years: 0,
-			months: 0,
-			weeks: 0,
-			days: 0,
-			hours: 0,
-			minutes: 0,
+			...DEFAULT_TIME,
 			seconds: 1,
-			milliseconds: 0,
 		});
 	});
 
@@ -71,6 +77,23 @@ describe('parseISODuration()', () => {
 		expect(parseISODuration('P20180102T161000')).toEqual({ ...expected, seconds: 0 });
 		expect(parseISODuration('P00001202T161022.04')).toEqual({ ...expected, years: 0, months: 12 });
 	});
-});
 
-export default parseISODuration;
+	test('parses negative values', () => {
+		const expected = {
+			years: -2018,
+			months: -1,
+			weeks: 0,
+			days: -2,
+			hours: -16,
+			minutes: -10,
+			seconds: -22.04,
+			milliseconds: 0,
+		};
+
+		expect(parseISODuration('-P2018-01-02T16:10:22,04')).toEqual(expected);
+		expect(parseISODuration('-P2018Y01M02DT16H10M22,04S')).toEqual(expected);
+		expect(parseISODuration('P-2018Y-01M-02DT-16H-10M-22,04S')).toEqual(expected);
+		expect(parseISODuration('P2Y-10D')).toEqual({ ...DEFAULT_TIME, years: 2, days: -10 });
+		expect(parseISODuration('-P-2Y-10D')).toEqual({ ...DEFAULT_TIME, years: 2, days: 10 });
+	});
+});

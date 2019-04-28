@@ -98,8 +98,8 @@ When conversion is necessary, sane approximations are used to convert between un
 import * as duration from 'duration-fns'
 
 duration.parse('PT1M30S')
-// duration.normalize('PT1M30S', '2018-10-01')
-duration.toString({ ... }, '2018-10-01')
+duration.normalize('PT1M30S', '2018-10-01')
+duration.toString({ ... })
 duration.toMilliseconds('PT1M30S', '2018-10-01')
 
 duration.sum('PT1M30S', 'PT1M30S')

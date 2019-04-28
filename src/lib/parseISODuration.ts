@@ -1,10 +1,6 @@
 import { Time } from '../types';
 import { DEFAULT_TIME, UNITS } from './units';
-
-const normalizeDuration = (duration: string): string =>
-	duration
-		.replace(/,/g, '.')
-		.replace(/[-:]/g, '');
+import { negate } from '../negate';
 
 const isFullFormat = (duration: string): boolean =>
 	!duration
@@ -13,14 +9,14 @@ const isFullFormat = (duration: string): boolean =>
 
 const parseUnitsISODuration = (duration: string) => {
 	const output: Time = { ...DEFAULT_TIME };
-	const [date, time] = normalizeDuration(duration).split(/T/i);
+	const [date, time] = duration.split(/T/i);
 
 	UNITS.forEach(({ unit, ISOPrecision, ISOCharacter }) => {
 		if (ISOCharacter === null) {
 			return;
 		}
 
-		const regex = new RegExp(`([\\d.]+)${ISOCharacter}`, 'i');
+		const regex = new RegExp(`([-\\d.]+)${ISOCharacter}`, 'i');
 		const portionToTest = ISOPrecision === 'time' ? time : date;
 
 		if (!portionToTest) {
@@ -46,7 +42,7 @@ const parseUnitsISODuration = (duration: string) => {
  * - PYYYY-MM-DDThh:mm:ss
  */
 const parseFullFormatISODuration = (duration: string): Time => {
-	const normalizedDuration = normalizeDuration(duration);
+	const normalizedDuration = duration.replace(/[-:]/g, '');
 
 	return {
 		years: Number(normalizedDuration.substr(1, 4)),
@@ -70,9 +66,14 @@ const parseFullFormatISODuration = (duration: string): Time => {
  * @example parseISODuration('P365D') // { days: 365 }
  */
 export const parseISODuration = (duration: string): Time => {
-	if (isFullFormat(duration)) {
-		return parseFullFormatISODuration(duration);
-	}
+	const normalizedDuration = duration.replace(/,/g, '.');
+	const absDuration = normalizedDuration.replace(/^-/, '');
+	const isNegative = normalizedDuration !== absDuration;
+	const absOutput = isFullFormat(absDuration)
+		? parseFullFormatISODuration(absDuration)
+		: parseUnitsISODuration(absDuration);
 
-	return parseUnitsISODuration(duration);
+	return isNegative
+		? negate(absOutput)
+		: absOutput;
 };
