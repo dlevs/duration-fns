@@ -1,18 +1,37 @@
-import { DEFAULT_TIME, UNITS } from './lib/units';
+import { UNITS_MAP, ZERO } from './lib/units';
 import { Time, TimeInput, DateInput } from './types';
 import floorTowardsZero from './lib/floorTowardsZero';
 import { between } from './between';
 import { apply } from './apply';
 import { toMilliseconds } from './toUnit';
 import { subtract } from './calculations';
+import { parse } from './parse';
 
 const normalizeApprox = (time: TimeInput) => {
-	let remaining = time;
-	const output: Time = { ...DEFAULT_TIME };
+	let remaining = { ...parse(time) };
 
-	UNITS.forEach(({ unit, milliseconds }) => {
-		output[unit] = floorTowardsZero(toMilliseconds(remaining) / milliseconds);
-		remaining = subtract(remaining, { [unit]: output[unit] });
+	const manualConversions = {
+		years: remaining.years + Math.floor(remaining.months / 12),
+		months: remaining.months % 12,
+		weeks: 0,
+		days: remaining.days + (remaining.weeks * 7),
+	};
+	const output = {
+		...ZERO,
+		...manualConversions,
+	};
+	const manualKeys = Object.keys(manualConversions) as (keyof typeof manualConversions)[];
+	const autoKeys = ['days', 'hours', 'minutes', 'seconds', 'milliseconds'] as const;
+
+	manualKeys.forEach(unit => {
+		remaining[unit] = 0;
+	});
+
+	autoKeys.forEach(unit => {
+		const { milliseconds } = UNITS_MAP[unit];
+		const valueToAdd = floorTowardsZero(toMilliseconds(remaining) / milliseconds);
+		output[unit] += valueToAdd;
+		remaining = subtract(remaining, { [unit]: valueToAdd });
 	});
 
 	return output;
@@ -29,7 +48,7 @@ const normalizeRelative = (
  *
  * @example
  * normalize({ milliseconds 4000 })
- * // { years: 0, months: 0, weeks: 0, days: 0, hours: 0, minutes: 0, seconds: 4, milliseconds: 0 }
+ * // { remaining.years: 0, months: 0, weeks: 0, days: 0, hours: 0, minutes: 0, seconds: 4, milliseconds: 0 }
  */
 export const normalize = (
 	time: TimeInput,

@@ -1,12 +1,15 @@
+// Durations defined by ISO 31-1
 const MILLISECONDS_IN_A_SECOND = 1000;
 const MILLISECONDS_IN_A_MINUTE = MILLISECONDS_IN_A_SECOND * 60;
 const MILLISECONDS_IN_AN_HOUR = MILLISECONDS_IN_A_MINUTE * 60;
 const MILLISECONDS_IN_A_DAY = MILLISECONDS_IN_AN_HOUR * 24;
+
+// Durations defined by common sense
 const MILLISECONDS_IN_A_WEEK = MILLISECONDS_IN_A_DAY * 7;
 const MILLISECONDS_IN_A_YEAR = MILLISECONDS_IN_A_DAY * 365;
 const MILLISECONDS_IN_A_MONTH = MILLISECONDS_IN_A_YEAR / 12;
 
-export const DEFAULT_TIME = {
+export const ZERO = {
 	years: 0,
 	months: 0,
 	weeks: 0,
@@ -17,19 +20,28 @@ export const DEFAULT_TIME = {
 	milliseconds: 0,
 } as const;
 
-export const UNITS_MAP = {
+type UnitKey = keyof typeof ZERO;
+interface Unit {
+	milliseconds: number;
+	addToDate(date: Date, value: number): number;
+	dateGetter(date: Date): number;
+	ISOCharacter?: string;
+	ISOPrecision?: 'period' | 'time';
+	stringifyConvertTo?: UnitKey;
+}
+
+export const UNITS_MAP: { [key in UnitKey]: Unit } = {
 	years: {
 		milliseconds: MILLISECONDS_IN_A_YEAR,
 		// TODO: Test adding a year on leap year
-		addToDate: (date: Date, value: number) => date.setFullYear(date.getFullYear() + value),
-		dateGetter: (date: Date) => date.getFullYear(),
+		addToDate: (date, value) => date.setFullYear(date.getFullYear() + value),
+		dateGetter: date => date.getFullYear(),
 		ISOCharacter: 'Y',
-		ISOPrecision: 'date',
-		stringifyConvertTo: null,
+		ISOPrecision: 'period',
 	},
 	months: {
 		milliseconds: MILLISECONDS_IN_A_MONTH,
-		addToDate: (date: Date, value: number) => {
+		addToDate: (date, value) => {
 			// TODO: Test me:
 			// https://stackoverflow.com/questions/2706125/javascript-function-to-add-x-months-to-a-date
 			const day = date.getDate();
@@ -40,61 +52,56 @@ export const UNITS_MAP = {
 			if (date.getMonth() !== month) {
 				date.setDate(0);
 			}
+
+			return date.getMonth();
 		},
-		dateGetter: (date: Date) => date.getMonth(),
+		dateGetter: date => date.getMonth(),
 		ISOCharacter: 'M',
-		ISOPrecision: 'date',
-		stringifyConvertTo: null,
+		ISOPrecision: 'period',
 	},
 	weeks: {
 		milliseconds: MILLISECONDS_IN_A_WEEK,
-		addToDate: (date: Date, value: number) => date.setDate(date.getDate() + (value * 7)),
+		addToDate: (date, value) => date.setDate(date.getDate() + (value * 7)),
 		dateGetter: () => 0,
 		ISOCharacter: 'W',
-		ISOPrecision: 'date',
+		ISOPrecision: 'period',
 		stringifyConvertTo: 'days',
 	},
 	days: {
 		milliseconds: MILLISECONDS_IN_A_DAY,
-		addToDate: (date: Date, value: number) => date.setDate(date.getDate() + value),
-		dateGetter: (date: Date) => date.getDate(),
+		addToDate: (date, value) => date.setDate(date.getDate() + value),
+		dateGetter: date => date.getDate(),
 		ISOCharacter: 'D',
-		ISOPrecision: 'date',
-		stringifyConvertTo: null,
+		ISOPrecision: 'period',
 	},
 	hours: {
 		milliseconds: MILLISECONDS_IN_AN_HOUR,
-		addToDate: (date: Date, value: number) => date.setHours(date.getHours() + value),
-		dateGetter: (date: Date) => date.getHours(),
+		addToDate: (date, value) => date.setHours(date.getHours() + value),
+		dateGetter: date => date.getHours(),
 		ISOCharacter: 'H',
 		ISOPrecision: 'time',
-		stringifyConvertTo: null,
 	},
 	minutes: {
 		milliseconds: MILLISECONDS_IN_A_MINUTE,
-		addToDate: (date: Date, value: number) => date.setMinutes(date.getMinutes() + value),
-		dateGetter: (date: Date) => date.getMinutes(),
+		addToDate: (date, value) => date.setMinutes(date.getMinutes() + value),
+		dateGetter: date => date.getMinutes(),
 		ISOCharacter: 'M',
 		ISOPrecision: 'time',
-		stringifyConvertTo: null,
 	},
 	seconds: {
 		milliseconds: MILLISECONDS_IN_A_SECOND,
-		addToDate: (date: Date, value: number) => date.setSeconds(date.getSeconds() + value),
-		dateGetter: (date: Date) => date.getSeconds(),
+		addToDate: (date, value) => date.setSeconds(date.getSeconds() + value),
+		dateGetter: date => date.getSeconds(),
 		ISOCharacter: 'S',
 		ISOPrecision: 'time',
-		stringifyConvertTo: null,
 	},
 	milliseconds: {
 		milliseconds: 1,
-		addToDate: (date: Date, value: number) => date.setMilliseconds(date.getMilliseconds() + value),
-		dateGetter: (date: Date) => date.getMilliseconds(),
-		ISOCharacter: null,
-		ISOPrecision: null,
+		addToDate: (date, value) => date.setMilliseconds(date.getMilliseconds() + value),
+		dateGetter: date => date.getMilliseconds(),
 		stringifyConvertTo: 'seconds',
 	},
-} as const;
+};
 
 export const UNIT_KEYS = [
 	'years',

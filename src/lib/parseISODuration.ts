@@ -1,5 +1,5 @@
 import { Time } from '../types';
-import { DEFAULT_TIME, UNITS } from './units';
+import { ZERO, UNITS } from './units';
 import { negate } from '../negate';
 
 const isFullFormat = (duration: string): boolean =>
@@ -8,8 +8,8 @@ const isFullFormat = (duration: string): boolean =>
 		.match(/[A-Z]/i);
 
 const parseUnitsISODuration = (duration: string) => {
-	const output: Time = { ...DEFAULT_TIME };
-	const [date, time] = duration.split(/T/i);
+	const output: Time = { ...ZERO };
+	const [period, time] = duration.split(/T/i);
 
 	UNITS.forEach(({ unit, ISOPrecision, ISOCharacter }) => {
 		if (ISOCharacter === null) {
@@ -17,7 +17,7 @@ const parseUnitsISODuration = (duration: string) => {
 		}
 
 		const regex = new RegExp(`([-\\d.]+)${ISOCharacter}`, 'i');
-		const portionToTest = ISOPrecision === 'time' ? time : date;
+		const portionToTest = ISOPrecision === 'time' ? time : period;
 
 		if (!portionToTest) {
 			return;

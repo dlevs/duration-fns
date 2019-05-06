@@ -14,7 +14,7 @@ export const toString = (time: TimeInput): string => {
 	// Zero values are a special case, since "P" is not a valid value.
 	// At least one unit must be specified.
 	if (isZero(time)) {
-		return 'PT0S';
+		return 'P0D';
 	}
 
 	const parsedTime = { ...parse(time) };
@@ -25,7 +25,7 @@ export const toString = (time: TimeInput): string => {
 	}
 
 	const components = {
-		date: [] as string[],
+		period: [] as string[],
 		time: [] as string[],
 	};
 
@@ -53,7 +53,7 @@ export const toString = (time: TimeInput): string => {
 	});
 
 	// Build output string
-	let output = `P${joinComponents(components.date)}`;
+	let output = `P${joinComponents(components.period)}`;
 
 	if (components.time.length) {
 		output += `T${joinComponents(components.time)}`;

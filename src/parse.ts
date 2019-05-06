@@ -1,4 +1,4 @@
-import { DEFAULT_TIME } from './lib/units';
+import { ZERO } from './lib/units';
 import { Time, TimeInput } from './types';
 import { parseISODuration } from './lib/parseISODuration';
 
@@ -11,8 +11,8 @@ export const parse = (time: TimeInput): Time => {
 	}
 
 	if (typeof time === 'number') {
-		return { ...DEFAULT_TIME, milliseconds: time };
+		return { ...ZERO, milliseconds: time };
 	}
 
-	return { ...DEFAULT_TIME, ...time };
+	return { ...ZERO, ...time };
 };

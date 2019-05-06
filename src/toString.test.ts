@@ -1,4 +1,4 @@
-import { DEFAULT_TIME } from './lib/units';
+import { ZERO } from './lib/units';
 import { toString } from './toString';
 
 describe('normalize()', () => {
@@ -33,7 +33,7 @@ describe('normalize()', () => {
 	});
 
 	test('can express a duration of "zero"', () => {
-		expect(toString(DEFAULT_TIME)).toBe('PT0S');
-		expect(toString('P0D')).toBe('PT0S');
+		expect(toString(ZERO)).toBe('P0D');
+		expect(toString('P0S')).toBe('P0D');
 	});
 });
