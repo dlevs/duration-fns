@@ -40,6 +40,37 @@ describe('normalize()', () => {
 			milliseconds: 2,
 		});
 	});
+
+	test('works with minus values', () => {
+		expect(normalize({
+			years: 1,
+			months: -9,
+			seconds: 1,
+			milliseconds: -500,
+		})).toEqual({
+			...ZERO,
+			years: 1,
+			months: -9,
+			seconds: 0,
+			milliseconds: 500,
+		});
+
+		expect(normalize({
+			years: 1,
+			months: -14,
+		})).toEqual({
+			...ZERO,
+			months: -2,
+		});
+
+		expect(normalize({
+			years: 1,
+			months: -24,
+		})).toEqual({
+			...ZERO,
+			years: -1,
+		});
+	});
 });
 
 // TODO: Sort these tests out

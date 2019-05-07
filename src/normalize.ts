@@ -7,12 +7,13 @@ import { toMilliseconds } from './toUnit';
 import { subtract } from './calculations';
 import { parse } from './parse';
 
+// TODO: Rename "normalizeApprox" since it should no longer be lossy
 const normalizeApprox = (time: TimeInput) => {
 	let remaining = { ...parse(time) };
 
 	const manualConversions = {
-		years: remaining.years + Math.floor(remaining.months / 12),
-		months: remaining.months % 12,
+		years: remaining.years + floorTowardsZero(remaining.months / 12),
+		months: remaining.months % 12 || 0, // Prevent `-0` value
 		weeks: 0,
 		days: remaining.days + (remaining.weeks * 7),
 	};
