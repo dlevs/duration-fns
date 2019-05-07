@@ -18,7 +18,7 @@ export const ZERO = {
 	minutes: 0,
 	seconds: 0,
 	milliseconds: 0,
-} as const;
+};
 
 type UnitKey = keyof typeof ZERO;
 interface Unit {
