@@ -2,6 +2,8 @@
 
 A collection of JavaScript functions for converting between time units.
 
+[Test coverage report.](https://time-fns-coverage.netlify.com/) [![Netlify Status](https://api.netlify.com/api/v1/badges/1c8db14f-4d92-41b0-a9da-32f7bcc5c17a/deploy-status)](https://app.netlify.com/sites/time-fns-coverage/deploys)
+
 ## Installation
 
 `npm install time-fns`
