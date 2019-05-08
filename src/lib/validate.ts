@@ -1,7 +1,6 @@
 import { Time } from '../types';
 import { UNIT_KEYS } from './units';
 
-// TODO: Validate inside the "parse" function, too
 export const validate = (time: Time) => {
 	(Object.keys(time) as (keyof Time)[]).forEach(unit => {
 		if (!UNIT_KEYS.includes(unit)) {
@@ -9,6 +8,7 @@ export const validate = (time: Time) => {
 		}
 
 		if (
+			// tslint:disable-next-line:strict-type-predicates
 			typeof time[unit] !== 'number' ||
 			Number.isNaN(time[unit]) ||
 			time[unit] !== Math.floor(time[unit])

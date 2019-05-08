@@ -33,7 +33,7 @@ export const toString = (time: TimeInput): string => {
 	// For example, weeks should not be mixed with other units, and milliseconds
 	// don't exist on ISO duration strings.
 	UNITS.forEach(({ unit: fromUnit, stringifyConvertTo: toUnit }) => {
-		if (toUnit == null) {
+		if (toUnit === undefined) {
 			return;
 		}
 
@@ -47,7 +47,7 @@ export const toString = (time: TimeInput): string => {
 	UNITS.forEach(({ unit, ISOPrecision, ISOCharacter }) => {
 		const value = parsedTime[unit];
 
-		if (ISOPrecision != null && value !== 0) {
+		if (ISOPrecision !== undefined && value !== 0) {
 			components[ISOPrecision].push(`${value}${ISOCharacter}`);
 		}
 	});

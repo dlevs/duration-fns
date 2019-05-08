@@ -57,7 +57,7 @@ export const normalize = (
 	time: TimeInput,
 	referenceDate?: DateInput,
 ): Time => {
-	if (referenceDate != null) {
+	if (referenceDate !== undefined) {
 		return normalizeRelative(time, referenceDate);
 	}
 

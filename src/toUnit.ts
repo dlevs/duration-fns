@@ -15,7 +15,7 @@ export const toMilliseconds = (
 	time: TimeInput,
 	referenceDate?: DateInput,
 ): number => {
-	if (referenceDate != null) {
+	if (referenceDate !== undefined) {
 		return apply(referenceDate, time).getTime() - parseDate(referenceDate).getTime();
 	}
 

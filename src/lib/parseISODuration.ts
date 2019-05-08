@@ -13,7 +13,7 @@ const parseUnitsISODuration = (duration: string) => {
 	const [period, time] = duration.split(/T/i);
 
 	UNITS.forEach(({ unit, ISOPrecision, ISOCharacter }) => {
-		if (ISOCharacter === null) {
+		if (ISOCharacter === undefined) {
 			return;
 		}
 
