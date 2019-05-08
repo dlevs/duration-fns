@@ -3,7 +3,11 @@
     "outDir": "dist",
     "target": "es5",
     "strict": true,
-    "module": "commonjs",
+		"module": "commonjs",
+		"lib": [
+      "dom",
+      "esnext"
+    ],
     "sourceMap": true,
     "declaration": true,
     "pretty": true,

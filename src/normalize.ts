@@ -1,14 +1,14 @@
 import { UNITS_MAP } from './lib/units';
 import { Time, TimeInput, DateInput } from './types';
-import floorTowardsZero from './lib/floorTowardsZero';
+import { floorTowardsZero } from './lib/floorTowardsZero';
 import { between } from './between';
 import { apply } from './apply';
 import { toMilliseconds } from './toUnit';
-import { subtract } from './calculations';
+import { subtract } from './subtract';
 import { parse } from './parse';
 
 // TODO: Rename "normalizeApprox" since it should no longer be lossy
-const normalizeApprox = (time: TimeInput) => {
+const normalizeApprox = (time: TimeInput): Time => {
 	const { years, months, weeks, days, ...rest } = parse(time);
 	const output: Time = {
 		...rest,
@@ -43,7 +43,7 @@ const normalizeApprox = (time: TimeInput) => {
 const normalizeRelative = (
 	time: TimeInput,
 	referenceDate: DateInput,
-) => between(referenceDate, apply(referenceDate, time));
+): Time => between(referenceDate, apply(referenceDate, time));
 
 /**
  * Convert a `Time` object or number of milliseconds into a complete

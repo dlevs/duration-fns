@@ -5,6 +5,6 @@ export * from './toUnit';
 export * from './negate';
 export * from './between';
 export * from './abs';
-export * from './calculations';
+export * from './sum';
 export * from './lib/parseISODuration';
 export * from './types';

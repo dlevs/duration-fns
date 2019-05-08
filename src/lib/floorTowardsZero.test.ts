@@ -1,4 +1,4 @@
-import floorTowardsZero from './floorTowardsZero';
+import { floorTowardsZero } from './floorTowardsZero';
 
 describe('floorTowardsZero()', () => {
 	test('rounds positive numbers towards 0', () => {

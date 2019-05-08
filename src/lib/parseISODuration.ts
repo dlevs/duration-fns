@@ -1,6 +1,7 @@
 import { Time } from '../types';
 import { ZERO, UNITS } from './units';
 import { negate } from '../negate';
+import { floorTowardsZero } from './floorTowardsZero';
 
 const isFullFormat = (duration: string): boolean =>
 	!duration
@@ -69,11 +70,18 @@ export const parseISODuration = (duration: string): Time => {
 	const normalizedDuration = duration.replace(/,/g, '.');
 	const absDuration = normalizedDuration.replace(/^-/, '');
 	const isNegative = normalizedDuration !== absDuration;
-	const absOutput = isFullFormat(absDuration)
+	const output = isFullFormat(absDuration)
 		? parseFullFormatISODuration(absDuration)
 		: parseUnitsISODuration(absDuration);
 
+	const flooredSeconds = floorTowardsZero(output.seconds);
+	// This should be the only place in the library where we deal with non-integers.
+	// Round the values since we end up with results like `100.00000000000009` when we'd
+	// expect `100`.
+	output.milliseconds = Math.round((output.seconds - flooredSeconds) * 1000);
+	output.seconds = flooredSeconds;
+
 	return isNegative
-		? negate(absOutput)
-		: absOutput;
+		? negate(output)
+		: output;
 };

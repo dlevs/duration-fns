@@ -6,6 +6,6 @@ describe('UNITS', () => {
 			ISOCharacter,
 			ISOPrecision,
 			stringifyConvertTo,
-		}) => (ISOCharacter && ISOPrecision) || stringifyConvertTo)).toBe(true);
+		}) => !!((ISOCharacter && ISOPrecision) || stringifyConvertTo))).toBe(true);
 	});
 });

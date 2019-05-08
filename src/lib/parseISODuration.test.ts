@@ -23,8 +23,8 @@ describe('parseISODuration()', () => {
 			days: 4,
 			hours: 12,
 			minutes: 30,
-			seconds: 5.5,
-			milliseconds: 0,
+			seconds: 5,
+			milliseconds: 500,
 		};
 		expect(parseISODuration('P3Y6M2W4DT12H30M5.5S')).toEqual(expectedResult);
 		expect(parseISODuration('P3Y6M2W4DT12H30M5,5S')).toEqual(expectedResult);
@@ -67,14 +67,14 @@ describe('parseISODuration()', () => {
 			days: 2,
 			hours: 16,
 			minutes: 10,
-			seconds: 22.04,
-			milliseconds: 0,
+			seconds: 22,
+			milliseconds: 40,
 		};
 
 		expect(parseISODuration('P2018-01-02T16:10:22,04')).toEqual(expected);
 		expect(parseISODuration('P2018-01-02T16:10:22.0400000')).toEqual(expected);
 		expect(parseISODuration('P20180102T161022.04')).toEqual(expected);
-		expect(parseISODuration('P20180102T161000')).toEqual({ ...expected, seconds: 0 });
+		expect(parseISODuration('P20180102T161000')).toEqual({ ...expected, seconds: 0, milliseconds: 0 });
 		expect(parseISODuration('P00001202T161022.04')).toEqual({ ...expected, years: 0, months: 12 });
 		expect(parseISODuration('P00001202T161022,04')).toEqual({ ...expected, years: 0, months: 12 });
 	});
@@ -87,8 +87,8 @@ describe('parseISODuration()', () => {
 			days: -2,
 			hours: -16,
 			minutes: -10,
-			seconds: -22.04,
-			milliseconds: 0,
+			seconds: -22,
+			milliseconds: -40,
 		};
 
 		expect(parseISODuration('-P2018-01-02T16:10:22,04')).toEqual(expected);
@@ -96,5 +96,15 @@ describe('parseISODuration()', () => {
 		expect(parseISODuration('P-2018Y-01M-02DT-16H-10M-22,04S')).toEqual(expected);
 		expect(parseISODuration('P2Y-10D')).toEqual({ ...ZERO, years: 2, days: -10 });
 		expect(parseISODuration('-P-2Y-10D')).toEqual({ ...ZERO, years: 2, days: 10 });
+	});
+
+	test('convert decimal seconds into milliseconds', () => {
+		expect(parseISODuration('PT2,123S')).toEqual({ ...ZERO, seconds: 2, milliseconds: 123 });
+		expect(parseISODuration('-PT2,123S')).toEqual({ ...ZERO, seconds: -2, milliseconds: -123 });
+		expect(parseISODuration('PT-2,123S')).toEqual({ ...ZERO, seconds: -2, milliseconds: -123 });
+		expect(parseISODuration('P2018-01-02T16:10:22,6')).toMatchObject({ seconds: 22, milliseconds: 600 });
+		expect(parseISODuration('-P2018-01-02T16:10:22,6')).toMatchObject({ seconds: -22, milliseconds: -600 });
+		expect(parseISODuration('P00001202T161006.04')).toMatchObject({ seconds: 6, milliseconds: 40 });
+		expect(parseISODuration('-P00001202T161006.04')).toMatchObject({ seconds: -6, milliseconds: -40 });
 	});
 });

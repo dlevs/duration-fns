@@ -37,19 +37,13 @@ There are equivalent functions for other time units:
 ### Calculations
 
 ```javascript
-import { addTime, subtractTime, multiplyTime, divideTime } from 'time-fns';
+import { addTime, subtractTime } from 'time-fns';
 
 addTime({ seconds: 1 }, { seconds: 2, milliseconds: 500 });
 // { seconds: 3, milliseconds: 500 }
 
 subtractTime({ seconds: 1 }, { milliseconds: 500 });
 // { seconds: 1, milliseconds: -500 }
-
-multiplyTime({ seconds: 2 }, 2);
-// { seconds: 4 }
-
-divideTime({ seconds: 2 }, 2);
-// { seconds: 1 }
 ```
 
 The above functions accept any combination of time objects, ISO duration strings, or millisecond numbers:
@@ -111,8 +105,6 @@ ITE     duration.toMilliseconds('PT1M30S', '2018-10-01')
 
 ITE     duration.sum('PT1M30S', 'PT1M30S')
 ITE     duration.subtract('PT1M30S', 'PT1M30S')
-ITE     duration.multiply('PT1M30S', 2)
-ITE     duration.divide('PT1M30S', 10)
 
 ITE     duration.negate('PT1M30S') // Object for PT-1M-30S
 ITE     duration.between('2018-10-19', '2018-10-20')
