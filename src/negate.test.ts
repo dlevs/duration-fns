@@ -14,4 +14,9 @@ describe('negate()', () => {
 		expect(negate(0).days).toBe(0);
 		expect(negate(0).days).not.toBe(-0);
 	});
+
+	test('throws errors for non-integer values', () => {
+		expect(() => negate({ months: 1.5 })).toThrow();
+		expect(() => negate({ months: 1 })).not.toThrow();
+	});
 });

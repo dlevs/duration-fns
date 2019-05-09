@@ -21,4 +21,10 @@ describe('subtract()', () => {
 			milliseconds: -2000,
 		});
 	});
+
+	test('throws errors for non-integer values', () => {
+		expect(() => subtract({ months: 1.5 }, { months: 1 })).toThrow();
+		expect(() => subtract({ months: 1 }, { months: 1.5 })).toThrow();
+		expect(() => subtract({ months: 1 }, { months: 1 })).not.toThrow();
+	});
 });

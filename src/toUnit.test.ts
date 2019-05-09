@@ -37,6 +37,11 @@ describe('toMilliseconds()', () => {
 		expect(toMilliseconds('P1M', '2016-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds).toBe(29);
 		expect(toMilliseconds('P1M', '2018-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds).toBe(28);
 	});
+
+	test('throws errors for non-integer values', () => {
+		expect(() => toMilliseconds({ months: 1.5 })).toThrow();
+		expect(() => toMilliseconds({ months: 1 })).not.toThrow();
+	});
 });
 
 describe('toSeconds()', () => {
@@ -65,6 +70,11 @@ describe('toSeconds()', () => {
 		expect((toSeconds('P1M') / UNITS_MAP.days.milliseconds) * UNITS_MAP.seconds.milliseconds).toBe(30.416666666666668);
 		expect((toSeconds('P1M', '2016-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.seconds.milliseconds).toBe(29);
 		expect((toSeconds('P1M', '2018-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.seconds.milliseconds).toBe(28);
+	});
+
+	test('throws errors for non-integer values', () => {
+		expect(() => toSeconds({ months: 1.5 })).toThrow();
+		expect(() => toSeconds({ months: 1 })).not.toThrow();
 	});
 });
 
@@ -95,6 +105,11 @@ describe('toMinutes()', () => {
 		expect((toMinutes('P1M', '2016-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.minutes.milliseconds).toBe(29);
 		expect((toMinutes('P1M', '2018-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.minutes.milliseconds).toBe(28);
 	});
+
+	test('throws errors for non-integer values', () => {
+		expect(() => toMinutes({ months: 1.5 })).toThrow();
+		expect(() => toMinutes({ months: 1 })).not.toThrow();
+	});
 });
 
 describe('toHours()', () => {
@@ -123,6 +138,11 @@ describe('toHours()', () => {
 		expect((toHours('P1M') / UNITS_MAP.days.milliseconds) * UNITS_MAP.hours.milliseconds).toBe(30.416666666666664);
 		expect((toHours('P1M', '2016-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.hours.milliseconds).toBe(29);
 		expect((toHours('P1M', '2018-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.hours.milliseconds).toBe(28);
+	});
+
+	test('throws errors for non-integer values', () => {
+		expect(() => toHours({ months: 1.5 })).toThrow();
+		expect(() => toHours({ months: 1 })).not.toThrow();
 	});
 });
 
@@ -153,6 +173,11 @@ describe('toDays()', () => {
 		expect(toDays('P1M', '2016-02-01T00:00:00.000Z')).toBe(29);
 		expect(toDays('P1M', '2018-02-01T00:00:00.000Z')).toBe(28);
 	});
+
+	test('throws errors for non-integer values', () => {
+		expect(() => toDays({ months: 1.5 })).toThrow();
+		expect(() => toDays({ months: 1 })).not.toThrow();
+	});
 });
 
 describe('toWeeks()', () => {
@@ -177,6 +202,11 @@ describe('toWeeks()', () => {
 		expect((toWeeks('P1M') / UNITS_MAP.days.milliseconds) * UNITS_MAP.weeks.milliseconds).toBe(30.416666666666664);
 		expect((toWeeks('P1M', '2016-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.weeks.milliseconds).toBe(29.000000000000004);
 		expect((toWeeks('P1M', '2018-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.weeks.milliseconds).toBe(28);
+	});
+
+	test('throws errors for non-integer values', () => {
+		expect(() => toWeeks({ months: 1.5 })).toThrow();
+		expect(() => toWeeks({ months: 1 })).not.toThrow();
 	});
 });
 
@@ -203,6 +233,11 @@ describe('toMonths()', () => {
 		expect((toMonths('P1M', '2016-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.months.milliseconds).toBe(29);
 		expect((toMonths('P1M', '2018-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.months.milliseconds).toBe(28);
 	});
+
+	test('throws errors for non-integer values', () => {
+		expect(() => toMonths({ months: 1.5 })).toThrow();
+		expect(() => toMonths({ months: 1 })).not.toThrow();
+	});
 });
 
 describe('toYears()', () => {
@@ -227,5 +262,10 @@ describe('toYears()', () => {
 		expect((toYears('P1M') / UNITS_MAP.days.milliseconds) * UNITS_MAP.years.milliseconds).toBe(30.41666666666666);
 		expect((toYears('P1M', '2016-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.years.milliseconds).toBe(29.000000000000004);
 		expect((toYears('P1M', '2018-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.years.milliseconds).toBe(28.000000000000004);
+	});
+
+	test('throws errors for non-integer values', () => {
+		expect(() => toYears({ months: 1.5 })).toThrow();
+		expect(() => toYears({ months: 1 })).not.toThrow();
 	});
 });

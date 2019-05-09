@@ -21,4 +21,10 @@ describe('sum()', () => {
 			milliseconds: 2000,
 		});
 	});
+
+	test('throws errors for non-integer values', () => {
+		expect(() => sum({ months: 1.5 }, { months: 1 })).toThrow();
+		expect(() => sum({ months: 1 }, { months: 1.5 })).toThrow();
+		expect(() => sum({ months: 1 }, { months: 1 })).not.toThrow();
+	});
 });

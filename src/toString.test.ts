@@ -36,4 +36,9 @@ describe('normalize()', () => {
 		expect(toString(ZERO)).toBe('P0D');
 		expect(toString('P0S')).toBe('P0D');
 	});
+
+	test('throws errors for non-integer values', () => {
+		expect(() => toString({ months: 1.5 })).toThrow();
+		expect(() => toString({ months: 1 })).not.toThrow();
+	});
 });

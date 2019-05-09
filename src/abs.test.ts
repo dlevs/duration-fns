@@ -8,4 +8,9 @@ describe('abs()', () => {
 		expect(abs({ hours: 2, seconds: -10 })).toEqual({ ...ZERO, hours: 2, seconds: -10 });
 		expect(abs({ hours: -2, seconds: 10 })).toEqual({ ...ZERO, hours: 2, seconds: -10 });
 	});
+
+	test('throws errors for non-integer values', () => {
+		expect(() => abs({ months: 1.5 })).toThrow();
+		expect(() => abs({ months: 1 })).not.toThrow();
+	});
 });

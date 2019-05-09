@@ -135,4 +135,9 @@ describe('normalize()', () => {
 			days: 29,
 		});
 	});
+
+	test('throws errors for non-integer values', () => {
+		expect(() => normalize({ months: 1.5 })).toThrow();
+		expect(() => normalize({ months: 1 })).not.toThrow();
+	});
 });
