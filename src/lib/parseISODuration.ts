@@ -3,10 +3,23 @@ import { ZERO, UNITS } from './units';
 import { negate } from '../negate';
 import { floorTowardsZero } from './floorTowardsZero';
 
-const isFullFormat = (duration: string): boolean =>
-	!duration
-		.replace(/(P|T)/ig, '')
-		.match(/[A-Z]/i);
+const fullFormatRegex = /^-?P\d{4}-?\d{2}-?\d{2}T\d{2}:?\d{2}:?\d{2}([,.]\d+)?$/;
+// TODO: Can we generate this regex? This feels error prone. It's not readable.
+const unitsFormatRegex = /^-?P(-?\d+Y)?(-?\d+M)?(-?\d+W)?(-?\d+D)?(T(-?\d+H)?(-?\d+M)?(-?\d+([,.]\d+)?S)?)?$/;
+const hasAtLeastOneUnitRegex = /\d[A-Z]/;
+
+// TODO: After doing all this work, maybe we can just use the regex to parse, not just test?
+const getDurationStringFormat = (duration: string) => {
+	if (fullFormatRegex.test(duration)) {
+		return 'full';
+	}
+
+	if (unitsFormatRegex.test(duration) && hasAtLeastOneUnitRegex.test(duration)) {
+		return 'units';
+	}
+
+	return 'invalid';
+};
 
 const parseUnitsISODuration = (duration: string) => {
 	const output: Time = { ...ZERO };
@@ -70,7 +83,13 @@ export const parseISODuration = (duration: string): Time => {
 	const normalizedDuration = duration.replace(/,/g, '.');
 	const absDuration = normalizedDuration.replace(/^-/, '');
 	const isNegative = normalizedDuration !== absDuration;
-	const output = isFullFormat(absDuration)
+	const format = getDurationStringFormat(duration);
+
+	if (format === 'invalid') {
+		throw new SyntaxError(`Failed to parse duration. "${duration}" is not a valid ISO duration string.`);
+	}
+
+	const output = format === 'full'
 		? parseFullFormatISODuration(absDuration)
 		: parseUnitsISODuration(absDuration);
 

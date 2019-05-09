@@ -31,34 +31,42 @@ describe('parse()', () => {
 		expect(parse(4000)).toEqual({ ...ZERO, milliseconds: 4000 });
 	});
 
-	test('throws errors for malformed values', () => {
-		expect(() => parse('P1.5Y')).toThrow();
-		expect(() => parse('P1.5M')).toThrow();
-		expect(() => parse('P1,5W')).toThrow();
-		expect(() => parse('P1,5D')).toThrow();
-		expect(() => parse('P1DT1,1H')).toThrow();
-		expect(() => parse('P1DT1,1M')).toThrow();
-		expect(() => parse('P1DT1,1S')).not.toThrow(); // Seconds can be decimal values
+	describe('throws errors for malformed values', () => {
+		test('non-integer values from strings', () => {
+			expect(() => parse('P1.5Y')).toThrow();
+			expect(() => parse('P1.5M')).toThrow();
+			expect(() => parse('P1,5W')).toThrow();
+			expect(() => parse('P1,5D')).toThrow();
+			expect(() => parse('P1DT1,1H')).toThrow();
+			expect(() => parse('P1DT1,1M')).toThrow();
+			expect(() => parse('P1DT1,1S')).not.toThrow(); // Seconds can be decimal values
+		});
 
-		// TODO: Throw errors for these
-		// expect(() => parse('P')).toThrow();
-		// expect(() => parse('Hello')).toThrow();
-		// expect(() => parse('1D')).toThrow();
-		// expect(() => parse('8')).toThrow();
-		// expect(() => parse('P6D2S')).toThrow();
-		// expect(() => parse('P2S')).toThrow();
-		// expect(() => parse('P2,180102T161000')).toThrow();
-		// expect(() => parse('P2,180102T161000')).toThrow();
+		test('non-integer values from numbers', () => {
+			expect(() => parse(600.2)).toThrow();
+			expect(() => parse(600)).not.toThrow();
+		});
 
-		expect(() => parse(600.2)).toThrow();
-		expect(() => parse(600)).not.toThrow();
-		expect(() => parse({ years: 1.5 })).toThrow();
-		expect(() => parse({ months: 1.5 })).toThrow();
-		expect(() => parse({ days: 1.5 })).toThrow();
-		expect(() => parse({ weeks: 1.5 })).toThrow();
-		expect(() => parse({ hours: 1.5 })).toThrow();
-		expect(() => parse({ seconds: 1.5 })).toThrow();
-		expect(() => parse({ milliseconds: 1.5 })).toThrow();
-		expect(() => parse({ milliseconds: 1 })).not.toThrow();
+		test('non-integer values from objects', () => {
+			expect(() => parse({ years: 1.5 })).toThrow();
+			expect(() => parse({ months: 1.5 })).toThrow();
+			expect(() => parse({ days: 1.5 })).toThrow();
+			expect(() => parse({ weeks: 1.5 })).toThrow();
+			expect(() => parse({ hours: 1.5 })).toThrow();
+			expect(() => parse({ seconds: 1.5 })).toThrow();
+			expect(() => parse({ milliseconds: 1.5 })).toThrow();
+			expect(() => parse({ milliseconds: 1 })).not.toThrow();
+		});
+
+		test('generally malformed strings', () => {
+			expect(() => parse('P')).toThrow();
+			expect(() => parse('Hello')).toThrow();
+			expect(() => parse('1D')).toThrow();
+			expect(() => parse('8')).toThrow();
+			expect(() => parse('P6D2S')).toThrow();
+			expect(() => parse('P2S')).toThrow();
+			expect(() => parse('P2,180102T161000')).toThrow();
+			expect(() => parse('P2,180102T161000')).toThrow();
+		});
 	});
 });

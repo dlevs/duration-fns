@@ -34,7 +34,7 @@ describe('normalize()', () => {
 
 	test('can express a duration of "zero"', () => {
 		expect(toString(ZERO)).toBe('P0D');
-		expect(toString('P0S')).toBe('P0D');
+		expect(toString('PT0S')).toBe('P0D');
 	});
 
 	test('throws errors for non-integer values', () => {
