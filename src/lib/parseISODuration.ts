@@ -80,23 +80,24 @@ const parseFullFormatISODuration = (duration: string): Time => {
  * @example parseISODuration('P365D') // { days: 365 }
  */
 export const parseISODuration = (duration: string): Time => {
-	const normalizedDuration = duration.replace(/,/g, '.');
-	const absDuration = normalizedDuration.replace(/^-/, '');
-	const isNegative = normalizedDuration !== absDuration;
 	const format = getDurationStringFormat(duration);
 
 	if (format === 'invalid') {
 		throw new SyntaxError(`Failed to parse duration. "${duration}" is not a valid ISO duration string.`);
 	}
 
+	const normalizedDuration = duration.replace(/,/g, '.');
+	const absDuration = normalizedDuration.replace(/^-/, '');
+	const isNegative = normalizedDuration !== absDuration;
+
 	const output = format === 'full'
 		? parseFullFormatISODuration(absDuration)
 		: parseUnitsISODuration(absDuration);
 
+	// Convert decimal seconds value into seconds and milliseconds
 	const flooredSeconds = floorTowardsZero(output.seconds);
-	// This should be the only place in the library where we deal with non-integers.
-	// Round the values since we end up with results like `100.00000000000009` when we'd
-	// expect `100`.
+	// Round the values since we end up with results like `100.00000000000009`
+	// when we'd expect `100`.
 	output.milliseconds = Math.round((output.seconds - flooredSeconds) * 1000);
 	output.seconds = flooredSeconds;
 
