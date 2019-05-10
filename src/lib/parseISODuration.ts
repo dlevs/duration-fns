@@ -1,21 +1,66 @@
 import { Time } from '../types';
-import { ZERO, UNITS } from './units';
+import { ZERO } from './units';
 import { negate } from '../negate';
-import { floorTowardsZero } from './floorTowardsZero';
 
-// const ms = '(?:[,.](\\d{1,3})\\d*)?';
-// const digit =
+// Util functions
+// ------------------------------------
 
-const fullFormatRegex = /^(-)?P(\d{4})-?(\d{2})-?(\d{2})T(\d{2}):?(\d{2}):?(\d{2})(?:[,.](\d{1,3})\d*)?$/;
-// TODO: Can we generate this regex? This feels error prone. It's not readable.
-// const fullFormatRegex = new RegExp(`^(-)?P$`);
+/**
+ * Parse numbers from strings, and convert `undefined` to `0` instead of `NaN`.
+ */
+const parseNumber = (value: string | undefined) =>
+	Number(value || '0');
 
+/**
+ * Pad the end of the millisecond values parsed from a regex.
+ *
+ * For example, when taking the "6" portion from the string "PT3.6S", we need to
+ * interpret that as "600 milliseconds".
+ */
+const parseMilliseconds = (value: string | undefined) =>
+	Number((value || '0').padEnd(3, '0'));
 
-const unitsFormatRegex = /^-?P(-?\d+Y)?(-?\d+M)?(-?\d+W)?(-?\d+D)?(T(-?\d+H)?(-?\d+M)?(-?\d+([,.]\d+)?S)?)?$/;
+// Util regex patterns
+// ------------------------------------
+const millisecondsPattern = '(?:[,.](\\d{1,3})\\d*)?';
+const unitPattern = (unit: string) => `(?:(-?\\d+)${unit})?`;
 const hasAtLeastOneUnitRegex = /\d[A-Z]/;
 
-const parseNumber = (value: string | undefined) => Number(value || '0');
+// Main parsing regex patterns
+// ------------------------------------
+const unitsFormatRegex = new RegExp([
+	'^(-)?P',
+	unitPattern('Y'),
+	unitPattern('M'),
+	unitPattern('W'),
+	unitPattern('D'),
+	'(?:T',
+	unitPattern('H'),
+	unitPattern('M'),
+	unitPattern(`${millisecondsPattern}S`),
+	')?$',
+].join(''));
 
+const fullFormatRegex = new RegExp([
+	'^(-)?P',
+	'(\\d{4})', '-?',
+	'(\\d{2})', '-?',
+	'(\\d{2})', 'T',
+	'(\\d{2})', ':?',
+	'(\\d{2})', ':?',
+	'(\\d{2})', millisecondsPattern,
+	'$',
+].join(''));
+
+// Parsing functions
+// ------------------------------------
+
+/**
+ * Parse a duration string expressed in one of the following formats:
+ *
+ * - PYYYYMMDDThhmmss
+ * - PYYYY-MM-DDThh:mm:ss
+ */
 const parseFullFormatISODuration = (duration: string): Time | null => {
 	const match = duration.match(fullFormatRegex);
 
@@ -32,13 +77,14 @@ const parseFullFormatISODuration = (duration: string): Time | null => {
 		output.hours,
 		output.minutes,
 		output.seconds,
-		output.milliseconds,
 	] = match.slice(2).map(parseNumber);
+	output.milliseconds = parseMilliseconds(match[8]);
 
 	return isNegative ? negate(output) : output;
 };
 
-const parseUnitsISODuration = (duration: string) => {
+// TODO: This fn is very similar to the one above. Can it be more DRY? Add JSDoc comment.
+const parseUnitsISODuration = (duration: string): Time | null => {
 	const match = duration.match(unitsFormatRegex);
 
 	if (!match || !hasAtLeastOneUnitRegex.test(duration)) {
@@ -50,41 +96,21 @@ const parseUnitsISODuration = (duration: string) => {
 	[
 		output.years,
 		output.months,
-		output.months,
+		output.weeks,
 		output.days,
 		output.hours,
 		output.minutes,
 		output.seconds,
-		output.milliseconds,
 	] = match.slice(2).map(parseNumber);
+	output.milliseconds = parseMilliseconds(match[9]);
+
+	// TODO: Test this, and add comment:
+	if (output.seconds < 0) {
+		output.milliseconds *= -1;
+	}
 
 	return isNegative ? negate(output) : output;
 };
-
-const getDurationStringFormat = (duration: string): Time | null =>
-	parseUnitsISODuration(duration) ||
-	parseFullFormatISODuration(duration);
-
-/**
- * Parse a duration string expressed in one of the following formats:
- *
- * - PYYYYMMDDThhmmss
- * - PYYYY-MM-DDThh:mm:ss
- */
-// const parseFullFormatISODuration = (duration: string): Time => {
-// 	const normalizedDuration = duration.replace(/[-:]/g, '');
-
-// 	return {
-// 		years: Number(normalizedDuration.substr(1, 4)),
-// 		months: Number(normalizedDuration.substr(5, 2)),
-// 		weeks: 0,
-// 		days: Number(normalizedDuration.substr(7, 2)),
-// 		hours: Number(normalizedDuration.substr(10, 2)),
-// 		minutes: Number(normalizedDuration.substr(12, 2)),
-// 		seconds: Number(normalizedDuration.substr(14)),
-// 		milliseconds: 0,
-// 	};
-// };
 
 /**
  * Parse an ISO 8601 duration string into an object.
@@ -96,28 +122,14 @@ const getDurationStringFormat = (duration: string): Time | null =>
  * @example parseISODuration('P365D') // { days: 365 }
  */
 export const parseISODuration = (duration: string): Time => {
-	const format = getDurationStringFormat(duration);
+	const output = (
+		parseUnitsISODuration(duration) ||
+		parseFullFormatISODuration(duration)
+	);
 
-	if (format === 'invalid') {
+	if (output === null) {
 		throw new SyntaxError(`Failed to parse duration. "${duration}" is not a valid ISO duration string.`);
 	}
 
-	const normalizedDuration = duration.replace(/,/g, '.');
-	const absDuration = normalizedDuration.replace(/^-/, '');
-	const isNegative = normalizedDuration !== absDuration;
-
-	const output = format === 'full'
-		? parseFullFormatISODuration(absDuration)
-		: parseUnitsISODuration(absDuration);
-
-	// Convert decimal seconds value into seconds and milliseconds
-	const flooredSeconds = floorTowardsZero(output.seconds);
-	// Round the values since we end up with results like `100.00000000000009`
-	// when we'd expect `100`.
-	output.milliseconds = Math.round((output.seconds - flooredSeconds) * 1000);
-	output.seconds = flooredSeconds;
-
-	return isNegative
-		? negate(output)
-		: output;
+	return output;
 };
