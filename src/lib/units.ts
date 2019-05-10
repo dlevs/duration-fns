@@ -9,7 +9,7 @@ const MILLISECONDS_IN_A_WEEK = MILLISECONDS_IN_A_DAY * 7;
 const MILLISECONDS_IN_A_YEAR = MILLISECONDS_IN_A_DAY * 365;
 const MILLISECONDS_IN_A_MONTH = MILLISECONDS_IN_A_YEAR / 12;
 
-export const ZERO = {
+export const ZERO = Object.freeze({
 	years: 0,
 	months: 0,
 	weeks: 0,
@@ -18,7 +18,7 @@ export const ZERO = {
 	minutes: 0,
 	seconds: 0,
 	milliseconds: 0,
-};
+});
 
 type UnitKey = keyof typeof ZERO;
 interface Unit {

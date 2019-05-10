@@ -3,51 +3,67 @@ import { ZERO, UNITS } from './units';
 import { negate } from '../negate';
 import { floorTowardsZero } from './floorTowardsZero';
 
-const fullFormatRegex = /^-?P\d{4}-?\d{2}-?\d{2}T\d{2}:?\d{2}:?\d{2}([,.]\d+)?$/;
+// const ms = '(?:[,.](\\d{1,3})\\d*)?';
+// const digit =
+
+const fullFormatRegex = /^(-)?P(\d{4})-?(\d{2})-?(\d{2})T(\d{2}):?(\d{2}):?(\d{2})(?:[,.](\d{1,3})\d*)?$/;
 // TODO: Can we generate this regex? This feels error prone. It's not readable.
+// const fullFormatRegex = new RegExp(`^(-)?P$`);
+
+
 const unitsFormatRegex = /^-?P(-?\d+Y)?(-?\d+M)?(-?\d+W)?(-?\d+D)?(T(-?\d+H)?(-?\d+M)?(-?\d+([,.]\d+)?S)?)?$/;
 const hasAtLeastOneUnitRegex = /\d[A-Z]/;
 
-// TODO: After doing all this work, maybe we can just use the regex to parse, not just test?
-const getDurationStringFormat = (duration: string) => {
-	if (fullFormatRegex.test(duration)) {
-		return 'full';
+const parseNumber = (value: string | undefined) => Number(value || '0');
+
+const parseFullFormatISODuration = (duration: string): Time | null => {
+	const match = duration.match(fullFormatRegex);
+
+	if (!match) {
+		return null;
 	}
 
-	if (unitsFormatRegex.test(duration) && hasAtLeastOneUnitRegex.test(duration)) {
-		return 'units';
-	}
+	const output = { ...ZERO };
+	const isNegative = match[1] === '-';
+	[
+		output.years,
+		output.months,
+		output.days,
+		output.hours,
+		output.minutes,
+		output.seconds,
+		output.milliseconds,
+	] = match.slice(2).map(parseNumber);
 
-	return 'invalid';
+	return isNegative ? negate(output) : output;
 };
 
 const parseUnitsISODuration = (duration: string) => {
-	const output: Time = { ...ZERO };
-	const [period, time] = duration.split(/T/i);
+	const match = duration.match(unitsFormatRegex);
 
-	UNITS.forEach(({ unit, ISOPrecision, ISOCharacter }) => {
-		if (ISOCharacter === undefined) {
-			return;
-		}
+	if (!match || !hasAtLeastOneUnitRegex.test(duration)) {
+		return null;
+	}
 
-		const regex = new RegExp(`([-\\d.]+)${ISOCharacter}`, 'i');
-		const portionToTest = ISOPrecision === 'time' ? time : period;
+	const output = { ...ZERO };
+	const isNegative = match[1] === '-';
+	[
+		output.years,
+		output.months,
+		output.months,
+		output.days,
+		output.hours,
+		output.minutes,
+		output.seconds,
+		output.milliseconds,
+	] = match.slice(2).map(parseNumber);
 
-		if (!portionToTest) {
-			return;
-		}
-
-		const match = portionToTest.match(regex);
-
-		if (match === null) {
-			return;
-		}
-
-		output[unit] = Number(match[1]);
-	});
-
-	return output;
+	return isNegative ? negate(output) : output;
 };
+
+const getDurationStringFormat = (duration: string): Time | null =>
+	parseUnitsISODuration(duration) ||
+	parseFullFormatISODuration(duration);
 
 /**
  * Parse a duration string expressed in one of the following formats:
@@ -55,20 +71,20 @@ const parseUnitsISODuration = (duration: string) => {
  * - PYYYYMMDDThhmmss
  * - PYYYY-MM-DDThh:mm:ss
  */
-const parseFullFormatISODuration = (duration: string): Time => {
-	const normalizedDuration = duration.replace(/[-:]/g, '');
+// const parseFullFormatISODuration = (duration: string): Time => {
+// 	const normalizedDuration = duration.replace(/[-:]/g, '');
 
-	return {
-		years: Number(normalizedDuration.substr(1, 4)),
-		months: Number(normalizedDuration.substr(5, 2)),
-		weeks: 0,
-		days: Number(normalizedDuration.substr(7, 2)),
-		hours: Number(normalizedDuration.substr(10, 2)),
-		minutes: Number(normalizedDuration.substr(12, 2)),
-		seconds: Number(normalizedDuration.substr(14)),
-		milliseconds: 0,
-	};
-};
+// 	return {
+// 		years: Number(normalizedDuration.substr(1, 4)),
+// 		months: Number(normalizedDuration.substr(5, 2)),
+// 		weeks: 0,
+// 		days: Number(normalizedDuration.substr(7, 2)),
+// 		hours: Number(normalizedDuration.substr(10, 2)),
+// 		minutes: Number(normalizedDuration.substr(12, 2)),
+// 		seconds: Number(normalizedDuration.substr(14)),
+// 		milliseconds: 0,
+// 	};
+// };
 
 /**
  * Parse an ISO 8601 duration string into an object.
