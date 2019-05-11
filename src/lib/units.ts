@@ -20,7 +20,7 @@ export const ZERO = Object.freeze({
 	milliseconds: 0,
 });
 
-type UnitKey = keyof typeof ZERO;
+export type UnitKey = keyof typeof ZERO;
 interface Unit {
 	milliseconds: number;
 	addToDate(date: Date, value: number): number;

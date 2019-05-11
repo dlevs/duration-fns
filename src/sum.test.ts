@@ -1,7 +1,6 @@
-import * as deepFreeze from 'deep-freeze';
 import { sum } from './sum';
 
-const time = deepFreeze({ milliseconds: 10 });
+const time = Object.freeze({ milliseconds: 10 });
 
 describe('sum()', () => {
 	test('works as expected for 2 arguments', () => {

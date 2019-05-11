@@ -1,6 +1,6 @@
 import { UNITS_MAP } from './lib/units';
 import { Time, TimeInput, DateInput } from './types';
-import { floorTowardsZero } from './lib/floorTowardsZero';
+import { floorTowardsZero } from './lib/numberUtils';
 import { between } from './between';
 import { apply } from './apply';
 import { toMilliseconds } from './toUnit';

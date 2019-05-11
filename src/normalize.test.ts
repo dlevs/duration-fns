@@ -1,8 +1,7 @@
 import { ZERO } from './lib/units';
 import { normalize } from './normalize';
-import * as deepFreeze from 'deep-freeze';
 
-const ONE_OF_EACH = deepFreeze({
+const ONE_OF_EACH = Object.freeze({
 	years: 1,
 	months: 1,
 	weeks: 1,

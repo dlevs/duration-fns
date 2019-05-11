@@ -31,6 +31,22 @@ describe('parse()', () => {
 		expect(parse(4000)).toEqual({ ...ZERO, milliseconds: 4000 });
 	});
 
+	test('parses -0 as 0', () => {
+		// Number
+		expect(-0).not.toBe(0);
+		expect(parse(-0)).toEqual({ ...ZERO });
+
+		// String
+		expect(parse('PT-0,1S')).toEqual({ ...ZERO, milliseconds: -100 });
+		expect(parse('PT-1S')).toEqual({ ...ZERO, seconds: -1 });
+		expect(parse('PT-0S')).toEqual({ ...ZERO });
+		expect(parse('PT-0H')).toEqual({ ...ZERO });
+		expect(parse('P-0Y')).toEqual({ ...ZERO });
+
+		// Object
+		expect(parse({ years: -0, days: -0, hours: 2 })).toEqual({ ...ZERO, hours: 2 });
+	});
+
 	describe('throws errors for malformed values', () => {
 		test('non-integer values from strings', () => {
 			expect(() => parse('P1.5Y')).toThrow();

@@ -2,6 +2,7 @@ import { ZERO } from './lib/units';
 import { Time, TimeInput } from './types';
 import { parseISODuration } from './lib/parseISODuration';
 import { validate } from './lib/validate';
+import { cleanDurationObject } from './lib/cleanDurationObject';
 
 const baseParse = (time: TimeInput): Time => {
 	if (typeof time === 'string') {
@@ -23,5 +24,5 @@ export const parse = (time: TimeInput): Time => {
 
 	validate(output);
 
-	return output;
+	return cleanDurationObject(output);
 };

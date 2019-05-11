@@ -17,9 +17,7 @@
   "license": "MIT",
   "devDependencies": {
     "@dlevs/tslint-config": "1.0.4",
-    "@types/deep-freeze": "0.1.1",
     "@types/jest": "23.3.14",
-    "deep-freeze": "0.0.1",
     "jest": "23.6.0",
     "rimraf": "2.6.3",
     "ts-jest": "23.10.5",

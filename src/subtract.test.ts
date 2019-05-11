@@ -1,7 +1,6 @@
-import * as deepFreeze from 'deep-freeze';
 import { subtract } from './subtract';
 
-const time = deepFreeze({ milliseconds: 10 });
+const time = Object.freeze({ milliseconds: 10 });
 
 describe('subtract()', () => {
 	test('works as expected for 2 arguments', () => {
