@@ -19,7 +19,7 @@ const createDurationParser = (
 		}
 
 		const isDurationNegative = match[1] === '-';
-		const unitStrings = match.slice(2);
+		const unitStrings: (string | undefined)[] = match.slice(2);
 
 		// Must have at least one unit match
 		if (unitStrings.every(value => value === undefined)) {
