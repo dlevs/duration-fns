@@ -1,16 +1,16 @@
 import { subtract } from './subtract';
 
-const time = Object.freeze({ milliseconds: 10 });
+const duration = Object.freeze({ milliseconds: 10 });
 
 describe('subtract()', () => {
 	test('works as expected for 2 arguments', () => {
-		expect(subtract(time, time)).toMatchObject({ milliseconds: 0 });
-		expect(subtract(time, { seconds: 1 })).toMatchObject({ seconds: -1, milliseconds: 10 });
+		expect(subtract(duration, duration)).toMatchObject({ milliseconds: 0 });
+		expect(subtract(duration, { seconds: 1 })).toMatchObject({ seconds: -1, milliseconds: 10 });
 	});
 
 	test('works as expected for a variable number of arguments', () => {
-		expect(subtract(time, time, time)).toMatchObject({ milliseconds: -10 });
-		expect(subtract(time, time, time, time, time)).toMatchObject({ milliseconds: -30 });
+		expect(subtract(duration, duration, duration)).toMatchObject({ milliseconds: -10 });
+		expect(subtract(duration, duration, duration, duration, duration)).toMatchObject({ milliseconds: -30 });
 	});
 
 	test('accepts number and string arguments', () => {

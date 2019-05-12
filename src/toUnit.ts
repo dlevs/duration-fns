@@ -1,4 +1,4 @@
-import { TimeInput, DateInput } from './types';
+import { DurationInput, DateInput } from './types';
 import { parse } from './parse';
 import { UNITS, UNITS_MAP } from './lib/units';
 import { parseDate } from './lib/parseDate';
@@ -12,14 +12,14 @@ import { apply } from './apply';
  * @example toMilliseconds({ days: 1 }) // 86400000
  */
 export const toMilliseconds = (
-	time: TimeInput,
+	duration: DurationInput,
 	referenceDate?: DateInput,
 ): number => {
 	if (referenceDate !== undefined) {
-		return apply(referenceDate, time).getTime() - parseDate(referenceDate).getTime();
+		return apply(referenceDate, duration).getTime() - parseDate(referenceDate).getTime();
 	}
 
-	const parsedTime = parse(time);
+	const parsedTime = parse(duration);
 
 	return UNITS.reduce((total, { unit, milliseconds }) => {
 		return total + (parsedTime[unit] * milliseconds);
@@ -27,8 +27,8 @@ export const toMilliseconds = (
 };
 
 const createTimeConverter = (unit: keyof typeof UNITS_MAP) =>
-	(time: TimeInput, referenceDate?: DateInput): number =>
-		toMilliseconds(time, referenceDate) / UNITS_MAP[unit].milliseconds;
+	(duration: DurationInput, referenceDate?: DateInput): number =>
+		toMilliseconds(duration, referenceDate) / UNITS_MAP[unit].milliseconds;
 
 /**
  * Convert the input value to seconds.

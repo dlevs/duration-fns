@@ -1,9 +1,8 @@
 import { UNIT_KEYS } from './units';
-import { Time } from '../types';
+import { Duration } from '../types';
 
-// TODO: Naming is not consistent here with `time` and `Time`.
-export const cleanDurationObject = (time: Time) => {
-	const output = { ...time };
+export const cleanDurationObject = (duration: Duration) => {
+	const output = { ...duration };
 
 	UNIT_KEYS.forEach(key => {
 		if (output[key] === -0) {

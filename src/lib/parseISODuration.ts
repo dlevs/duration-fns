@@ -1,4 +1,4 @@
-import { Time } from '../types';
+import { Duration } from '../types';
 import { ZERO, UnitKey } from './units';
 import { negate } from '../negate';
 import { isNegativelySigned } from './numberUtils';
@@ -11,7 +11,7 @@ const createDurationParser = (
 	regex: RegExp,
 	unitsOrder: UnitKey[],
 ) => {
-	return (duration: string): Time | null => {
+	return (duration: string): Duration | null => {
 		const match = duration.match(regex);
 
 		if (!match) {
@@ -118,13 +118,13 @@ const parseUnitsISODuration = createDurationParser(
 /**
  * Parse an ISO 8601 duration string into an object.
  *
- * The units of time are not normalized. For example, the string `"P365D"`
+ * The units of duration are not normalized. For example, the string `"P365D"`
  * doesn't get converted to `{ years: 1 }` since not all years are the same
  * length.
  *
  * @example parseISODuration('P365D') // { days: 365 }
  */
-export const parseISODuration = (duration: string): Time => {
+export const parseISODuration = (duration: string): Duration => {
 	const output = (
 		parseUnitsISODuration(duration) ||
 		parseFullFormatISODuration(duration)

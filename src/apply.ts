@@ -1,12 +1,11 @@
 import { UNITS } from './lib/units';
-import { TimeInput, DateInput } from './types';
+import { DurationInput, DateInput } from './types';
 import { parseDate } from './lib/parseDate';
 import { parse } from './parse';
 
-// TODO: Rename all to "Duration"?
 export const apply = (
 	date: DateInput,
-	duration: TimeInput,
+	duration: DurationInput,
 ): Date => {
 	const parsedDate = parseDate(date);
 	const parsedDuration = parse(duration);

@@ -1,26 +1,26 @@
 import { ZERO } from './lib/units';
-import { Time, TimeInput } from './types';
+import { Duration, DurationInput } from './types';
 import { parseISODuration } from './lib/parseISODuration';
 import { validate } from './lib/validate';
 import { cleanDurationObject } from './lib/cleanDurationObject';
 
-const baseParse = (time: TimeInput): Time => {
-	if (typeof time === 'string') {
-		return parseISODuration(time);
+const baseParse = (duration: DurationInput): Duration => {
+	if (typeof duration === 'string') {
+		return parseISODuration(duration);
 	}
 
-	if (typeof time === 'number') {
-		return { ...ZERO, milliseconds: time };
+	if (typeof duration === 'number') {
+		return { ...ZERO, milliseconds: duration };
 	}
 
-	return { ...ZERO, ...time };
+	return { ...ZERO, ...duration };
 };
 
 /**
- * Format various time formats to a simple `Time` object.
+ * Format various duration formats to a simple `Time` object.
  */
-export const parse = (time: TimeInput): Time => {
-	const output = baseParse(time);
+export const parse = (duration: DurationInput): Duration => {
+	const output = baseParse(duration);
 
 	validate(output);
 

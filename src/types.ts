@@ -1,4 +1,4 @@
-export interface Time {
+export interface Duration {
 	years: number;
 	months: number;
 	weeks: number;
@@ -9,6 +9,6 @@ export interface Time {
 	milliseconds: number;
 }
 
-export type TimeInput = Partial<Time> | number | string;
+export type DurationInput = Partial<Duration> | number | string;
 
 export type DateInput = Date | number | string;

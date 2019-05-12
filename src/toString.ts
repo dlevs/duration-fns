@@ -1,4 +1,4 @@
-import { TimeInput } from './types';
+import { DurationInput } from './types';
 import { parse } from './parse';
 import { isZero } from './isZero';
 import { getUnitCount } from './lib/getUnitCount';
@@ -10,14 +10,14 @@ const joinComponents = (component: string[]) =>
 		// Commas are mentioned in the spec as the preferred decimal delimiter
 		.replace(/\./g, ',');
 
-export const toString = (time: TimeInput): string => {
+export const toString = (duration: DurationInput): string => {
 	// Zero values are a special case, since "P" is not a valid value.
 	// At least one unit must be specified.
-	if (isZero(time)) {
+	if (isZero(duration)) {
 		return 'P0D';
 	}
 
-	const parsedTime = { ...parse(time) };
+	const parsedTime = { ...parse(duration) };
 
 	// Weeks should not be included in the output, unless it is the only unit.
 	if (getUnitCount(parsedTime) === 1 && parsedTime.weeks !== 0) {

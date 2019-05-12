@@ -1,20 +1,20 @@
-import { Time, TimeInput } from './types';
+import { Duration, DurationInput } from './types';
 import { UNIT_KEYS } from './lib/units';
 import { parse } from './parse';
 
 /**
- * Add values to the current time.
+ * Add values to the current duration.
  *
  * @example toDays(addTime({ days: 1 }, { hours: 12 })) // 1.5
  * @returns a number in milliseconds
  */
-export const sum = (...times: TimeInput[]): Time => {
-	const [firstTime, ...otherTimes] = times.map(parse);
+export const sum = (...durations: DurationInput[]): Duration => {
+	const [firstTime, ...otherTimes] = durations.map(parse);
 	const output = { ...firstTime };
 
-	otherTimes.forEach(time => {
+	otherTimes.forEach(duration => {
 		UNIT_KEYS.forEach(key => {
-			output[key] += time[key];
+			output[key] += duration[key];
 		});
 	});
 

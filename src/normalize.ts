@@ -1,5 +1,5 @@
 import { UNITS_MAP } from './lib/units';
-import { Time, TimeInput, DateInput } from './types';
+import { Duration, DurationInput, DateInput } from './types';
 import { floorTowardsZero } from './lib/numberUtils';
 import { between } from './between';
 import { apply } from './apply';
@@ -8,16 +8,16 @@ import { subtract } from './subtract';
 import { parse } from './parse';
 
 // TODO: Rename "normalizeApprox" since it should no longer be lossy
-const normalizeApprox = (time: TimeInput): Time => {
-	const { years, months, weeks, days, ...rest } = parse(time);
-	const output: Time = {
+const normalizeApprox = (duration: DurationInput): Duration => {
+	const { years, months, weeks, days, ...rest } = parse(duration);
+	const output: Duration = {
 		...rest,
 		years: years + floorTowardsZero(months / 12),
 		months: months % 12 || 0, // Prevent `-0` value
 		weeks: 0,
 		days: 0,
 	};
-	let remaining: Time = {
+	let remaining: Duration = {
 		...rest,
 		years: 0,
 		months: 0,
@@ -41,25 +41,25 @@ const normalizeApprox = (time: TimeInput): Time => {
 };
 
 const normalizeRelative = (
-	time: TimeInput,
+	duration: DurationInput,
 	referenceDate: DateInput,
-): Time => between(referenceDate, apply(referenceDate, time));
+): Duration => between(referenceDate, apply(referenceDate, duration));
 
 /**
  * Convert a `Time` object or number of milliseconds into a complete
- * `Time` object that expresses the time in the most appropriate units.
+ * `Time` object that expresses the duration in the most appropriate units.
  *
  * @example
  * normalize({ milliseconds 4000 })
  * // { remaining.years: 0, months: 0, weeks: 0, days: 0, hours: 0, minutes: 0, seconds: 4, milliseconds: 0 }
  */
 export const normalize = (
-	time: TimeInput,
+	duration: DurationInput,
 	referenceDate?: DateInput,
-): Time => {
+): Duration => {
 	if (referenceDate !== undefined) {
-		return normalizeRelative(time, referenceDate);
+		return normalizeRelative(duration, referenceDate);
 	}
 
-	return normalizeApprox(time);
+	return normalizeApprox(duration);
 };

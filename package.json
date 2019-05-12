@@ -1,7 +1,7 @@
 {
-  "name": "time-fns",
-  "version": "1.0.2",
-  "description": "Functions for working with units of time.",
+  "name": "duration-fns",
+  "version": "0.0.1",
+  "description": "Functions for working with durations.",
   "main": "dist/index.js",
   "scripts": {
     "build": "rimraf dist && tsc",
@@ -12,7 +12,7 @@
   "author": "Daniel Levett <dlevett@hotmail.co.uk>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dlevs/time-fns"
+    "url": "https://github.com/dlevs/duration-fns"
   },
   "license": "MIT",
   "devDependencies": {
@@ -25,8 +25,8 @@
     "typescript": "3.4.4"
   },
   "keywords": [
-    "time",
     "duration",
+    "time",
     "convert",
     "normalize",
     "milliseconds",

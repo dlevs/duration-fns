@@ -1,16 +1,16 @@
 import { sum } from './sum';
 
-const time = Object.freeze({ milliseconds: 10 });
+const duration = Object.freeze({ milliseconds: 10 });
 
 describe('sum()', () => {
 	test('works as expected for 2 arguments', () => {
-		expect(sum(time, time)).toMatchObject({ milliseconds: 20 });
-		expect(sum(time, { seconds: 1 })).toMatchObject({ seconds: 1, milliseconds: 10 });
-		expect(sum(time, { seconds: -1 })).toMatchObject({ seconds: -1, milliseconds: 10 });
+		expect(sum(duration, duration)).toMatchObject({ milliseconds: 20 });
+		expect(sum(duration, { seconds: 1 })).toMatchObject({ seconds: 1, milliseconds: 10 });
+		expect(sum(duration, { seconds: -1 })).toMatchObject({ seconds: -1, milliseconds: 10 });
 	});
 
 	test('works as expected for a variable number of arguments', () => {
-		expect(sum(time, time, time, time, time)).toMatchObject({ milliseconds: 50 });
+		expect(sum(duration, duration, duration, duration, duration)).toMatchObject({ milliseconds: 50 });
 	});
 
 	test('accepts number and string arguments', () => {
