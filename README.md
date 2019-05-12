@@ -1,19 +1,19 @@
-# time-fns
+# duration-fns
 
 A collection of JavaScript functions for converting between time units.
 
-[Test coverage report.](https://time-fns-coverage.netlify.com/) [![Netlify Status](https://api.netlify.com/api/v1/badges/1c8db14f-4d92-41b0-a9da-32f7bcc5c17a/deploy-status)](https://app.netlify.com/sites/time-fns-coverage/deploys)
+[Test coverage report.](https://duration-fns-coverage.netlify.com/) [![Netlify Status](https://api.netlify.com/api/v1/badges/1c8db14f-4d92-41b0-a9da-32f7bcc5c17a/deploy-status)](https://app.netlify.com/sites/duration-fns-coverage/deploys)
 
 ## Installation
 
-`npm install time-fns`
+`npm install duration-fns`
 
 ## Overview
 
 ### Converting between units
 
 ```javascript
-import { toSeconds } from 'time-fns';
+import { toSeconds } from 'duration-fns';
 
 // Pass a time object
 toSeconds({ minutes: 1, seconds: 30 }); // 90
@@ -39,7 +39,7 @@ There are equivalent functions for other time units:
 ### Calculations
 
 ```javascript
-import { addTime, subtractTime } from 'time-fns';
+import { addTime, subtractTime } from 'duration-fns';
 
 addTime({ seconds: 1 }, { seconds: 2, milliseconds: 500 });
 // { seconds: 3, milliseconds: 500 }
@@ -58,7 +58,7 @@ addTime({ seconds: 1 }, 'PT2S', 200);
 The calculations will not convert values between units. Pass the return values through `normalizeTimeUnits` for that functionality:
 
 ```javascript
-import { normalizeTimeUnits } from 'time-fns';
+import { normalizeTimeUnits } from 'duration-fns';
 
 normalizeTimeUnits({ minutes: 5, seconds: 62 });
 // {  minutes: 6, seconds: 2 }
@@ -67,7 +67,7 @@ normalizeTimeUnits({ minutes: 5, seconds: 62 });
 ### toTimeObject
 
 ```javascript
-import { toTimeObject } from 'time-fns';
+import { toTimeObject } from 'duration-fns';
 
 toTimeObject('PTM5S62');
 // { minutes: 5, seconds: 62 }
