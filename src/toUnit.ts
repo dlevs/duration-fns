@@ -16,6 +16,7 @@ export const toMilliseconds = (
 	referenceDate?: DateInput,
 ): number => {
 	if (referenceDate !== undefined) {
+		// TODO: Does it work for "toMonths", etc?
 		return apply(referenceDate, duration).getTime() - parseDate(referenceDate).getTime();
 	}
 

@@ -230,6 +230,7 @@ describe('toMonths()', () => {
 
 	test('takes into account reference time when provided', () => {
 		expect((toMonths('P1M') / UNITS_MAP.days.milliseconds) * UNITS_MAP.months.milliseconds).toBe(30.416666666666668);
+		// TODO: Does this make sense? 1 month should always be 1 month...
 		expect((toMonths('P1M', '2016-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.months.milliseconds).toBe(29);
 		expect((toMonths('P1M', '2018-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.months.milliseconds).toBe(28);
 	});
