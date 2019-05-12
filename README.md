@@ -115,7 +115,5 @@ ITE     duration.abs({ seconds: -10 }) // 10S
         duration.apply('2018-10-19', { seconds: 10 }) // Date
 
 // TODO:
-// - Rename "Time" type and arguments to "Duration"? Make all consistent.
-// - Applying decimal values, like { months: 1.5 } to a date with `apply` doesn't work / make sense.
 // - UNITS_MAP.months.addToDate() has issues. `years` unit probably does too. Look at what date-fns do.
 ```

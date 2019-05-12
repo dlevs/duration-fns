@@ -23,12 +23,15 @@ export const ZERO = Object.freeze({
 export type UnitKey = keyof typeof ZERO;
 interface Unit {
 	milliseconds: number;
-	addToDate(date: Date, value: number): number;
+	addToDate(date: Date, value: number): void;
 	dateGetter(date: Date): number;
 	ISOCharacter?: string;
 	ISOPrecision?: 'period' | 'time';
 	stringifyConvertTo?: UnitKey;
 }
+
+const addMilliseconds = (date: Date, value: number) =>
+	date.setMilliseconds(date.getMilliseconds() + value);
 
 // TODO: ISOCharacter and ISOPrecision no longer needed to parse duration string. Can they be removed? Needed still to stringify?
 export const UNITS_MAP: { [key in UnitKey]: Unit } = {
@@ -77,28 +80,28 @@ export const UNITS_MAP: { [key in UnitKey]: Unit } = {
 	},
 	hours: {
 		milliseconds: MILLISECONDS_IN_AN_HOUR,
-		addToDate: (date, value) => date.setHours(date.getHours() + value),
+		addToDate: (date, value) => addMilliseconds(date, value * MILLISECONDS_IN_AN_HOUR),
 		dateGetter: date => date.getHours(),
 		ISOCharacter: 'H',
 		ISOPrecision: 'time',
 	},
 	minutes: {
 		milliseconds: MILLISECONDS_IN_A_MINUTE,
-		addToDate: (date, value) => date.setMinutes(date.getMinutes() + value),
+		addToDate: (date, value) => addMilliseconds(date, value * MILLISECONDS_IN_A_MINUTE),
 		dateGetter: date => date.getMinutes(),
 		ISOCharacter: 'M',
 		ISOPrecision: 'time',
 	},
 	seconds: {
 		milliseconds: MILLISECONDS_IN_A_SECOND,
-		addToDate: (date, value) => date.setSeconds(date.getSeconds() + value),
+		addToDate: (date, value) => addMilliseconds(date, value * MILLISECONDS_IN_A_SECOND),
 		dateGetter: date => date.getSeconds(),
 		ISOCharacter: 'S',
 		ISOPrecision: 'time',
 	},
 	milliseconds: {
 		milliseconds: 1,
-		addToDate: (date, value) => date.setMilliseconds(date.getMilliseconds() + value),
+		addToDate: addMilliseconds,
 		dateGetter: date => date.getMilliseconds(),
 		stringifyConvertTo: 'seconds',
 	},
