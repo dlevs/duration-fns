@@ -1,7 +1,7 @@
 import { DurationInput, DateInput } from './types';
 import { parse } from './parse';
 import { UNITS, UNITS_MAP } from './lib/units';
-import { parseDate } from './lib/parseDate';
+import { parseDate } from './lib/dateUtils';
 import { apply } from './apply';
 
 /**

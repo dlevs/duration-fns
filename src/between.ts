@@ -1,5 +1,5 @@
 import { Duration, DateInput } from './types';
-import { parseDate } from './lib/parseDate';
+import { parseDate } from './lib/dateUtils';
 import { ZERO, UNITS } from './lib/units';
 
 export const between = (date1: DateInput, date2: DateInput): Duration => {
