@@ -7,12 +7,7 @@ export const validate = (duration: Duration) => {
 			throw new TypeError(`Unexpected property "${unit}" on Time object.`);
 		}
 
-		if (
-			// tslint:disable-next-line:strict-type-predicates
-			typeof duration[unit] !== 'number' ||
-			Number.isNaN(duration[unit]) ||
-			duration[unit] !== Math.floor(duration[unit])
-		) {
+		if (!Number.isInteger(duration[unit])) {
 			throw new TypeError(`Property "${unit}" must be a an integer. Received ${duration[unit]}.`);
 		}
 	});
