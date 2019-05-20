@@ -3,6 +3,7 @@ import { between } from './between';
 
 describe('between()', () => {
 	test('calculates durations between dates', () => {
+		// TODO: Is this a valid ISO date string?
 		expect(between(0, '1970-01-01Z')).toEqual(ZERO);
 		expect(between('2018-01-02Z', '2018-01-02Z')).toEqual(ZERO);
 		expect(between('2018-01-02Z', '2019-03-05Z')).toEqual({

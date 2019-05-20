@@ -1,6 +1,6 @@
 import { DurationInput, DateInput } from './types';
 import { parse } from './parse';
-import { UNITS, UNITS_MAP } from './lib/units';
+import { UNITS, UNITS_MAP, ZERO } from './lib/units';
 import { parseDate } from './lib/dateUtils';
 import { apply } from './apply';
 
@@ -27,9 +27,37 @@ export const toMilliseconds = (
 	}, 0);
 };
 
-const createTimeConverter = (unit: keyof typeof UNITS_MAP) =>
-	(duration: DurationInput, referenceDate?: DateInput): number =>
-		toMilliseconds(duration, referenceDate) / UNITS_MAP[unit].milliseconds;
+const createBaseTimeConverter = (unit: keyof typeof UNITS_MAP) =>
+	(duration: DurationInput, referenceDate?: DateInput): number => {
+		return toMilliseconds(duration, referenceDate) / UNITS_MAP[unit].milliseconds;
+	};
+
+const baseToMonths = createBaseTimeConverter('months');
+const baseToYears = createBaseTimeConverter('years');
+
+// TODO: Document this. Why handling months and years is different.
+// TODO: Tidy this file, maybe move "toMilliseconds" and the conversion files out to separate files.
+const createTimeConverter = (unit: keyof typeof UNITS_MAP) => {
+	const baseTimeConverter = createBaseTimeConverter(unit);
+
+	return (duration: DurationInput, referenceDate?: DateInput): number => {
+		if ((unit === 'years' || unit === 'months') && referenceDate) {
+			const { years, months: monthsRaw, ...rest } = parse(duration);
+			const paddedRest = { ...ZERO, ...rest };
+			const months = (years * 12) + monthsRaw;
+
+			if (unit === 'years') {
+				return months / 12 + baseToYears(paddedRest, referenceDate);
+			}
+
+			// TODO: Does any of this make sense? "baseToMonths" adds milliseconds for a generic month, not anything clever based on referenceDate. If that case has real-world value, then the "apply" function could also do something similar.
+			// TODO: Test adding days for different month lengths for `toMonths`, and similar for years.
+			return months + baseToMonths(paddedRest, referenceDate);
+		}
+
+		return baseTimeConverter(duration, referenceDate);
+	};
+};
 
 /**
  * Convert the input value to seconds.

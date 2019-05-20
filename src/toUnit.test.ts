@@ -138,6 +138,7 @@ describe('toHours()', () => {
 		expect((toHours('P1M') / UNITS_MAP.days.milliseconds) * UNITS_MAP.hours.milliseconds).toBe(30.416666666666664);
 		expect((toHours('P1M', '2016-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.hours.milliseconds).toBe(29);
 		expect((toHours('P1M', '2018-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.hours.milliseconds).toBe(28);
+		expect((toHours('P3D', '2018-02-10T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.hours.milliseconds).toBe(3);
 	});
 
 	test('throws errors for non-integer values', () => {
@@ -172,6 +173,7 @@ describe('toDays()', () => {
 		expect(toDays('P1M')).toBe(30.416666666666668);
 		expect(toDays('P1M', '2016-02-01T00:00:00.000Z')).toBe(29);
 		expect(toDays('P1M', '2018-02-01T00:00:00.000Z')).toBe(28);
+		expect(toDays('P1M', '2018-03-01T00:00:00.000Z')).toBe(31);
 	});
 
 	test('throws errors for non-integer values', () => {
@@ -200,7 +202,7 @@ describe('toWeeks()', () => {
 
 	test('takes into account reference time when provided', () => {
 		expect((toWeeks('P1M') / UNITS_MAP.days.milliseconds) * UNITS_MAP.weeks.milliseconds).toBe(30.416666666666664);
-		expect((toWeeks('P1M', '2016-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.weeks.milliseconds).toBe(29.000000000000004);
+		expect((toWeeks('P1M', '2016-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.weeks.milliseconds).toBeCloseTo(29, 10);
 		expect((toWeeks('P1M', '2018-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.weeks.milliseconds).toBe(28);
 	});
 
@@ -230,9 +232,14 @@ describe('toMonths()', () => {
 
 	test('takes into account reference time when provided', () => {
 		expect((toMonths('P1M') / UNITS_MAP.days.milliseconds) * UNITS_MAP.months.milliseconds).toBe(30.416666666666668);
-		// TODO: Does this make sense? 1 month should always be 1 month...
-		expect((toMonths('P1M', '2016-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.months.milliseconds).toBe(29);
-		expect((toMonths('P1M', '2018-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.months.milliseconds).toBe(28);
+		// TODO: Add tests for converting days to months
+		expect(toMonths('P1M', '2016-02-01T00:00:00.000Z')).toBe(1);
+		expect(toMonths('P1M', '2018-02-01T00:00:00.000Z')).toBe(1);
+		expect(toMonths('P1M', '2018-01-01T00:00:00.000Z')).toBe(1);
+		expect(toMonths('P2M', '2018-01-01T00:00:00.000Z')).toBe(2);
+		expect(toMonths('P1Y2M', '2018-01-01T00:00:00.000Z')).toBe(14);
+		// TODO: What should this value be?
+		expect(toMonths('P1Y2M30D', '2018-01-01T00:00:00.000Z')).toBe(14);
 	});
 
 	test('throws errors for non-integer values', () => {
@@ -246,6 +253,7 @@ describe('toYears()', () => {
 		expect(toYears({ days: 365 })).toBe(1);
 		expect(toYears({ days: -365 })).toBe(-1);
 		expect(toYears({ years: 1, days: -365 })).toBe(0);
+		expect(toYears({ years: 1, months: 6 })).toBe(1.5);
 		expect(toYears({ years: 1, months: 1, weeks: 1, days: 1, hours: 1, minutes: 1, milliseconds: 1 })).toBe(1.1053671994228818);
 	});
 
@@ -261,8 +269,10 @@ describe('toYears()', () => {
 
 	test('takes into account reference time when provided', () => {
 		expect((toYears('P1M') / UNITS_MAP.days.milliseconds) * UNITS_MAP.years.milliseconds).toBe(30.41666666666666);
-		expect((toYears('P1M', '2016-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.years.milliseconds).toBe(29.000000000000004);
-		expect((toYears('P1M', '2018-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.years.milliseconds).toBe(28.000000000000004);
+		expect(toYears('P1M', '2016-02-01T00:00:00.000Z')).toBe(1 / 12);
+		expect(toYears('P1M', '2018-02-01T00:00:00.000Z')).toBe(1 / 12);
+		expect(toYears('P1Y', '2018-02-01T00:00:00.000Z')).toBe(1);
+		expect(toYears('P2Y6M', '2019-02-01T00:00:00.000Z')).toBe(2.5);
 	});
 
 	test('throws errors for non-integer values', () => {
