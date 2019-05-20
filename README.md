@@ -2,7 +2,7 @@
 
 A collection of JavaScript functions for converting between time units.
 
-**Project status:** <span style="color: red;">In progress</span>
+**Project status:** In progress
 
 Anything below here in the README may be out of date or subject to change. I would not recommend using this library in production.
 
