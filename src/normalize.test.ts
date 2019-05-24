@@ -107,6 +107,15 @@ describe('normalize()', () => {
 			years: 1,
 			months: 2,
 		});
+
+		expect(normalize('P14MT-61.2S')).toEqual({
+			...ZERO,
+			years: 1,
+			months: 2,
+			minutes: -1,
+			seconds: -1,
+			milliseconds: -200,
+		});
 	});
 
 	test('calculates durations based on reference time when provided', () => {

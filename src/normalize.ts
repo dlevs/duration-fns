@@ -1,29 +1,22 @@
-import { UNITS_MAP } from './lib/units';
+import { UNITS_MAP, ZERO } from './lib/units';
 import { Duration, DurationInput, DateInput } from './types';
-import { floorTowardsZero } from './lib/numberUtils';
 import { between } from './between';
 import { apply } from './apply';
 import { toMilliseconds } from './toUnit';
-import { subtract } from './subtract';
 import { parse } from './parse';
 
 // TODO: Rename "normalizeApprox" since it should no longer be lossy
 const normalizeApprox = (duration: DurationInput): Duration => {
 	const { years, months, weeks, days, ...rest } = parse(duration);
 	const output: Duration = {
-		...rest,
-		years: years + floorTowardsZero(months / 12),
-		months: months % 12 || 0, // Prevent `-0` value
-		weeks: 0,
-		days: 0,
+		...ZERO,
+		years: years + ~~(months / 12),
+		months: (months % 12) || 0, // Prevent `-0` value
 	};
-	let remaining: Duration = {
+	let remaining = toMilliseconds({
 		...rest,
-		years: 0,
-		months: 0,
-		weeks: 0,
 		days: days + (weeks * 7),
-	};
+	});
 
 	([
 		'days',
@@ -33,8 +26,8 @@ const normalizeApprox = (duration: DurationInput): Duration => {
 		'milliseconds',
 	] as const).forEach(unit => {
 		const { milliseconds } = UNITS_MAP[unit];
-		output[unit] = floorTowardsZero(toMilliseconds(remaining) / milliseconds);
-		remaining = subtract(remaining, { [unit]: output[unit] });
+		output[unit] = ~~(remaining / milliseconds);
+		remaining -= output[unit] * milliseconds;
 	});
 
 	return output;
