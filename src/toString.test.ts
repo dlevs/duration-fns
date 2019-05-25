@@ -1,7 +1,7 @@
 import { ZERO } from './lib/units';
 import { toString } from './toString';
 
-describe('normalize()', () => {
+describe('toString()', () => {
 	test('normal usage', () => {
 		expect(toString('P1Y')).toBe('P1Y');
 		expect(toString({ years: 1 })).toBe('P1Y');
