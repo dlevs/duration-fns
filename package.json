@@ -27,6 +27,7 @@
   "keywords": [
     "duration",
     "time",
+    "parse",
     "convert",
     "normalize",
     "milliseconds",
@@ -37,6 +38,7 @@
     "weeks",
     "months",
     "years",
-    "ISO"
+    "ISO",
+    "8601"
   ]
 }
