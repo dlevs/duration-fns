@@ -113,7 +113,8 @@ const parseUnitsISODuration = createDurationParser(
 		'minutes',
 		'seconds',
 		'milliseconds',
-]);
+	],
+);
 
 /**
  * Parse an ISO 8601 duration string into an object.

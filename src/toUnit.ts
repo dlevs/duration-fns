@@ -50,7 +50,10 @@ const createTimeConverter = (unit: keyof typeof UNITS_MAP) => {
 				return months / 12 + baseToYears(paddedRest, referenceDate);
 			}
 
-			// TODO: Does any of this make sense? "baseToMonths" adds milliseconds for a generic month, not anything clever based on referenceDate. If that case has real-world value, then the "apply" function could also do something similar.
+			// TODO: Does any of this make sense? "baseToMonths" adds milliseconds for
+			// a generic month, not anything clever based on referenceDate. If that
+			// case has real-world value, then the "apply" function could also do
+			// something similar.
 			// TODO: Test adding days for different month lengths for `toMonths`, and similar for years.
 			return months + baseToMonths(paddedRest, referenceDate);
 		}

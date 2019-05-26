@@ -19,7 +19,9 @@ describe('toMilliseconds()', () => {
 		expect(toMilliseconds({ minutes: 1 })).toBe(60000);
 		expect(toMilliseconds({ seconds: 1 })).toBe(1000);
 		expect(toMilliseconds({ milliseconds: 1 })).toBe(1);
-		expect(toMilliseconds({ weeks: 1, days: 1, hours: 1, minutes: 1, seconds: 1, milliseconds: 1 })).toBe(694861001);
+		expect(toMilliseconds({
+			weeks: 1, days: 1, hours: 1, minutes: 1, seconds: 1, milliseconds: 1,
+		})).toBe(694861001);
 	});
 
 	test('converts number of milliseconds', () => {
@@ -53,7 +55,9 @@ describe('toSeconds()', () => {
 		expect(toSeconds({ minutes: 1 })).toBe(60);
 		expect(toSeconds({ seconds: 1 })).toBe(1);
 		expect(toSeconds({ milliseconds: 1 })).toBe(0.001);
-		expect(toSeconds({ weeks: 1, days: 1, hours: 1, minutes: 1, seconds: 1, milliseconds: 1 })).toBe(694861.001);
+		expect(toSeconds({
+			weeks: 1, days: 1, hours: 1, minutes: 1, seconds: 1, milliseconds: 1,
+		})).toBe(694861.001);
 	});
 
 	test('converts number of milliseconds', () => {
@@ -87,7 +91,9 @@ describe('toMinutes()', () => {
 		expect(toMinutes({ minutes: 1 })).toBe(1);
 		expect(toMinutes({ seconds: 30 })).toBe(0.5);
 		expect(toMinutes({ milliseconds: 60000 })).toBe(1);
-		expect(toMinutes({ weeks: 1, days: 1, hours: 1, minutes: 1, seconds: 1, milliseconds: 1 })).toBe(11581.016683333333);
+		expect(toMinutes({
+			weeks: 1, days: 1, hours: 1, minutes: 1, seconds: 1, milliseconds: 1,
+		})).toBe(11581.016683333333);
 	});
 
 	test('converts number of milliseconds', () => {
@@ -121,7 +127,9 @@ describe('toHours()', () => {
 		expect(toHours({ minutes: 30 })).toBe(0.5);
 		expect(toHours({ seconds: 30 * 60 })).toBe(0.5);
 		expect(toHours({ milliseconds: 3600000 })).toBe(1);
-		expect(toHours({ weeks: 1, days: 1, hours: 1, minutes: 1, seconds: 1, milliseconds: 1 })).toBe(193.01694472222223);
+		expect(toHours({
+			weeks: 1, days: 1, hours: 1, minutes: 1, seconds: 1, milliseconds: 1,
+		})).toBe(193.01694472222223);
 	});
 
 	test('converts number of milliseconds', () => {
@@ -156,7 +164,9 @@ describe('toDays()', () => {
 		expect(toDays({ minutes: 60 * 12 })).toBe(0.5);
 		expect(toDays({ seconds: 60 * 60 * 12 })).toBe(0.5);
 		expect(toDays({ milliseconds: 60 * 60 * 24 * 1000 })).toBe(1);
-		expect(toDays({ weeks: 1, days: 1, hours: 1, minutes: 1, seconds: 1, milliseconds: 1 })).toBe(8.042372696759259);
+		expect(toDays({
+			weeks: 1, days: 1, hours: 1, minutes: 1, seconds: 1, milliseconds: 1,
+		})).toBe(8.042372696759259);
 	});
 
 	test('converts number of milliseconds', () => {
@@ -187,7 +197,9 @@ describe('toWeeks()', () => {
 		expect(toWeeks({ weeks: 1 })).toBe(1);
 		expect(toWeeks({ weeks: 1, days: 7 })).toBe(2);
 		expect(toWeeks({ days: -7 })).toBe(-1);
-		expect(toWeeks({ weeks: 1, days: 1, hours: 1, minutes: 1, seconds: 1, milliseconds: 1 })).toBe(1.1489103852513227);
+		expect(toWeeks({
+			weeks: 1, days: 1, hours: 1, minutes: 1, seconds: 1, milliseconds: 1,
+		})).toBe(1.1489103852513227);
 	});
 
 	test('converts number of milliseconds', () => {
@@ -217,7 +229,9 @@ describe('toMonths()', () => {
 		expect(toMonths({ years: 1 })).toBe(12);
 		expect(toMonths({ years: -2 })).toBe(-24);
 		expect(toMonths({ years: 1, days: -365 })).toBe(0);
-		expect(toMonths({ years: 1, months: 1, weeks: 1, days: 1, hours: 1, minutes: 1, milliseconds: 1 })).toBe(13.264406393074582);
+		expect(toMonths({
+			years: 1, months: 1, weeks: 1, days: 1, hours: 1, minutes: 1, milliseconds: 1,
+		})).toBe(13.264406393074582);
 	});
 
 	test('converts number of milliseconds', () => {
@@ -254,7 +268,9 @@ describe('toYears()', () => {
 		expect(toYears({ days: -365 })).toBe(-1);
 		expect(toYears({ years: 1, days: -365 })).toBe(0);
 		expect(toYears({ years: 1, months: 6 })).toBe(1.5);
-		expect(toYears({ years: 1, months: 1, weeks: 1, days: 1, hours: 1, minutes: 1, milliseconds: 1 })).toBe(1.1053671994228818);
+		expect(toYears({
+			years: 1, months: 1, weeks: 1, days: 1, hours: 1, minutes: 1, milliseconds: 1,
+		})).toBe(1.1053671994228818);
 	});
 
 	test('converts number of milliseconds', () => {

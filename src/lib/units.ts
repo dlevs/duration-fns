@@ -29,7 +29,8 @@ interface Unit {
 	stringifyConvertTo?: UnitKey;
 }
 
-// TODO: ISOCharacter and ISOPrecision no longer needed to parse duration string. Can they be removed? Needed still to stringify?
+// TODO: ISOCharacter and ISOPrecision no longer needed to parse duration
+// string. Can they be removed? Needed still to stringify?
 export const UNITS_MAP: { [key in UnitKey]: Unit } = {
 	years: {
 		milliseconds: MILLISECONDS_IN_A_YEAR,

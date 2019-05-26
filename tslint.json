@@ -1,7 +1,0 @@
-{
-	"extends": ["@dlevs/tslint-config"],
-	"rules": {
-		"no-conditional-assignment": false,
-		"triple-equals": [true, "allow-null-check"]
-	}
-}

@@ -7,7 +7,9 @@ import { parse } from './parse';
 
 // TODO: Rename "normalizeApprox" since it should no longer be lossy
 const normalizeApprox = (duration: DurationInput): Duration => {
-	const { years, months, weeks, days, ...rest } = parse(duration);
+	const {
+		years, months, weeks, days, ...rest
+	} = parse(duration);
 	const output: Duration = {
 		...ZERO,
 		years: years + ~~(months / 12),
@@ -44,7 +46,7 @@ const normalizeRelative = (
  *
  * @example
  * normalize({ milliseconds 4000 })
- * // { remaining.years: 0, months: 0, weeks: 0, days: 0, hours: 0, minutes: 0, seconds: 4, milliseconds: 0 }
+ * // { years: 0, months: 0, weeks: 0, days: 0, hours: 0, minutes: 0, seconds: 4, milliseconds: 0 }
  */
 export const normalize = (
 	duration: DurationInput,

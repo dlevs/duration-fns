@@ -1,0 +1,32 @@
+{
+	"parser": "@typescript-eslint/parser",
+	"plugins": ["@typescript-eslint"],
+	"extends": [
+		"airbnb-base",
+		"plugin:@typescript-eslint/recommended"
+	],
+	"rules": {
+		"indent": ["error", "tab", { "SwitchCase": 1 }],
+		"no-tabs": "off",
+		"implicit-arrow-linebreak": "off",
+		"operator-linebreak": "off",
+		"arrow-parens": "off",
+		"no-bitwise": "off",
+		"no-plusplus": "off",
+		"arrow-body-style": "off",
+		"import/prefer-default-export": "off",
+		"import/no-unresolved": "off",
+		"@typescript-eslint/indent": ["error", "tab"],
+		"@typescript-eslint/explicit-function-return-type": "off"
+  },
+	"overrides": [
+		{
+			"files": ["src/**/*.test.js", "src/**/*.test.ts"],
+			"globals": {
+				"describe": true,
+				"test": true,
+				"expect": true
+			}
+		}
+	]
+}

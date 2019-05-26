@@ -10,7 +10,13 @@ describe('sum()', () => {
 	});
 
 	test('works as expected for a variable number of arguments', () => {
-		expect(sum(duration, duration, duration, duration, duration)).toMatchObject({ milliseconds: 50 });
+		expect(sum(
+			duration,
+			duration,
+			duration,
+			duration,
+			duration,
+		)).toMatchObject({ milliseconds: 50 });
 	});
 
 	test('accepts number and string arguments', () => {

@@ -3,8 +3,8 @@
     "outDir": "dist",
     "target": "es5",
     "strict": true,
-		"module": "commonjs",
-		"lib": [
+    "module": "commonjs",
+    "lib": [
       "dom",
       "esnext"
     ],

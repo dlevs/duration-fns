@@ -10,7 +10,9 @@ describe('subtract()', () => {
 
 	test('works as expected for a variable number of arguments', () => {
 		expect(subtract(duration, duration, duration)).toMatchObject({ milliseconds: -10 });
-		expect(subtract(duration, duration, duration, duration, duration)).toMatchObject({ milliseconds: -30 });
+		expect(subtract(duration, duration, duration, duration, duration)).toMatchObject({
+			milliseconds: -30,
+		});
 	});
 
 	test('accepts number and string arguments', () => {
