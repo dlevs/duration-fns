@@ -8,3 +8,4 @@ export * from './abs';
 export * from './sum';
 export * from './lib/parseISODuration';
 export * from './types';
+export * from './apply';
