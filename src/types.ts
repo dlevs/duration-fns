@@ -9,6 +9,6 @@ export interface Duration {
 	milliseconds: number;
 }
 
-export type DurationInput = Partial<Duration> | number | string;
+export type DurationInput = Partial<Readonly<Duration>> | number | string;
 
 export type DateInput = Date | number | string;

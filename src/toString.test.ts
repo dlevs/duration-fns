@@ -22,6 +22,12 @@ describe('toString()', () => {
 		expect(toString({ weeks: 6 })).toBe('P6W');
 	});
 
+	test('does not normalize non-week or non-millisecond values', () => {
+		expect(toString('PT30H')).toBe('PT30H');
+		expect(toString('P12M')).toBe('P12M');
+		expect(toString('P700D')).toBe('P700D');
+	});
+
 	test('handles negative values', () => {
 		expect(toString({ years: -2 })).toBe('P-2Y');
 		expect(toString({ years: -2, days: 10 })).toBe('P-2Y10D');

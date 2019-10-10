@@ -1,5 +1,5 @@
 import { Duration, DurationInput } from './types';
-import { UNIT_KEYS } from './lib/units';
+import { UNIT_KEYS, ZERO } from './lib/units';
 import { parse } from './parse';
 
 /**
@@ -9,10 +9,9 @@ import { parse } from './parse';
  * @returns a number in milliseconds
  */
 export const sum = (...durations: DurationInput[]): Duration => {
-	const [firstTime, ...otherTimes] = durations.map(parse);
-	const output = { ...firstTime };
+	const output = { ...ZERO };
 
-	otherTimes.forEach(duration => {
+	durations.map(parse).forEach(duration => {
 		UNIT_KEYS.forEach(key => {
 			output[key] += duration[key];
 		});
