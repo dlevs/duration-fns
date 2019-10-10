@@ -5,21 +5,26 @@ import { apply } from './apply';
 import { toMilliseconds } from './toUnit';
 import { parse } from './parse';
 
-// TODO: Rename "normalizeApprox" since it should no longer be lossy
-const normalizeApprox = (duration: DurationInput): Duration => {
+const normalizeUnambiguous = (duration: DurationInput): Duration => {
+	// Handle fuzzy units. For example, we can normalize years and months
+	// with each other, but not easily with other units as they are ambiguous.
 	const {
 		years, months, weeks, days, ...rest
 	} = parse(duration);
 	const output: Duration = {
 		...ZERO,
 		years: years + ~~(months / 12),
-		months: (months % 12) || 0, // Prevent `-0` value
+		months: (months % 12) || 0, // prevent `-0` value
 	};
 	let remaining = toMilliseconds({
 		...rest,
 		days: days + (weeks * 7),
 	});
 
+	// Normalize unambiguous units. It could be argued that `days` is ambiguous as
+	// a day is not always 24 hours long, but the ISO 8601 spec says a day is 24 hours.
+	// When not changing timezones, a day is consistently 24 hours, whereas months
+	// and years are consistently irregular.
 	([
 		'days',
 		'hours',
@@ -56,5 +61,5 @@ export const normalize = (
 		return normalizeRelative(duration, referenceDate);
 	}
 
-	return normalizeApprox(duration);
+	return normalizeUnambiguous(duration);
 };
