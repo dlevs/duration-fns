@@ -34,12 +34,6 @@ describe('toMilliseconds()', () => {
 		expect(toMilliseconds('PT1M60S')).toBe(120000);
 	});
 
-	test('takes into account reference time when provided', () => {
-		expect(toMilliseconds('P1M') / UNITS_MAP.days.milliseconds).toBe(30.416666666666668);
-		expect(toMilliseconds('P1M', '2016-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds).toBe(29);
-		expect(toMilliseconds('P1M', '2018-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds).toBe(28);
-	});
-
 	test('throws errors for non-integer values', () => {
 		expect(() => toMilliseconds({ months: 1.5 })).toThrow();
 		expect(() => toMilliseconds({ months: 1 })).not.toThrow();
@@ -68,12 +62,6 @@ describe('toSeconds()', () => {
 
 	test('converts string durations', () => {
 		expect(toSeconds('PT1M30S')).toBe(90);
-	});
-
-	test('takes into account reference time when provided', () => {
-		expect((toSeconds('P1M') / UNITS_MAP.days.milliseconds) * UNITS_MAP.seconds.milliseconds).toBe(30.416666666666668);
-		expect((toSeconds('P1M', '2016-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.seconds.milliseconds).toBe(29);
-		expect((toSeconds('P1M', '2018-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.seconds.milliseconds).toBe(28);
 	});
 
 	test('throws errors for non-integer values', () => {
@@ -106,12 +94,6 @@ describe('toMinutes()', () => {
 		expect(toMinutes('PT6M60S')).toBe(7);
 	});
 
-	test('takes into account reference time when provided', () => {
-		expect((toMinutes('P1M') / UNITS_MAP.days.milliseconds) * UNITS_MAP.minutes.milliseconds).toBe(30.416666666666664);
-		expect((toMinutes('P1M', '2016-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.minutes.milliseconds).toBe(29);
-		expect((toMinutes('P1M', '2018-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.minutes.milliseconds).toBe(28);
-	});
-
 	test('throws errors for non-integer values', () => {
 		expect(() => toMinutes({ months: 1.5 })).toThrow();
 		expect(() => toMinutes({ months: 1 })).not.toThrow();
@@ -140,13 +122,6 @@ describe('toHours()', () => {
 
 	test('converts string durations', () => {
 		expect(toHours('PT1H90M')).toBe(2.5);
-	});
-
-	test('takes into account reference time when provided', () => {
-		expect((toHours('P1M') / UNITS_MAP.days.milliseconds) * UNITS_MAP.hours.milliseconds).toBe(30.416666666666664);
-		expect((toHours('P1M', '2016-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.hours.milliseconds).toBe(29);
-		expect((toHours('P1M', '2018-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.hours.milliseconds).toBe(28);
-		expect((toHours('P3D', '2018-02-10T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.hours.milliseconds).toBe(3);
 	});
 
 	test('throws errors for non-integer values', () => {
@@ -179,13 +154,6 @@ describe('toDays()', () => {
 		expect(toDays('P1WT12H')).toBe(7.5);
 	});
 
-	test('takes into account reference time when provided', () => {
-		expect(toDays('P1M')).toBe(30.416666666666668);
-		expect(toDays('P1M', '2016-02-01T00:00:00.000Z')).toBe(29);
-		expect(toDays('P1M', '2018-02-01T00:00:00.000Z')).toBe(28);
-		expect(toDays('P1M', '2018-03-01T00:00:00.000Z')).toBe(31);
-	});
-
 	test('throws errors for non-integer values', () => {
 		expect(() => toDays({ months: 1.5 })).toThrow();
 		expect(() => toDays({ months: 1 })).not.toThrow();
@@ -210,12 +178,6 @@ describe('toWeeks()', () => {
 
 	test('converts string durations', () => {
 		expect(toWeeks('P2W7D')).toBe(3);
-	});
-
-	test('takes into account reference time when provided', () => {
-		expect((toWeeks('P1M') / UNITS_MAP.days.milliseconds) * UNITS_MAP.weeks.milliseconds).toBe(30.416666666666664);
-		expect((toWeeks('P1M', '2016-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.weeks.milliseconds).toBeCloseTo(29, 10);
-		expect((toWeeks('P1M', '2018-02-01T00:00:00.000Z') / UNITS_MAP.days.milliseconds) * UNITS_MAP.weeks.milliseconds).toBe(28);
 	});
 
 	test('throws errors for non-integer values', () => {
@@ -244,18 +206,6 @@ describe('toMonths()', () => {
 		expect(toMonths('P2Y12M')).toBe(36);
 	});
 
-	test('takes into account reference time when provided', () => {
-		expect((toMonths('P1M') / UNITS_MAP.days.milliseconds) * UNITS_MAP.months.milliseconds).toBe(30.416666666666668);
-		// TODO: Add tests for converting days to months
-		expect(toMonths('P1M', '2016-02-01T00:00:00.000Z')).toBe(1);
-		expect(toMonths('P1M', '2018-02-01T00:00:00.000Z')).toBe(1);
-		expect(toMonths('P1M', '2018-01-01T00:00:00.000Z')).toBe(1);
-		expect(toMonths('P2M', '2018-01-01T00:00:00.000Z')).toBe(2);
-		expect(toMonths('P1Y2M', '2018-01-01T00:00:00.000Z')).toBe(14);
-		// TODO: Add test back. What should this value be?
-		// expect(toMonths('P1Y2M30D', '2018-01-01T00:00:00.000Z')).toBe(14);
-	});
-
 	test('throws errors for non-integer values', () => {
 		expect(() => toMonths({ months: 1.5 })).toThrow();
 		expect(() => toMonths({ months: 1 })).not.toThrow();
@@ -281,14 +231,6 @@ describe('toYears()', () => {
 
 	test('converts string durations', () => {
 		expect(toYears('P2Y12M')).toBe(3);
-	});
-
-	test('takes into account reference time when provided', () => {
-		expect((toYears('P1M') / UNITS_MAP.days.milliseconds) * UNITS_MAP.years.milliseconds).toBe(30.41666666666666);
-		expect(toYears('P1M', '2016-02-01T00:00:00.000Z')).toBe(1 / 12);
-		expect(toYears('P1M', '2018-02-01T00:00:00.000Z')).toBe(1 / 12);
-		expect(toYears('P1Y', '2018-02-01T00:00:00.000Z')).toBe(1);
-		expect(toYears('P2Y6M', '2019-02-01T00:00:00.000Z')).toBe(2.5);
 	});
 
 	test('throws errors for non-integer values', () => {
