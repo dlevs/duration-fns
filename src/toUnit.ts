@@ -1,7 +1,6 @@
 import { DurationInput, DateInput } from './types';
 import { parse } from './parse';
 import { UNITS, UNITS_MAP, ZERO } from './lib/units';
-import { parseDate } from './lib/dateUtils';
 import { apply } from './apply';
 
 /**
@@ -15,15 +14,15 @@ export const toMilliseconds = (
 	duration: DurationInput,
 	referenceDate?: DateInput,
 ): number => {
-	if (referenceDate !== undefined) {
+	if (referenceDate != null) {
 		// TODO: Does it work for "toMonths", etc?
-		return apply(referenceDate, duration).getTime() - parseDate(referenceDate).getTime();
+		return apply(referenceDate, duration).getTime() - new Date(referenceDate).getTime();
 	}
 
-	const parsedTime = parse(duration);
+	const parsed = parse(duration);
 
 	return UNITS.reduce((total, { unit, milliseconds }) => {
-		return total + (parsedTime[unit] * milliseconds);
+		return total + (parsed[unit] * milliseconds);
 	}, 0);
 };
 

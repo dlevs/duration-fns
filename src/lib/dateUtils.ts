@@ -16,11 +16,3 @@ export const addMonths = (date: Date, value: number) => {
 	// if the original date was the last day of the longer month
 	date.setMonth(desiredMonth, Math.min(daysInMonth, date.getDate()));
 };
-
-export const parseDate = (date: string | number | Date) => {
-	if (date instanceof Date) {
-		return new Date(date.getTime());
-	}
-
-	return new Date(date);
-};

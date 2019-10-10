@@ -1,12 +1,12 @@
 import { DurationInput, DateInput } from './types';
-import { parseDate, addMonths } from './lib/dateUtils';
+import { addMonths } from './lib/dateUtils';
 import { parse } from './parse';
 
 export const apply = (
 	date: DateInput,
 	duration: DurationInput,
 ): Date => {
-	const parsedDate = parseDate(date);
+	const parsedDate = new Date(date);
 	const {
 		years,
 		months,

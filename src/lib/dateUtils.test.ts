@@ -1,4 +1,4 @@
-import { getDaysInMonth, addMonths, parseDate } from './dateUtils';
+import { getDaysInMonth, addMonths } from './dateUtils';
 
 describe('getDaysInMonth()', () => {
 	test('returns the correct number of days in the month for a given date', () => {
@@ -64,21 +64,5 @@ describe('addMonths()', () => {
 		// the expected result when the next month has fewer days than the current.
 		addMonths(dateUsingFn, 1);
 		expect(dateUsingFn.toISOString()).toBe('1970-02-28T00:00:00.000Z');
-	});
-});
-
-describe('parseDate()', () => {
-	test('parses a date from various formats', () => {
-		expect(parseDate(86400001).toISOString()).toBe('1970-01-02T00:00:00.001Z');
-		expect(parseDate('1970-01-02Z').toISOString()).toBe('1970-01-02T00:00:00.000Z');
-		expect(parseDate(new Date('1970-01-03Z')).toISOString()).toBe('1970-01-03T00:00:00.000Z');
-	});
-
-	test('returns a new date when passed a date value', () => {
-		const input = new Date('1970-01-03Z');
-		const output = parseDate(input);
-
-		expect(input).toEqual(output);
-		expect(input).not.toBe(output);
 	});
 });
