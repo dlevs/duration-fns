@@ -8,7 +8,6 @@ import {
 	toMonths,
 	toYears,
 } from './toUnit';
-import { UNITS_MAP } from './lib/units';
 
 describe('toMilliseconds()', () => {
 	test('converts objects', () => {
