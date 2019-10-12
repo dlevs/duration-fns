@@ -3,9 +3,9 @@ import { UNIT_KEYS, ZERO } from './lib/units';
 import { parse } from './parse';
 
 /**
- * Add values to the current duration.
+ * Sum durations.
  *
- * @example toDays(addTime({ days: 1 }, { hours: 12 })) // 1.5
+ * @example toDays(sum({ days: 1 }, { hours: 12 })) // 1.5
  * @returns a number in milliseconds
  */
 export const sum = (...durations: DurationInput[]): Duration => {

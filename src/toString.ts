@@ -10,6 +10,13 @@ const joinComponents = (component: string[]) =>
 		// Commas are mentioned in the spec as the preferred decimal delimiter
 		.replace(/\./g, ',');
 
+/**
+ * Stringify a duration into an ISO duration string.
+ *
+ * @example
+ * toString({ years: 1, hours: 6 }) // 'P1YT6H'
+ * toString(6000) // 'PT6S'
+ */
 export const toString = (duration: DurationInput): string => {
 	// Zero values are a special case, since "P" is not a valid value.
 	// At least one unit must be specified.
@@ -17,11 +24,11 @@ export const toString = (duration: DurationInput): string => {
 		return 'P0D';
 	}
 
-	const parsedTime = { ...parse(duration) };
+	const parsed = { ...parse(duration) };
 
 	// Weeks should not be included in the output, unless it is the only unit.
-	if (getUnitCount(parsedTime) === 1 && parsedTime.weeks !== 0) {
-		return `P${parsedTime.weeks}W`;
+	if (getUnitCount(parsed) === 1 && parsed.weeks !== 0) {
+		return `P${parsed.weeks}W`;
 	}
 
 	const components = {
@@ -37,15 +44,15 @@ export const toString = (duration: DurationInput): string => {
 			return;
 		}
 
-		const millisecondValue = parsedTime[fromUnit] * UNITS_MAP[fromUnit].milliseconds;
+		const millisecondValue = parsed[fromUnit] * UNITS_MAP[fromUnit].milliseconds;
 
-		parsedTime[toUnit] += millisecondValue / UNITS_MAP[toUnit].milliseconds;
-		parsedTime[fromUnit] = 0;
+		parsed[toUnit] += millisecondValue / UNITS_MAP[toUnit].milliseconds;
+		parsed[fromUnit] = 0;
 	});
 
 	// Push each non-zero unit to its relevant array
 	UNITS.forEach(({ unit, ISOPrecision, ISOCharacter }) => {
-		const value = parsedTime[unit];
+		const value = parsed[unit];
 
 		if (ISOPrecision != null && value !== 0) {
 			components[ISOPrecision].push(`${value}${ISOCharacter}`);

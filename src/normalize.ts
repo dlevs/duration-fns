@@ -46,8 +46,8 @@ const normalizeRelative = (
 ): Duration => between(referenceDate, apply(referenceDate, duration));
 
 /**
- * Convert a `Time` object or number of milliseconds into a complete
- * `Time` object that expresses the duration in the most appropriate units.
+ * Convert a `Duration` object or number of milliseconds into a complete
+ * `Duration` object that expresses the duration in the most appropriate units.
  *
  * @example
  * normalize({ milliseconds 4000 })

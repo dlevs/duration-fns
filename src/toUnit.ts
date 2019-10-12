@@ -3,7 +3,7 @@ import { parse } from './parse';
 import { UNITS, UNITS_MAP } from './lib/units';
 
 /**
- * Convert the input value to milliseconds represented by a `Time` object.
+ * Convert the input value to milliseconds represented by a `Duration` object.
  * If a number is passed this is returned verbatim as the number
  * of milliseconds.
  *
@@ -17,7 +17,7 @@ export const toMilliseconds = (duration: DurationInput): number => {
 	}, 0);
 };
 
-const createTimeConverter = (unit: keyof typeof UNITS_MAP) => {
+const createDurationConverter = (unit: keyof typeof UNITS_MAP) => {
 	return (duration: DurationInput): number => {
 		return toMilliseconds(duration) / UNITS_MAP[unit].milliseconds;
 	};
@@ -27,31 +27,31 @@ const createTimeConverter = (unit: keyof typeof UNITS_MAP) => {
  * Convert the input value to seconds.
  * @example toSeconds({ minutes: 2 }) // 120
  */
-export const toSeconds = createTimeConverter('seconds');
+export const toSeconds = createDurationConverter('seconds');
 
 /**
  * Convert the input value to minutes.
  * @example toMinutes({ hours: 1, minutes: 10 }) // 70
  */
-export const toMinutes = createTimeConverter('minutes');
+export const toMinutes = createDurationConverter('minutes');
 
 /**
  * Convert the input value to hours.
  * @example toHours({ days: 1 }) // 24
  */
-export const toHours = createTimeConverter('hours');
+export const toHours = createDurationConverter('hours');
 
 /**
  * Convert the input value to days.
  * @example toDays({ hours: 12 }) // 0.5
  */
-export const toDays = createTimeConverter('days');
+export const toDays = createDurationConverter('days');
 
 /**
  * Convert the input value to weeks.
  * @example toWeeks({ days: 14 }) // 2
  */
-export const toWeeks = createTimeConverter('weeks');
+export const toWeeks = createDurationConverter('weeks');
 
 /**
  * Convert the input value to months.
@@ -59,7 +59,7 @@ export const toWeeks = createTimeConverter('weeks');
  *
  * @example toMonths({ months: 10, days: 365 }) // 11
  */
-export const toMonths = createTimeConverter('months');
+export const toMonths = createDurationConverter('months');
 
 /**
  * Convert the input value to years.
@@ -67,4 +67,4 @@ export const toMonths = createTimeConverter('months');
  *
  * @example toYears({ years: 10, days: 365 }) // 11
  */
-export const toYears = createTimeConverter('years');
+export const toYears = createDurationConverter('years');

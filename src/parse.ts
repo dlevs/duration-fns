@@ -17,7 +17,7 @@ const baseParse = (duration: DurationInput): Duration => {
 };
 
 /**
- * Format various duration formats to a simple `Time` object.
+ * Parse various duration formats to a simple `Duration` object.
  */
 export const parse = (duration: DurationInput): Duration => {
 	const output = baseParse(duration);
