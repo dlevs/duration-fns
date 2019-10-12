@@ -21,24 +21,19 @@ export const ZERO = Object.freeze({
 });
 
 export type UnitKey = keyof typeof ZERO;
-interface Unit {
-	milliseconds: number;
-	dateGetter(date: Date): number;
-	ISOCharacter?: string;
-	ISOPrecision?: 'period' | 'time';
-	stringifyConvertTo?: UnitKey;
-}
 
-export const UNITS_MAP: { [key in UnitKey]: Unit } = {
+export const UNITS_MAP_LITERAL = {
 	years: {
 		milliseconds: MILLISECONDS_IN_A_YEAR,
-		dateGetter: date => date.getFullYear(),
+		months: 12,
+		dateGetter: (date: Date) => date.getFullYear(),
 		ISOCharacter: 'Y',
 		ISOPrecision: 'period',
 	},
 	months: {
 		milliseconds: MILLISECONDS_IN_A_MONTH,
-		dateGetter: date => date.getMonth(),
+		months: 1,
+		dateGetter: (date: Date) => date.getMonth(),
 		ISOCharacter: 'M',
 		ISOPrecision: 'period',
 	},
@@ -51,34 +46,52 @@ export const UNITS_MAP: { [key in UnitKey]: Unit } = {
 	},
 	days: {
 		milliseconds: MILLISECONDS_IN_A_DAY,
-		dateGetter: date => date.getDate(),
+		dateGetter: (date: Date) => date.getDate(),
 		ISOCharacter: 'D',
 		ISOPrecision: 'period',
 	},
 	hours: {
 		milliseconds: MILLISECONDS_IN_AN_HOUR,
-		dateGetter: date => date.getHours(),
+		dateGetter: (date: Date) => date.getHours(),
 		ISOCharacter: 'H',
 		ISOPrecision: 'time',
 	},
 	minutes: {
 		milliseconds: MILLISECONDS_IN_A_MINUTE,
-		dateGetter: date => date.getMinutes(),
+		dateGetter: (date: Date) => date.getMinutes(),
 		ISOCharacter: 'M',
 		ISOPrecision: 'time',
 	},
 	seconds: {
 		milliseconds: MILLISECONDS_IN_A_SECOND,
-		dateGetter: date => date.getSeconds(),
+		dateGetter: (date: Date) => date.getSeconds(),
 		ISOCharacter: 'S',
 		ISOPrecision: 'time',
 	},
 	milliseconds: {
 		milliseconds: 1,
-		dateGetter: date => date.getMilliseconds(),
+		dateGetter: (date: Date) => date.getMilliseconds(),
 		stringifyConvertTo: 'seconds',
 	},
-};
+} as const;
+
+interface Unit {
+	milliseconds: number;
+	months?: number;
+	dateGetter(date: Date): number;
+	ISOCharacter?: string;
+	ISOPrecision?: 'period' | 'time';
+	stringifyConvertTo?: UnitKey;
+}
+
+// Re-export with a defined signature to allow for destructuring of optional
+// properties.
+//
+// The original `UNITS_MAP_LITERAL` is useful as TypeScript does not need a null
+// check when accessing an optional property that it knows is defined for the
+// specified unit (e.g. `UNITS_MAP_LITERAL.years.months`), whereas `UNITS_MAP`
+// needs the null check.
+export const UNITS_MAP: { [key in UnitKey]: Unit } = UNITS_MAP_LITERAL;
 
 export const UNIT_KEYS = [
 	'years',

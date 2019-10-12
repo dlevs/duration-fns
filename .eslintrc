@@ -13,6 +13,8 @@
 		"arrow-parens": "off",
 		"no-bitwise": "off",
 		"no-plusplus": "off",
+		"no-param-reassign": "off",
+		"object-curly-newline": "off",
 		"arrow-body-style": "off",
 		"import/prefer-default-export": "off",
 		"import/no-unresolved": "off",

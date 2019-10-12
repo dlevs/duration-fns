@@ -91,6 +91,17 @@ describe('normalize()', () => {
 			...ZERO,
 			years: -1,
 		});
+
+		expect(normalize({
+			years: -1,
+			months: 12,
+			weeks: 1,
+			days: -7,
+			hours: 2,
+			minutes: -120,
+			seconds: -2,
+			milliseconds: 2000,
+		})).toEqual(ZERO);
 	});
 
 	test('converts raw milliseconds', () => {

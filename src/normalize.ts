@@ -1,43 +1,59 @@
-import { UNITS_MAP, ZERO } from './lib/units';
+import { UNITS_MAP_LITERAL, ZERO, UnitKey } from './lib/units';
 import { Duration, DurationInput, DateInput } from './types';
 import { between } from './between';
 import { apply } from './apply';
-import { toMilliseconds } from './toUnit';
+import { toMilliseconds, toMonths } from './toUnit';
 import { parse } from './parse';
 
-const baseNormalize = (duration: DurationInput): Duration => {
-	// Handle fuzzy units. For example, we can normalize years and months
-	// with each other, but not easily with other units as they are ambiguous.
-	const {
-		years, months, weeks, days, ...rest
-	} = parse(duration);
-	const totalMonths = (years * 12) + months;
-	const adjustedYears = ~~(totalMonths / 12);
-	const output: Duration = {
-		...ZERO,
-		years: adjustedYears,
-		months: (totalMonths - adjustedYears * 12) || 0, // prevent `-0` value
+const createUnitsNormalizer = <T extends UnitKey>(
+	keys: T[],
+	getDivisor: (unit: T) => number,
+) => {
+	return (
+		duration: Readonly<Duration>,
+		remaining: number,
+	) => {
+		const output = { ...duration };
+
+		keys.forEach(unit => {
+			const divisor = getDivisor(unit);
+			output[unit] = ~~(remaining / divisor);
+			remaining -= output[unit] * divisor;
+		});
+
+		return output;
 	};
-	let remaining = toMilliseconds({
-		...rest,
-		days: days + (weeks * 7),
-	});
+};
+
+const yearMonthNormalizer = createUnitsNormalizer(
+	['years', 'months'],
+	unit => UNITS_MAP_LITERAL[unit].months,
+);
+
+const dayAndTimeNormalizer = createUnitsNormalizer(
+	['days', 'hours', 'minutes', 'seconds', 'milliseconds'],
+	unit => UNITS_MAP_LITERAL[unit].milliseconds,
+);
+
+const baseNormalizer = (duration: DurationInput): Duration => {
+	const { years, months, weeks, days, ...rest } = parse(duration);
+	let output = { ...ZERO };
+
+	// Normalize years and months between themselves.
+	// They cannot be normalized with other units due to their variable length.
+	output = yearMonthNormalizer(
+		output,
+		toMonths({ years, months }),
+	);
 
 	// Normalize unambiguous units. It could be argued that `days` is ambiguous as
 	// a day is not always 24 hours long, but the ISO 8601 spec says a day is 24 hours.
 	// When not changing timezones, a day is consistently 24 hours, whereas months
 	// and years are consistently irregular.
-	([
-		'days',
-		'hours',
-		'minutes',
-		'seconds',
-		'milliseconds',
-	] as const).forEach(unit => {
-		const { milliseconds } = UNITS_MAP[unit];
-		output[unit] = ~~(remaining / milliseconds);
-		remaining -= output[unit] * milliseconds;
-	});
+	output = dayAndTimeNormalizer(
+		output,
+		toMilliseconds({ ...rest, days: days + (weeks * 7) }),
+	);
 
 	return output;
 };
@@ -67,5 +83,5 @@ export const normalize = (
 		? between(referenceDate, apply(referenceDate, duration))
 		: duration;
 
-	return baseNormalize(durationToNormalize);
+	return baseNormalizer(durationToNormalize);
 };
