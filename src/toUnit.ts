@@ -3,7 +3,7 @@ import { parse } from './parse';
 import { UNITS, UNITS_MAP } from './lib/units';
 
 /**
- * Convert the input value to milliseconds represented by a `Duration` object.
+ * Convert the input value to milliseconds represented by a duration object.
  * If a number is passed this is returned verbatim as the number
  * of milliseconds.
  *

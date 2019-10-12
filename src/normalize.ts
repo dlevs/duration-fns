@@ -46,12 +46,18 @@ const normalizeRelative = (
 ): Duration => between(referenceDate, apply(referenceDate, duration));
 
 /**
- * Convert a `Duration` object or number of milliseconds into a complete
- * `Duration` object that expresses the duration in the most appropriate units.
+ * Convert a duration object or number of milliseconds into a complete
+ * duration object that expresses the value in the most appropriate units.
+ *
+ * If a `referenceDate` argument is provided, the returned duration is normalized
+ * relative to that date. This means each day, month and year has an unambiguous
+ * duration, and the `normalize` function can safely convert between these units.
  *
  * @example
- * normalize({ milliseconds 4000 })
- * // { years: 0, months: 0, weeks: 0, days: 0, hours: 0, minutes: 0, seconds: 4, milliseconds: 0 }
+ * normalize({ milliseconds 4000 }) // { ..., seconds: 4, milliseconds: 0 }
+ * normalize('P59DT24H') // { ..., days: 60 }
+ * normalize('P59DT24H', '2018-02-01') // { ..., months: 2, days: 1 }
+ * normalize('P59DT24H', '2016-02-01') // { ..., months: 2, days: 0 } (leap year)
  */
 export const normalize = (
 	duration: DurationInput,
