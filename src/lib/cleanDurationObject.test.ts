@@ -25,7 +25,6 @@ const UNCLEAN_ZERO = Object.freeze({
 
 describe('cleanDurationObject', () => {
 	test('converts -0 to 0', () => {
-
 		expect(UNCLEAN_ZERO).not.toEqual(ZERO);
 		expect(cleanDurationObject(UNCLEAN_ZERO)).toEqual(ZERO);
 		expect(cleanDurationObject(ZERO)).toEqual(ZERO);

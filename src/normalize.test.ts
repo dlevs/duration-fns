@@ -70,8 +70,8 @@ describe('normalize()', () => {
 			milliseconds: -500,
 		})).toEqual({
 			...ZERO,
-			years: 1,
-			months: -9,
+			years: 0,
+			months: 3,
 			seconds: 0,
 			milliseconds: 500,
 		});
@@ -125,22 +125,43 @@ describe('normalize()', () => {
 		});
 
 		// Normal year
-		expect(normalize('P60D', '2018-02-01T00:00:00.000Z')).toEqual({
+		expect(normalize('P29D', '2018-02-01T00:00:00.000Z')).toEqual({
 			...ZERO,
-			months: 2,
+			months: 1,
 			days: 1,
 		});
 
 		// Leap year
-		expect(normalize('P60D', '2016-02-01T00:00:00.000Z')).toEqual({
-			...ZERO,
-			months: 2,
-		});
-
-		expect(normalize('P60D', '2018-03-01T00:00:00.000Z')).toEqual({
+		expect(normalize('P29D', '2016-02-01T00:00:00.000Z')).toEqual({
 			...ZERO,
 			months: 1,
+		});
+
+		expect(normalize('P29D', '2018-03-01T00:00:00.000Z')).toEqual({
+			...ZERO,
 			days: 29,
+		});
+
+		expect(normalize({ days: 31 }, '2020-12-01')).toEqual({
+			...ZERO,
+			months: 1,
+		});
+
+		expect(normalize({ days: -31 }, '2020-12-01')).toEqual({
+			...ZERO,
+			months: -2,
+			days: 30,
+		});
+
+		expect(normalize({ days: 31 }, '2020-02-01')).toEqual({
+			...ZERO,
+			months: 1,
+			days: 2,
+		});
+
+		expect(normalize({ days: -31 }, '2020-02-01')).toEqual({
+			...ZERO,
+			months: -1,
 		});
 	});
 

@@ -5,7 +5,9 @@ import { sum } from './sum';
 /**
  * Subtract durations from the first duration argument.
  *
- * @example toDays(subtract({ days: 1 }, { hours: 12 })) // 1.5
+ * @example
+ * subtract({ days: 1 }, { hours: 12 })
+ * // { days: 1, hours: -12 }
  */
 export const subtract = (
 	duration: DurationInput,

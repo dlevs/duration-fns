@@ -5,7 +5,9 @@ import { parse } from './parse';
 /**
  * Sum durations.
  *
- * @example toDays(sum({ days: 1 }, { hours: 12 })) // 1.5
+ * @example
+ * sum({ days: 1 }, { days: 2, hours: 12 })
+ * { days: 3, hours: 12 }
  */
 export const sum = (...durations: DurationInput[]): Duration => {
 	const output = { ...ZERO };

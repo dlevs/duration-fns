@@ -5,16 +5,18 @@ import { apply } from './apply';
 import { toMilliseconds } from './toUnit';
 import { parse } from './parse';
 
-const normalizeUnambiguous = (duration: DurationInput): Duration => {
+const baseNormalize = (duration: DurationInput): Duration => {
 	// Handle fuzzy units. For example, we can normalize years and months
 	// with each other, but not easily with other units as they are ambiguous.
 	const {
 		years, months, weeks, days, ...rest
 	} = parse(duration);
+	const totalMonths = (years * 12) + months;
+	const adjustedYears = ~~(totalMonths / 12);
 	const output: Duration = {
 		...ZERO,
-		years: years + ~~(months / 12),
-		months: (months % 12) || 0, // prevent `-0` value
+		years: adjustedYears,
+		months: (totalMonths - adjustedYears * 12) || 0, // prevent `-0` value
 	};
 	let remaining = toMilliseconds({
 		...rest,
@@ -40,11 +42,6 @@ const normalizeUnambiguous = (duration: DurationInput): Duration => {
 	return output;
 };
 
-const normalizeRelative = (
-	duration: DurationInput,
-	referenceDate: DateInput,
-): Duration => between(referenceDate, apply(referenceDate, duration));
-
 /**
  * Convert a duration object or number of milliseconds into a complete
  * duration object that expresses the value in the most appropriate units.
@@ -55,17 +52,20 @@ const normalizeRelative = (
  *
  * @example
  * normalize({ milliseconds 4000 }) // { ..., seconds: 4, milliseconds: 0 }
- * normalize('P59DT24H') // { ..., days: 60 }
- * normalize('P59DT24H', '2018-02-01') // { ..., months: 2, days: 1 }
- * normalize('P59DT24H', '2016-02-01') // { ..., months: 2, days: 0 } (leap year)
+ * normalize('P28DT24H') // { ..., days: 29 }
+ * normalize('P28DT24H', '2018-02-01') // { ..., months: 1, days: 1 }
+ * normalize('P28DT24H', '2016-02-01') // { ..., months: 1, days: 0 } (leap year)
  */
 export const normalize = (
 	duration: DurationInput,
 	referenceDate?: DateInput,
 ): Duration => {
-	if (referenceDate != null) {
-		return normalizeRelative(duration, referenceDate);
-	}
+	const durationToNormalize = referenceDate != null
+		// When using a reference date, `between` may give a result like this:
+		// { years: 1, months: -11 }
+		// Because of this, we pass that through `baseNormalizer` too.
+		? between(referenceDate, apply(referenceDate, duration))
+		: duration;
 
-	return normalizeUnambiguous(duration);
+	return baseNormalize(durationToNormalize);
 };

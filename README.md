@@ -1,39 +1,6 @@
 # duration-fns
 
-A collection of JavaScript functions for converting between time units.
-
-**Project status:** In progress
-
-Anything below here in the README may be out of date or subject to change. I would not recommend using this library in production.
-
-[Test coverage report.](https://duration-fns-coverage.netlify.com/) [![Netlify Status](https://api.netlify.com/api/v1/badges/1c8db14f-4d92-41b0-a9da-32f7bcc5c17a/deploy-status)](https://app.netlify.com/sites/duration-fns-coverage/deploys)
-
-## TODO: API implementation:
-
-```javascript
-import * as duration from 'duration-fns'
-
-// TODO: For each:
-// I - implement
-// T - test
-// E - Export
-// J - JSDoc
-// D - document
-
-ITE     duration.parse('PT1M30S')
-ITE     duration.normalize('PT1M30S', '2018-10-01')
-ITE     duration.toString({ ... })
-ITE     duration.toMilliseconds('PT1M30S', '2018-10-01')
-
-ITE     duration.sum('PT1M30S', 'PT1M30S')
-ITE     duration.subtract('PT1M30S', 'PT1M30S')
-
-ITE     duration.negate('PT1M30S') // Object for PT-1M-30S
-ITE     duration.between('2018-10-19', '2018-10-20')
-ITE     duration.abs({ seconds: -10 }) // 10S
-
-        duration.apply('2018-10-19', { seconds: 10 }) // Date
-```
+A collection of JavaScript functions for working with durations.
 
 ## Installation
 
@@ -41,67 +8,124 @@ ITE     duration.abs({ seconds: -10 }) // 10S
 
 ## Overview
 
-### Converting between units
-
 ```javascript
-import { toSeconds } from 'duration-fns';
+import * as duration from 'duration-fns'
 
-// Pass a time object
-toSeconds({ minutes: 1, seconds: 30 }); // 90
 
-// Or an ISO 8601 duration string
-toSeconds('PT1M30S'); // 90
+// Parsing / stringifying
+// ---------------------------------------------
+duration.parse('PT1M30S')
+// { minutes: 1, seconds: 30 }
 
-// Or the number of milliseconds
-toSeconds(90000); // 90
+duration.toString({ years: 1, hours: 6 })
+// 'P1YT6H'
+
+
+// Conversion
+// ---------------------------------------------
+duration.toMilliseconds({ seconds: 2 }) // 2000
+duration.toSeconds({ milliseconds: 2000 }) // 2
+duration.toMinutes({ hours: 1, seconds: 60 }) // 61
+duration.toHours({ minutes: 60 }) // 1
+duration.toDays({ weeks: 1, hours: 24 }) // 8
+duration.toWeeks({ days: 14 }) // 2
+duration.toMonths({ years: 2, months: 1 }) // 25
+duration.toYears({ months: 12 }) // 1
+
+
+// Normalizing
+// ---------------------------------------------
+duration.normalize({ days: 28, hours: 24 })
+// { days: 29 }
+
+duration.normalize({ days: 28, hours: 24 }, '2018-02-01')
+// { months: 1, days: 1 }
+
+duration.normalize({ days: 28, hours: 24 }, '2016-02-01')
+// { months: 1, days: 0 } (leap year)
+
+
+// Transformations
+// ---------------------------------------------
+duration.abs({ days: -1, seconds: 1 })
+// { days: 1, seconds: -1 }
+
+duration.negate({ days: -1, hours 2 })
+// { days: 1, hours: -2 }
+
+
+// Inspection
+// ---------------------------------------------
+duration.isNegative({ days: 1, hours: -25 })
+// true
+
+duration.isZero({ days: 1, hours: -24 })
+// true
+
+
+// Combining
+// ---------------------------------------------
+duration.subtract({ days: 2 }, { days: 1, hours: 12 })
+// { days: 1, hours: -12 }
+
+duration.sum({ days: 1 }, { days: 2, hours: 12 })
+// { days: 3, hours: 12 }
+
+
+// Date operations
+// ---------------------------------------------
+duration.apply('2020-01-01T00:00:00.000Z', { years: 2 }).toISOString()
+// '2022-01-01T00:00:00.000Z'
+
+duration.between('2022-01-01', '2020-01-01')
+// { years: -2 }
 ```
 
-There are equivalent functions for other time units:
+## Conventions
 
-- `toMilliseconds`
-- `toSeconds`
-- `toMinutes`
-- `toHours`
-- `toDays`
-- `toWeeks`
-- `toMonths`
-- `toYears`
+### Function arguments
 
-### Calculations
+All functions that accept a duration object also accept numbers and strings:
 
 ```javascript
-import { add, subtract } from 'duration-fns';
+duration.toSeconds({ minutes: 1 }); // 60
+duration.toSeconds(60000); // 60
+duration.toSeconds('PT1M'); // 60
 
-add({ seconds: 1 }, { seconds: 2, milliseconds: 500 });
-// { seconds: 3, milliseconds: 500 }
-
-subtract({ seconds: 1 }, { milliseconds: 500 });
-// { seconds: 1, milliseconds: -500 }
+duration.sum({ seconds: 1 }, 'P1D', 200);
+// { days: 1, seconds: 1, milliseconds: 200 }
 ```
 
-The above functions accept any combination of time objects, ISO duration strings, or millisecond numbers:
+### Normalization
+
+Functions that transform or combine duration objects will not usually convert values between units:
 
 ```javascript
-add({ seconds: 1 }, 'PT2S', 200);
-// { seconds: 3, milliseconds 200 }
+duration.sum({ seconds: 1 }, { milliseconds: 1000 });
+// { seconds: 1, milliseconds 1000 }
 ```
 
-The calculations will not convert values between units. Pass the return values through `normalize` for that functionality:
+Pass the return values through `normalize` for that functionality:
 
 ```javascript
-import { normalize } from 'duration-fns';
-
-normalize({ minutes: 5, seconds: 62 });
-// {  minutes: 6, seconds: 2 }
+duration.normalize({ seconds: 1, milliseconds 1000 });
+// { seconds: 2 }
 ```
 
-### parse
+Some units cannot be normalized to others. For example, months can be normalized to years, but days cannot be normalized to months without a reference date:
 
 ```javascript
-import { parse } from 'duration-fns';
+duration.normalize({ days: 31 });
+// { days: 31 }
 
-parse('PTM5S62');
-// { minutes: 5, seconds: 62 }
+duration.normalize({ days: 31 }, '2020-02-01');
+// { months: 1, days: 2 }
+
+duration.normalize({ days: 31 }, '2020-12-01');
+// { months: 1, days: 0 }
 ```
 
-Values are passed verbatim to the output object. For example, there was no attempt to normalize the output above to `{ minutes: 6, seconds: 2 }`. For that, use `normalize`.
+## Misc
+
+[Test coverage report.](https://duration-fns-coverage.netlify.com/)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/1c8db14f-4d92-41b0-a9da-32f7bcc5c17a/deploy-status)](https://app.netlify.com/sites/duration-fns-coverage/deploys)
