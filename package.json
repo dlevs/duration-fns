@@ -1,10 +1,12 @@
 {
   "name": "duration-fns",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Functions for working with durations.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist/**/*"],
+  "files": [
+    "dist/**/*"
+  ],
   "scripts": {
     "clean": "rimraf dist",
     "lint": "eslint 'src/**/*.+(ts|js)'",
