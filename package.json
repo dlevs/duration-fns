@@ -4,6 +4,7 @@
   "description": "Functions for working with durations.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": ["dist/**/*"],
   "scripts": {
     "clean": "rimraf dist",
     "lint": "eslint 'src/**/*.+(ts|js)'",
