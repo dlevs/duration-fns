@@ -17,10 +17,19 @@ export const toMilliseconds = (duration: DurationInput): number => {
 	}, 0);
 };
 
+/**
+ * Convert the input value to the specificed unit.
+ * @example toUnit({ minutes: 2 }, 'seconds') // 120
+ */
+export const toUnit = (
+	duration: DurationInput,
+	unit: keyof typeof UNITS_MAP,
+): number => {
+	return toMilliseconds(duration) / UNITS_MAP[unit].milliseconds;
+};
+
 const createDurationConverter = (unit: keyof typeof UNITS_MAP) => {
-	return (duration: DurationInput): number => {
-		return toMilliseconds(duration) / UNITS_MAP[unit].milliseconds;
-	};
+	return (duration: DurationInput): number => toUnit(duration, unit);
 };
 
 /**

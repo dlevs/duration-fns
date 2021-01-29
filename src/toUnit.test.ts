@@ -1,5 +1,6 @@
 import {
 	toMilliseconds,
+	toUnit,
 	toSeconds,
 	toMinutes,
 	toHours,
@@ -36,6 +37,41 @@ describe('toMilliseconds()', () => {
 	test('throws errors for non-integer values', () => {
 		expect(() => toMilliseconds({ months: 1.5 })).toThrow();
 		expect(() => toMilliseconds({ months: 1 })).not.toThrow();
+	});
+});
+
+describe('toUnit()', () => {
+	test('converts objects', () => {
+		expect(toUnit({ milliseconds: 1 }, 'milliseconds')).toBe(1);
+		expect(toUnit({ seconds: 1 }, 'seconds')).toBe(1);
+		expect(toUnit({ minutes: 1 }, 'minutes')).toBe(1);
+		expect(toUnit({ hours: 1 }, 'hours')).toBe(1);
+		expect(toUnit({ days: 1 }, 'days')).toBe(1);
+		expect(toUnit({ weeks: 1 }, 'weeks')).toBe(1);
+		expect(toUnit({ months: 1 }, 'months')).toBe(1);
+		expect(toUnit({ years: 1 }, 'years')).toBe(1);
+	});
+
+	test('converts number of milliseconds', () => {
+		expect(toUnit(1, 'milliseconds')).toBe(1);
+		expect(toUnit(1 * 1000, 'seconds')).toBe(1);
+		expect(toUnit(1 * 1000 * 60, 'minutes')).toBe(1);
+		expect(toUnit(1 * 1000 * 60 * 60, 'hours')).toBe(1);
+		expect(toUnit(1 * 1000 * 60 * 60 * 24, 'days')).toBe(1);
+		expect(toUnit(1 * 1000 * 60 * 60 * 24 * 7, 'weeks')).toBe(1);
+		expect(toUnit((1 * 1000 * 60 * 60 * 24 * 365) / 12, 'months')).toBe(1);
+		expect(toUnit(1 * 1000 * 60 * 60 * 24 * 365, 'years')).toBe(1);
+	});
+
+	test('converts string durations', () => {
+		expect(toUnit('PT0.001S', 'milliseconds')).toBe(1);
+		expect(toUnit('PT1S', 'seconds')).toBe(1);
+		expect(toUnit('PT1M', 'minutes')).toBe(1);
+		expect(toUnit('PT1H', 'hours')).toBe(1);
+		expect(toUnit('P1D', 'days')).toBe(1);
+		expect(toUnit('P1W', 'weeks')).toBe(1);
+		expect(toUnit('P1M', 'months')).toBe(1);
+		expect(toUnit('P1Y', 'years')).toBe(1);
 	});
 });
 

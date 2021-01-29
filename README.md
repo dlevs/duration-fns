@@ -23,6 +23,7 @@ duration.toString({ years: 1, hours: 6 })
 
 // Conversion
 // ---------------------------------------------
+duration.toUnit({ minutes: 2 }, 'seconds') // 120
 duration.toMilliseconds({ seconds: 2 }) // 2000
 duration.toSeconds({ milliseconds: 2000 }) // 2
 duration.toMinutes({ hours: 1, seconds: 60 }) // 61
