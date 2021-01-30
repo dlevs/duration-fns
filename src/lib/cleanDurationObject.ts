@@ -1,7 +1,7 @@
 import { UNIT_KEYS } from './units';
 import { Duration } from '../types';
 
-export const cleanDurationObject = (duration: Readonly<Duration>) => {
+export const cleanDurationObject = (duration: Readonly<Duration>): Readonly<Duration> => {
 	const output = { ...duration };
 
 	UNIT_KEYS.forEach(key => {

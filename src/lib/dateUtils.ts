@@ -1,4 +1,4 @@
-export const getDaysInMonth = (date: Date) => {
+export const getDaysInMonth = (date: Date): number => {
 	const monthIndex = date.getMonth();
 	const lastDayOfMonth = new Date(0);
 	lastDayOfMonth.setFullYear(date.getFullYear(), monthIndex + 1, 0);
@@ -6,7 +6,7 @@ export const getDaysInMonth = (date: Date) => {
 	return lastDayOfMonth.getDate();
 };
 
-export const addMonths = (date: Date, value: number) => {
+export const addMonths = (date: Date, value: number): void => {
 	const desiredMonth = date.getMonth() + value;
 	const dateWithDesiredMonth = new Date(0);
 	dateWithDesiredMonth.setFullYear(date.getFullYear(), desiredMonth, 1);

@@ -12,5 +12,5 @@ import { toMilliseconds } from './toUnit';
  * isNegative({ days: 1, hours: -25 }) // true
  * isNegative({ days: 1, hours: -23 }) // false
  */
-export const isNegative = (duration: DurationInput) =>
+export const isNegative = (duration: DurationInput): boolean =>
 	toMilliseconds(duration) < 0;

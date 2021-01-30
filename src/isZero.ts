@@ -13,5 +13,5 @@ import { toMilliseconds } from './toUnit';
  * isZero({ days: 1, hours: -24 }) // true
  * isZero({ days: 1 }) // false
  */
-export const isZero = (duration: DurationInput) =>
+export const isZero = (duration: DurationInput): boolean =>
 	toMilliseconds(duration) === 0;
