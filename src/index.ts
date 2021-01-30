@@ -11,3 +11,4 @@ export * from './sum';
 export * from './toString';
 export * from './toUnit';
 export * from './types';
+export { UNITS_LARGE_TO_SMALL } from './lib/units';

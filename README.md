@@ -80,6 +80,12 @@ duration.apply('2020-01-01T00:00:00.000Z', { years: 2 }).toISOString()
 
 duration.between('2022-01-01', '2020-01-01')
 // { years: -2 }
+
+
+// Meta
+// ---------------------------------------------
+duration.UNITS_LARGE_TO_SMALL
+// ['years', 'months', 'weeks', 'days', ...]
 ```
 
 ## Conventions

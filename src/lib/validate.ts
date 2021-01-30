@@ -1,9 +1,9 @@
 import { Duration } from '../types';
-import { UNIT_KEYS } from './units';
+import { UNITS_LARGE_TO_SMALL } from './units';
 
 export const validate = (duration: Readonly<Duration>) => {
 	(Object.keys(duration) as (keyof Duration)[]).forEach(unit => {
-		if (!UNIT_KEYS.includes(unit)) {
+		if (!UNITS_LARGE_TO_SMALL.includes(unit)) {
 			throw new TypeError(`Unexpected property "${unit}" on Duration object.`);
 		}
 

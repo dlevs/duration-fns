@@ -1,6 +1,6 @@
 import { DurationInput } from './types';
 import { parse } from './parse';
-import { UNITS, UNITS_MAP } from './lib/units';
+import { UNITS_META_LARGE_TO_SMALL, UNITS_META_MAP } from './lib/units';
 
 /**
  * Convert the input value to milliseconds represented by a duration object.
@@ -12,7 +12,7 @@ import { UNITS, UNITS_MAP } from './lib/units';
 export const toMilliseconds = (duration: DurationInput): number => {
 	const parsed = parse(duration);
 
-	return UNITS.reduce((total, { unit, milliseconds }) => {
+	return UNITS_META_LARGE_TO_SMALL.reduce((total, { unit, milliseconds }) => {
 		return total + (parsed[unit] * milliseconds);
 	}, 0);
 };
@@ -23,12 +23,12 @@ export const toMilliseconds = (duration: DurationInput): number => {
  */
 export const toUnit = (
 	duration: DurationInput,
-	unit: keyof typeof UNITS_MAP,
+	unit: keyof typeof UNITS_META_MAP,
 ): number => {
-	return toMilliseconds(duration) / UNITS_MAP[unit].milliseconds;
+	return toMilliseconds(duration) / UNITS_META_MAP[unit].milliseconds;
 };
 
-const createDurationConverter = (unit: keyof typeof UNITS_MAP) => {
+const createDurationConverter = (unit: keyof typeof UNITS_META_MAP) => {
 	return (duration: DurationInput): number => toUnit(duration, unit);
 };
 

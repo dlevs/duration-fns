@@ -1,5 +1,5 @@
 import { Duration, DateInput } from './types';
-import { ZERO, UNITS } from './lib/units';
+import { ZERO, UNITS_META_LARGE_TO_SMALL } from './lib/units';
 
 /**
  * Gets the difference between two dates, expressed as a duration object.
@@ -12,7 +12,7 @@ export const between = (date1: DateInput, date2: DateInput): Duration => {
 	const b = new Date(date2);
 	const output: Duration = { ...ZERO };
 
-	UNITS.forEach(({ unit, dateGetter }) => {
+	UNITS_META_LARGE_TO_SMALL.forEach(({ unit, dateGetter }) => {
 		output[unit] = dateGetter(b) - dateGetter(a);
 	});
 

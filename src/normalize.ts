@@ -1,4 +1,4 @@
-import { UNITS_MAP_LITERAL, ZERO, UnitKey } from './lib/units';
+import { UNITS_META_MAP_LITERAL, ZERO, UnitKey } from './lib/units';
 import { Duration, DurationInput, DateInput } from './types';
 import { between } from './between';
 import { apply } from './apply';
@@ -27,12 +27,12 @@ const createUnitsNormalizer = <T extends UnitKey>(
 
 const yearMonthNormalizer = createUnitsNormalizer(
 	['years', 'months'],
-	unit => UNITS_MAP_LITERAL[unit].months,
+	unit => UNITS_META_MAP_LITERAL[unit].months,
 );
 
 const dayAndTimeNormalizer = createUnitsNormalizer(
 	['days', 'hours', 'minutes', 'seconds', 'milliseconds'],
-	unit => UNITS_MAP_LITERAL[unit].milliseconds,
+	unit => UNITS_META_MAP_LITERAL[unit].milliseconds,
 );
 
 const baseNormalizer = (duration: DurationInput): Duration => {
