@@ -84,7 +84,8 @@ duration.between('2022-01-01', '2020-01-01')
 
 // Meta
 // ---------------------------------------------
-duration.UNITS_LARGE_TO_SMALL
+duration.UNITS
+// A complete list of duration units, ordered from large to small:
 // ['years', 'months', 'weeks', 'days', ...]
 ```
 

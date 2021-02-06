@@ -97,7 +97,7 @@ export const UNITS_META_MAP: { [key in UnitKey]: Unit } = UNITS_META_MAP_LITERAL
  * All the keys of the `Duration` type, ordered from largest
  * to smallest.
  */
-export const UNITS_LARGE_TO_SMALL = Object.freeze([
+export const UNITS = Object.freeze([
 	'years',
 	'months',
 	'weeks',
@@ -108,8 +108,8 @@ export const UNITS_LARGE_TO_SMALL = Object.freeze([
 	'milliseconds',
 ] as const);
 
-export const UNITS_META_LARGE_TO_SMALL = Object.freeze(
-	UNITS_LARGE_TO_SMALL.map(unit => ({
+export const UNITS_META = Object.freeze(
+	UNITS.map(unit => ({
 		...UNITS_META_MAP[unit],
 		unit,
 	})),

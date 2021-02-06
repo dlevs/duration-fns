@@ -2,7 +2,7 @@ import { DurationInput } from './types';
 import { parse } from './parse';
 import { isZero } from './isZero';
 import { getUnitCount } from './lib/getUnitCount';
-import { UNITS_META_LARGE_TO_SMALL, UNITS_META_MAP } from './lib/units';
+import { UNITS_META, UNITS_META_MAP } from './lib/units';
 
 const joinComponents = (component: string[]) =>
 	component
@@ -39,7 +39,7 @@ export const toString = (duration: DurationInput): string => {
 	// Some units should be converted before stringifying.
 	// For example, weeks should not be mixed with other units, and milliseconds
 	// don't exist on ISO duration strings.
-	UNITS_META_LARGE_TO_SMALL.forEach(({ unit: fromUnit, stringifyConvertTo: toUnit }) => {
+	UNITS_META.forEach(({ unit: fromUnit, stringifyConvertTo: toUnit }) => {
 		if (toUnit == null) {
 			return;
 		}
@@ -51,7 +51,7 @@ export const toString = (duration: DurationInput): string => {
 	});
 
 	// Push each non-zero unit to its relevant array
-	UNITS_META_LARGE_TO_SMALL.forEach(({ unit, ISOPrecision, ISOCharacter }) => {
+	UNITS_META.forEach(({ unit, ISOPrecision, ISOCharacter }) => {
 		const value = parsed[unit];
 
 		if (ISOPrecision != null && value !== 0) {
