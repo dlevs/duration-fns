@@ -22,7 +22,7 @@ export const ZERO = Object.freeze({
 
 export type UnitKey = keyof typeof ZERO;
 
-export const UNITS_MAP_LITERAL = {
+export const UNITS_META_MAP_LITERAL = {
 	years: {
 		milliseconds: MILLISECONDS_IN_A_YEAR,
 		months: 12,
@@ -91,9 +91,13 @@ interface Unit {
 // check when accessing an optional property that it knows is defined for the
 // specified unit (e.g. `UNITS_MAP_LITERAL.years.months`), whereas `UNITS_MAP`
 // needs the null check.
-export const UNITS_MAP: { [key in UnitKey]: Unit } = UNITS_MAP_LITERAL;
+export const UNITS_META_MAP: { [key in UnitKey]: Unit } = UNITS_META_MAP_LITERAL;
 
-export const UNIT_KEYS = [
+/**
+ * All the keys of the `Duration` type, ordered from largest
+ * to smallest.
+ */
+export const UNITS = Object.freeze([
 	'years',
 	'months',
 	'weeks',
@@ -102,9 +106,11 @@ export const UNIT_KEYS = [
 	'minutes',
 	'seconds',
 	'milliseconds',
-] as const;
+] as const);
 
-export const UNITS = UNIT_KEYS.map(unit => ({
-	...UNITS_MAP[unit],
-	unit,
-}));
+export const UNITS_META = Object.freeze(
+	UNITS.map(unit => ({
+		...UNITS_META_MAP[unit],
+		unit,
+	})),
+);
