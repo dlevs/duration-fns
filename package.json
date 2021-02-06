@@ -12,7 +12,7 @@
     "lint": "eslint 'src/**/*.+(ts|js)'",
     "test": "TZ=UTC jest",
     "prebuild": "npm run test && npm run lint && npm run clean",
-    "flowgen": "for file in $(find ./dist -name *.d.ts -type f); do flowgen ${file} -o ${file/.d.ts/.flow.js}; done;",
+    "flowgen": "for file in $(find dist -type f -name \"*.d.ts\"); do sh -c \"flowgen $file -o ${file%.*.*}.flow.js\"; done;",
     "build": "tsc && npm run flowgen",
     "prepublish": "npm run build"
   },
