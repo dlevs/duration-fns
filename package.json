@@ -12,7 +12,8 @@
     "lint": "eslint 'src/**/*.+(ts|js)'",
     "test": "TZ=UTC jest",
     "prebuild": "npm run test && npm run lint && npm run clean",
-    "build": "tsc",
+    "flowgen": "for file in $(find dist -type f -name \"*.d.ts\"); do sh -c \"flowgen $file -o ${file%.*.*}.flow.js\"; done;",
+    "build": "tsc && npm run flowgen",
     "prepublish": "npm run build"
   },
   "author": "Daniel Levett <dlevett@hotmail.co.uk>",
@@ -28,6 +29,7 @@
     "eslint": "7.18.0",
     "eslint-config-airbnb-base": "14.2.1",
     "eslint-plugin-import": "2.22.1",
+    "flowgen": "^1.13.0",
     "jest": "26.6.3",
     "rimraf": "3.0.2",
     "ts-jest": "26.5.0",
