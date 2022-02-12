@@ -30,5 +30,10 @@ describe('checkAllUnitsNegative()', () => {
 			isAllNegative: false,
 			maybeAbsDuration: { ...ZERO, hours: -6, minutes: -2, seconds: 1 },
 		});
+
+		expect(checkAllUnitsNegative(ZERO)).toEqual({
+			isAllNegative: false,
+			maybeAbsDuration: ZERO,
+		});
 	});
 });
