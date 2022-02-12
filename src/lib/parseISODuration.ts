@@ -26,7 +26,9 @@ const createDurationParser = (
 			return null;
 		}
 
-		const unitNumbers = unitStrings.map((value = '0', i) => {
+		const unitNumbers = unitStrings.map((value, i) => {
+			value = value ?? '0';
+
 			const isMilliseconds = i === unitStrings.length - 1;
 
 			return isMilliseconds
