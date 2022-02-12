@@ -38,9 +38,9 @@ describe('toString()', () => {
 	// Some parsers don't support mixed positive / negative. We try to use a
 	// single negative sign where possible, like `-P2Y10D`.
 	//
-	// To ensure compatibility, call `normalize()` with a reference date before
-	// calling `toString()`. This will ensure that the output is not a mix of
-	// positive and negative values.
+	// Ideally there would be a way to guarantee that there will be no mixed
+	// units in the result. TODO: Implement and document this. See:
+	// https://github.com/dlevs/duration-fns/pull/25#issuecomment-1037260764
 	test('handles mixed positive and negative values', () => {
 		expect(toString({ years: -2, days: 10 })).toBe('P-2Y10D');
 		expect(toString({ years: 1, seconds: -6 })).toBe('P1YT-6S');
