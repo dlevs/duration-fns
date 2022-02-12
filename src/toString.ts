@@ -1,8 +1,8 @@
 import { DurationInput } from './types';
-import { parse } from './parse';
 import { isZero } from './isZero';
 import { getUnitCount } from './lib/getUnitCount';
 import { UNITS_META, UNITS_META_MAP } from './lib/units';
+import { checkAllUnitsNegative } from './lib/checkAllUnitsNegative';
 
 const joinComponents = (component: string[]) =>
 	component
@@ -24,7 +24,10 @@ export const toString = (duration: DurationInput): string => {
 		return 'P0D';
 	}
 
-	const parsed = { ...parse(duration) };
+	const {
+		maybeAbsDuration: parsed,
+		isAllNegative,
+	} = checkAllUnitsNegative(duration);
 
 	// Weeks should not be included in the output, unless it is the only unit.
 	if (getUnitCount(parsed) === 1 && parsed.weeks !== 0) {
@@ -64,6 +67,12 @@ export const toString = (duration: DurationInput): string => {
 
 	if (components.time.length) {
 		output += `T${joinComponents(components.time)}`;
+	}
+
+	// Avoid "P-1DT-1H". Instead, output "-P1DT1H".
+	// https://github.com/dlevs/duration-fns/issues/22
+	if (isAllNegative) {
+		output = `-${output}`;
 	}
 
 	return output;

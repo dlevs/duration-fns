@@ -28,10 +28,23 @@ describe('toString()', () => {
 		expect(toString('P700D')).toBe('P700D');
 	});
 
-	test('handles negative values', () => {
-		expect(toString({ years: -2 })).toBe('P-2Y');
+	test('handles negative values by outputting a single negative sign', () => {
+		expect(toString({ years: -2 })).toBe('-P2Y');
+		expect(toString({ years: -2, days: -10 })).toBe('-P2Y10D');
+		expect(toString({ years: -1, hours: -2, seconds: -6 })).toBe('-P1YT2H6S');
+		expect(toString({ years: -0 })).toBe('P0D');
+	});
+
+	// Some parsers don't support mixed positive / negative. We try to use a
+	// single negative sign where possible, like `-P2Y10D`.
+	//
+	// To ensure compatibility, call `normalize()` with a reference date before
+	// calling `toString()`. This will ensure that the output is not a mix of
+	// positive and negative values.
+	test('handles mixed positive and negative values', () => {
 		expect(toString({ years: -2, days: 10 })).toBe('P-2Y10D');
 		expect(toString({ years: 1, seconds: -6 })).toBe('P1YT-6S');
+		expect(toString({ years: -1, hours: 2, seconds: -6 })).toBe('P-1YT2H-6S');
 	});
 
 	test('represents decimal seconds', () => {
