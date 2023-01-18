@@ -51,6 +51,11 @@ describe('toString()', () => {
 		expect(toString(4500)).toBe('PT4,5S');
 	});
 
+	test('can show different decimal delimiter', () => {
+		expect(toString(4500, { decimalDelimiter: '.' })).toBe('PT4.5S');
+		expect(toString(4500, { decimalDelimiter: '-' })).toBe('PT4-5S');
+	});
+
 	test('can express a duration of "zero"', () => {
 		expect(toString(ZERO)).toBe('P0D');
 		expect(toString('PT0S')).toBe('P0D');

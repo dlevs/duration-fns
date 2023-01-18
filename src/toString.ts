@@ -4,11 +4,14 @@ import { getUnitCount } from './lib/getUnitCount';
 import { UNITS_META, UNITS_META_MAP } from './lib/units';
 import { checkAllUnitsNegative } from './lib/checkAllUnitsNegative';
 
-const joinComponents = (component: string[]) =>
+interface ToStringOptions {
+	decimalDelimiter: string;
+}
+
+const joinComponents = (component: string[], delimiter: ToStringOptions['decimalDelimiter']) =>
 	component
 		.join('')
-		// Commas are mentioned in the spec as the preferred decimal delimiter
-		.replace(/\./g, ',');
+		.replace(/\./g, delimiter);
 
 /**
  * Stringify a duration into an ISO duration string.
@@ -17,7 +20,16 @@ const joinComponents = (component: string[]) =>
  * toString({ years: 1, hours: 6 }) // 'P1YT6H'
  * toString(6000) // 'PT6S'
  */
-export const toString = (duration: DurationInput): string => {
+export const toString = (
+	duration: DurationInput,
+	options: Partial<ToStringOptions> = {},
+): string => {
+	const finalOptions: ToStringOptions = {
+		// Commas are mentioned in the spec as the preferred decimal delimiter
+		decimalDelimiter: ',',
+		...options,
+	};
+
 	// Zero values are a special case, since "P" is not a valid value.
 	// At least one unit must be specified.
 	if (isZero(duration)) {
@@ -63,10 +75,10 @@ export const toString = (duration: DurationInput): string => {
 	});
 
 	// Build output string
-	let output = `P${joinComponents(components.period)}`;
+	let output = `P${joinComponents(components.period, finalOptions.decimalDelimiter)}`;
 
 	if (components.time.length) {
-		output += `T${joinComponents(components.time)}`;
+		output += `T${joinComponents(components.time, finalOptions.decimalDelimiter)}`;
 	}
 
 	// Avoid "P-1DT-1H". Instead, output "-P1DT1H".
