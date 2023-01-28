@@ -10,14 +10,14 @@ const MILLISECONDS_IN_A_YEAR = MILLISECONDS_IN_A_DAY * 365;
 const MILLISECONDS_IN_A_MONTH = MILLISECONDS_IN_A_YEAR / 12;
 
 export const ZERO = Object.freeze({
-	years: 0,
-	months: 0,
-	weeks: 0,
-	days: 0,
-	hours: 0,
-	minutes: 0,
-	seconds: 0,
-	milliseconds: 0,
+	years: 0 as number,
+	months: 0 as number,
+	weeks: 0 as number,
+	days: 0 as number,
+	hours: 0 as number,
+	minutes: 0 as number,
+	seconds: 0 as number,
+	milliseconds: 0 as number,
 });
 
 export type UnitKey = keyof typeof ZERO;
