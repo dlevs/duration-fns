@@ -67,7 +67,7 @@ const baseNormalizer = (duration: DurationInput): Duration => {
  * duration, and the `normalize` function can safely convert between these units.
  *
  * @example
- * normalize({ milliseconds 4000 }) // { ..., seconds: 4, milliseconds: 0 }
+ * normalize({ milliseconds: 4000 }) // { ..., seconds: 4, milliseconds: 0 }
  * normalize('P28DT24H') // { ..., days: 29 }
  * normalize('P28DT24H', '2018-02-01') // { ..., months: 1, days: 1 }
  * normalize('P28DT24H', '2016-02-01') // { ..., months: 1, days: 0 } (leap year)
