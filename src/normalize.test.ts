@@ -1,3 +1,5 @@
+import { apply } from './apply';
+import { between } from './between';
 import { ZERO } from './lib/units';
 import { normalize } from './normalize';
 
@@ -163,6 +165,21 @@ describe('normalize()', () => {
 			months: -2,
 			days: 30,
 		});
+
+		// See https://github.com/dlevs/duration-fns/issues/33#issuecomment-2740029273
+		const date = new Date('2025-03-20T11:42:24.649Z');
+		expect(
+			normalize(
+				// Date 29 days from now
+				between(date, apply(date, { days: 29 })),
+				// And we're normalizing relative to this date
+				date,
+			),
+		).toEqual({	...ZERO, days: 29 });
+		// Actual: {years: 0, months: 1, weeks: 0, days: -2, hours: 0, …}
+		// This is odd, but it's no more odd than the test case above. But no
+		// human would expect this result, and it's not useful for nice formatted
+		// text in a UI.
 
 		expect(normalize({ days: 31 }, '2020-02-01')).toEqual({
 			...ZERO,
